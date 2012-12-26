@@ -8,7 +8,8 @@
 module lib_io
   use, intrinsic:: iso_fortran_env, only: ERROR_UNIT, INPUT_UNIT, OUTPUT_UNIT
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
-  use lib_character, only: TAB, s, operator(+)
+  use lib_constant, only: TAB
+  use lib_character, only: s, operator(+)
 
   implicit none
 
@@ -948,7 +949,7 @@ contains
     if(present(exitStatus))then
       exitStatus = exitStatus_
     elseif(exitStatus_ /= 0)then
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 947,'Failed to execute mkdir -p ', s(path); stop 1
+      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 948,'Failed to execute mkdir -p ', s(path); stop 1
     end if
   end subroutine mkdir_p
 
@@ -980,7 +981,7 @@ contains
     do
       read(rU1, *, iostat = ios) dummy
       if((is_iostat_eor(ios) .or. is_iostat_end(ios))) exit
-      if(this >= huge(this))then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 979,"this >= huge(this)", " ", 'Line number too large.'; stop 1; end if
+      if(this >= huge(this))then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 980,"this >= huge(this)", " ", 'Line number too large.'; stop 1; end if
 
       this = this + 1
     end do
@@ -1024,7 +1025,7 @@ contains
         if(any(SEPARATORS == c)) mode = SEEK_NORMAL_CHAR
       case(SEEK_NORMAL_CHAR)
         if(.not.any(SEPARATORS == c))then
-          if(this >= huge(this))then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1023,"this >= huge(this)", " ", "Column number too large."; stop 1; end if
+          if(this >= huge(this))then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1024,"this >= huge(this)", " ", "Column number too large."; stop 1; end if
 
           this = this + 1
           mode = SEEK_SEPARATOR
@@ -1058,7 +1059,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1099,7 +1100,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1098,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1099,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayLogicalDim1
 
@@ -1119,15 +1120,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1118,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1119,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1119,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1120,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1LogicalDim1
     subroutine write_arrayIntegerDim1KindINT8(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1154,7 +1155,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1195,7 +1196,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1194,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1195,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim1KindINT8
 
@@ -1215,15 +1216,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1214,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1215,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1215,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1216,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim1KindINT8
     subroutine write_arrayIntegerDim1KindINT16(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1250,7 +1251,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1291,7 +1292,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1290,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1291,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim1KindINT16
 
@@ -1311,15 +1312,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1310,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1311,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1311,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1312,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim1KindINT16
     subroutine write_arrayIntegerDim1KindINT32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1346,7 +1347,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1387,7 +1388,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1386,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1387,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim1KindINT32
 
@@ -1407,15 +1408,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1406,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1407,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1407,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1408,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim1KindINT32
     subroutine write_arrayIntegerDim1KindINT64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1442,7 +1443,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1483,7 +1484,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1482,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1483,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim1KindINT64
 
@@ -1503,15 +1504,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1502,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1503,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1503,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1504,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim1KindINT64
     subroutine write_arrayIntegerDim2KindINT8(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1538,7 +1539,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1579,7 +1580,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1578,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1579,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim2KindINT8
 
@@ -1599,15 +1600,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1598,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1599,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1599,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1600,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim2KindINT8
     subroutine write_arrayIntegerDim2KindINT16(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1634,7 +1635,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1675,7 +1676,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1674,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1675,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim2KindINT16
 
@@ -1695,15 +1696,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1694,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1695,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1695,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1696,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim2KindINT16
     subroutine write_arrayIntegerDim2KindINT32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1730,7 +1731,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1771,7 +1772,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1770,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1771,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim2KindINT32
 
@@ -1791,15 +1792,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1790,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1791,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1791,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1792,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim2KindINT32
     subroutine write_arrayIntegerDim2KindINT64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1826,7 +1827,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1867,7 +1868,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1866,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1867,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim2KindINT64
 
@@ -1887,15 +1888,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1886,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1887,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1887,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1888,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim2KindINT64
     subroutine write_arrayIntegerDim3KindINT8(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -1922,7 +1923,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -1963,7 +1964,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1962,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1963,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim3KindINT8
 
@@ -1983,15 +1984,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1982,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1983,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1983,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1984,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim3KindINT8
     subroutine write_arrayIntegerDim3KindINT16(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2018,7 +2019,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2059,7 +2060,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2058,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2059,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim3KindINT16
 
@@ -2079,15 +2080,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2078,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2079,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2079,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2080,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim3KindINT16
     subroutine write_arrayIntegerDim3KindINT32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2114,7 +2115,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2155,7 +2156,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2154,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2155,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim3KindINT32
 
@@ -2175,15 +2176,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2174,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2175,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2175,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2176,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim3KindINT32
     subroutine write_arrayIntegerDim3KindINT64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2210,7 +2211,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2251,7 +2252,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2250,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2251,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim3KindINT64
 
@@ -2271,15 +2272,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2270,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2271,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2271,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2272,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim3KindINT64
     subroutine write_arrayIntegerDim4KindINT8(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2306,7 +2307,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2347,7 +2348,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2346,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2347,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim4KindINT8
 
@@ -2367,15 +2368,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2366,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2367,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2367,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2368,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim4KindINT8
     subroutine write_arrayIntegerDim4KindINT16(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2402,7 +2403,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2443,7 +2444,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2442,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2443,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim4KindINT16
 
@@ -2463,15 +2464,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2462,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2463,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2463,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2464,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim4KindINT16
     subroutine write_arrayIntegerDim4KindINT32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2498,7 +2499,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2539,7 +2540,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2538,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2539,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim4KindINT32
 
@@ -2559,15 +2560,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2558,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2559,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2559,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2560,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim4KindINT32
     subroutine write_arrayIntegerDim4KindINT64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2594,7 +2595,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2635,7 +2636,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2634,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2635,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim4KindINT64
 
@@ -2655,15 +2656,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2654,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2655,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2655,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2656,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim4KindINT64
     subroutine write_arrayIntegerDim5KindINT8(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2690,7 +2691,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2731,7 +2732,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2730,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2731,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim5KindINT8
 
@@ -2751,15 +2752,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2750,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2751,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2751,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2752,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim5KindINT8
     subroutine write_arrayIntegerDim5KindINT16(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2786,7 +2787,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2827,7 +2828,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2826,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2827,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim5KindINT16
 
@@ -2847,15 +2848,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2846,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2847,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2847,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2848,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim5KindINT16
     subroutine write_arrayIntegerDim5KindINT32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2882,7 +2883,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -2923,7 +2924,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2922,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2923,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim5KindINT32
 
@@ -2943,15 +2944,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2942,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2943,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2943,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2944,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim5KindINT32
     subroutine write_arrayIntegerDim5KindINT64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -2978,7 +2979,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3019,7 +3020,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3018,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3019,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim5KindINT64
 
@@ -3039,15 +3040,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3038,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3039,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3039,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3040,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim5KindINT64
     subroutine write_arrayIntegerDim6KindINT8(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3074,7 +3075,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3115,7 +3116,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3114,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3115,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim6KindINT8
 
@@ -3135,15 +3136,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3134,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3135,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3135,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3136,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim6KindINT8
     subroutine write_arrayIntegerDim6KindINT16(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3170,7 +3171,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3211,7 +3212,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3210,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3211,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim6KindINT16
 
@@ -3231,15 +3232,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3230,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3231,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3231,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3232,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim6KindINT16
     subroutine write_arrayIntegerDim6KindINT32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3266,7 +3267,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3307,7 +3308,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3306,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3307,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim6KindINT32
 
@@ -3327,15 +3328,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3326,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3327,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3327,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3328,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim6KindINT32
     subroutine write_arrayIntegerDim6KindINT64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3362,7 +3363,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3403,7 +3404,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3402,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3403,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim6KindINT64
 
@@ -3423,15 +3424,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3422,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3423,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3423,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3424,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim6KindINT64
     subroutine write_arrayIntegerDim7KindINT8(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3458,7 +3459,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3499,7 +3500,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3498,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3499,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim7KindINT8
 
@@ -3519,15 +3520,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3518,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3519,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3519,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3520,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim7KindINT8
     subroutine write_arrayIntegerDim7KindINT16(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3554,7 +3555,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3595,7 +3596,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3594,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3595,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim7KindINT16
 
@@ -3615,15 +3616,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3614,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3615,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3615,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3616,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim7KindINT16
     subroutine write_arrayIntegerDim7KindINT32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3650,7 +3651,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3691,7 +3692,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3690,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3691,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim7KindINT32
 
@@ -3711,15 +3712,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3710,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3711,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3711,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3712,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim7KindINT32
     subroutine write_arrayIntegerDim7KindINT64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3746,7 +3747,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3787,7 +3788,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3786,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3787,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayIntegerDim7KindINT64
 
@@ -3807,15 +3808,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3806,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3807,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3807,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3808,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1IntegerDim7KindINT64
     subroutine write_arrayRealDim1KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3842,7 +3843,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3883,7 +3884,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3882,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3883,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim1KindREAL32
 
@@ -3903,15 +3904,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3902,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3903,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3903,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3904,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim1KindREAL32
     subroutine write_arrayRealDim1KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -3938,7 +3939,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -3979,7 +3980,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3978,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3979,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim1KindREAL64
 
@@ -3999,15 +4000,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3998,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3999,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3999,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4000,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim1KindREAL64
     subroutine write_arrayRealDim1KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4034,7 +4035,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4075,7 +4076,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4074,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4075,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim1KindREAL128
 
@@ -4095,15 +4096,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4094,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4095,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4095,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4096,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim1KindREAL128
     subroutine write_arrayRealDim2KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4130,7 +4131,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4171,7 +4172,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4170,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4171,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim2KindREAL32
 
@@ -4191,15 +4192,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4190,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4191,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4191,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4192,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim2KindREAL32
     subroutine write_arrayRealDim2KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4226,7 +4227,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4267,7 +4268,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4266,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4267,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim2KindREAL64
 
@@ -4287,15 +4288,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4286,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4287,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4287,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4288,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim2KindREAL64
     subroutine write_arrayRealDim2KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4322,7 +4323,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4363,7 +4364,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4362,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4363,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim2KindREAL128
 
@@ -4383,15 +4384,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4382,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4383,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4383,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4384,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim2KindREAL128
     subroutine write_arrayRealDim3KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4418,7 +4419,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4459,7 +4460,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4458,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4459,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim3KindREAL32
 
@@ -4479,15 +4480,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4478,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4479,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4479,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4480,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim3KindREAL32
     subroutine write_arrayRealDim3KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4514,7 +4515,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4555,7 +4556,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4554,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4555,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim3KindREAL64
 
@@ -4575,15 +4576,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4574,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4575,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4575,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4576,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim3KindREAL64
     subroutine write_arrayRealDim3KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4610,7 +4611,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4651,7 +4652,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4650,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4651,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim3KindREAL128
 
@@ -4671,15 +4672,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4670,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4671,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4671,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4672,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim3KindREAL128
     subroutine write_arrayRealDim4KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4706,7 +4707,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4747,7 +4748,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4746,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4747,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim4KindREAL32
 
@@ -4767,15 +4768,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4766,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4767,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4767,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4768,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim4KindREAL32
     subroutine write_arrayRealDim4KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4802,7 +4803,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4843,7 +4844,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4842,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4843,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim4KindREAL64
 
@@ -4863,15 +4864,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4862,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4863,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4863,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4864,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim4KindREAL64
     subroutine write_arrayRealDim4KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4898,7 +4899,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -4939,7 +4940,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4938,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4939,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim4KindREAL128
 
@@ -4959,15 +4960,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4958,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4959,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4959,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4960,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim4KindREAL128
     subroutine write_arrayRealDim5KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -4994,7 +4995,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5035,7 +5036,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5034,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5035,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim5KindREAL32
 
@@ -5055,15 +5056,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5054,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5055,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5055,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5056,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim5KindREAL32
     subroutine write_arrayRealDim5KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5090,7 +5091,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5131,7 +5132,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5130,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5131,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim5KindREAL64
 
@@ -5151,15 +5152,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5150,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5151,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5151,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5152,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim5KindREAL64
     subroutine write_arrayRealDim5KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5186,7 +5187,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5227,7 +5228,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5226,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5227,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim5KindREAL128
 
@@ -5247,15 +5248,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5246,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5247,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5247,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5248,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim5KindREAL128
     subroutine write_arrayRealDim6KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5282,7 +5283,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5323,7 +5324,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5322,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5323,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim6KindREAL32
 
@@ -5343,15 +5344,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5342,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5343,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5343,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5344,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim6KindREAL32
     subroutine write_arrayRealDim6KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5378,7 +5379,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5419,7 +5420,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5418,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5419,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim6KindREAL64
 
@@ -5439,15 +5440,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5438,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5439,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5439,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5440,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim6KindREAL64
     subroutine write_arrayRealDim6KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5474,7 +5475,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5515,7 +5516,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5514,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5515,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim6KindREAL128
 
@@ -5535,15 +5536,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5534,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5535,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5535,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5536,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim6KindREAL128
     subroutine write_arrayRealDim7KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5570,7 +5571,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5611,7 +5612,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5610,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5611,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim7KindREAL32
 
@@ -5631,15 +5632,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5630,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5631,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5631,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5632,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim7KindREAL32
     subroutine write_arrayRealDim7KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5666,7 +5667,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5707,7 +5708,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5706,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5707,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim7KindREAL64
 
@@ -5727,15 +5728,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5726,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5727,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5727,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5728,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim7KindREAL64
     subroutine write_arrayRealDim7KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5762,7 +5763,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5803,7 +5804,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5802,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5803,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayRealDim7KindREAL128
 
@@ -5823,15 +5824,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5822,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5823,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5823,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5824,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1RealDim7KindREAL128
     subroutine write_arrayComplexDim1KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5858,7 +5859,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5899,7 +5900,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5898,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5899,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim1KindREAL32
 
@@ -5919,15 +5920,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5918,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5919,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5919,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5920,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim1KindREAL32
     subroutine write_arrayComplexDim1KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -5954,7 +5955,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -5995,7 +5996,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5994,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5995,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim1KindREAL64
 
@@ -6015,15 +6016,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6014,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6015,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6015,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6016,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim1KindREAL64
     subroutine write_arrayComplexDim1KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6050,7 +6051,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6091,7 +6092,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6090,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6091,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim1KindREAL128
 
@@ -6111,15 +6112,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6110,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6111,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6111,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6112,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim1KindREAL128
     subroutine write_arrayComplexDim2KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6146,7 +6147,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6187,7 +6188,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6186,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6187,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim2KindREAL32
 
@@ -6207,15 +6208,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6206,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6207,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6207,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6208,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim2KindREAL32
     subroutine write_arrayComplexDim2KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6242,7 +6243,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6283,7 +6284,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6282,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6283,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim2KindREAL64
 
@@ -6303,15 +6304,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6302,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6303,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6303,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6304,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim2KindREAL64
     subroutine write_arrayComplexDim2KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6338,7 +6339,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6379,7 +6380,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6378,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6379,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim2KindREAL128
 
@@ -6399,15 +6400,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6398,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6399,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6399,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6400,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim2KindREAL128
     subroutine write_arrayComplexDim3KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6434,7 +6435,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6475,7 +6476,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6474,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6475,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim3KindREAL32
 
@@ -6495,15 +6496,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6494,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6495,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6495,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6496,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim3KindREAL32
     subroutine write_arrayComplexDim3KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6530,7 +6531,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6571,7 +6572,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6570,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6571,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim3KindREAL64
 
@@ -6591,15 +6592,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6590,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6591,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6591,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6592,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim3KindREAL64
     subroutine write_arrayComplexDim3KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6626,7 +6627,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6667,7 +6668,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6666,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6667,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim3KindREAL128
 
@@ -6687,15 +6688,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6686,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6687,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6687,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6688,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim3KindREAL128
     subroutine write_arrayComplexDim4KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6722,7 +6723,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6763,7 +6764,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6762,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6763,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim4KindREAL32
 
@@ -6783,15 +6784,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6782,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6783,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6783,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6784,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim4KindREAL32
     subroutine write_arrayComplexDim4KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6818,7 +6819,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6859,7 +6860,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6858,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6859,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim4KindREAL64
 
@@ -6879,15 +6880,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6878,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6879,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6879,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6880,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim4KindREAL64
     subroutine write_arrayComplexDim4KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -6914,7 +6915,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -6955,7 +6956,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6954,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6955,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim4KindREAL128
 
@@ -6975,15 +6976,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6974,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6975,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6975,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6976,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim4KindREAL128
     subroutine write_arrayComplexDim5KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7010,7 +7011,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7051,7 +7052,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7050,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7051,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim5KindREAL32
 
@@ -7071,15 +7072,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7070,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7071,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7071,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7072,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim5KindREAL32
     subroutine write_arrayComplexDim5KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7106,7 +7107,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7147,7 +7148,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7146,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7147,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim5KindREAL64
 
@@ -7167,15 +7168,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7166,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7167,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7167,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7168,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim5KindREAL64
     subroutine write_arrayComplexDim5KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7202,7 +7203,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7243,7 +7244,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7242,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7243,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim5KindREAL128
 
@@ -7263,15 +7264,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7262,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7263,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7263,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7264,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim5KindREAL128
     subroutine write_arrayComplexDim6KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7298,7 +7299,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7339,7 +7340,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7338,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7339,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim6KindREAL32
 
@@ -7359,15 +7360,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7358,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7359,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7359,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7360,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim6KindREAL32
     subroutine write_arrayComplexDim6KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7394,7 +7395,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7435,7 +7436,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7434,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7435,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim6KindREAL64
 
@@ -7455,15 +7456,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7454,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7455,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7455,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7456,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim6KindREAL64
     subroutine write_arrayComplexDim6KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7490,7 +7491,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7531,7 +7532,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7530,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7531,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim6KindREAL128
 
@@ -7551,15 +7552,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7550,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7551,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7551,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7552,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim6KindREAL128
     subroutine write_arrayComplexDim7KindREAL32(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7586,7 +7587,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7627,7 +7628,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7626,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7627,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim7KindREAL32
 
@@ -7647,15 +7648,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7646,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7647,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7647,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7648,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim7KindREAL32
     subroutine write_arrayComplexDim7KindREAL64(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7682,7 +7683,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7723,7 +7724,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7722,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7723,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim7KindREAL64
 
@@ -7743,15 +7744,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7742,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7743,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7743,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7744,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim7KindREAL64
     subroutine write_arrayComplexDim7KindREAL128(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7778,7 +7779,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7819,7 +7820,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7818,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7819,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayComplexDim7KindREAL128
 
@@ -7839,15 +7840,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7838,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7839,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7839,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7840,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1ComplexDim7KindREAL128
     subroutine write_arrayCharacterDim1LenAst(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7874,7 +7875,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -7915,7 +7916,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7914,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7915,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayCharacterDim1LenAst
 
@@ -7935,15 +7936,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7934,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7935,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7935,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7936,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1CharacterDim1LenAst
     subroutine write_arrayCharacterDim2LenAst(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -7970,7 +7971,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -8011,7 +8012,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8010,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8011,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayCharacterDim2LenAst
 
@@ -8031,15 +8032,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8030,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8031,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8031,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8032,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1CharacterDim2LenAst
     subroutine write_arrayCharacterDim3LenAst(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -8066,7 +8067,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -8107,7 +8108,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8106,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8107,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayCharacterDim3LenAst
 
@@ -8127,15 +8128,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8126,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8127,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8127,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8128,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1CharacterDim3LenAst
     subroutine write_arrayCharacterDim4LenAst(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -8162,7 +8163,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -8203,7 +8204,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8202,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8203,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayCharacterDim4LenAst
 
@@ -8223,15 +8224,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8222,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8223,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8223,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8224,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1CharacterDim4LenAst
     subroutine write_arrayCharacterDim5LenAst(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -8258,7 +8259,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -8299,7 +8300,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8298,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8299,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayCharacterDim5LenAst
 
@@ -8319,15 +8320,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8318,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8319,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8319,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8320,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1CharacterDim5LenAst
     subroutine write_arrayCharacterDim6LenAst(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -8354,7 +8355,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -8395,7 +8396,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8394,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8395,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayCharacterDim6LenAst
 
@@ -8415,15 +8416,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8414,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8415,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8415,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8416,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1CharacterDim6LenAst
     subroutine write_arrayCharacterDim7LenAst(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
@@ -8450,7 +8451,7 @@ contains
       close(wU1)
 
       call new_unit(wU1)
-      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted')
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
       write(wU1) array
       close(wU1)
 
@@ -8491,7 +8492,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8490,'Unsupported version: ', libIoVersion; stop 1
+        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8491,'Unsupported version: ', libIoVersion; stop 1
       end select
     end subroutine read_arrayCharacterDim7LenAst
 
@@ -8511,15 +8512,15 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8510,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8511,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8511,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
+      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8512,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
 
       close(rU1)
 
       allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
 
       call new_unit(rU1)
-      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted')
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1CharacterDim7LenAst
 
@@ -8537,7 +8538,7 @@ contains
         end if
       end do
 
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8536,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
+      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8537,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
     end subroutine new_unitIntegerDim0KindINT8
     subroutine new_unitIntegerDim0KindINT16(n)
       Integer(kind = INT16), intent(out):: n
@@ -8552,7 +8553,7 @@ contains
         end if
       end do
 
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8551,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
+      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8552,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
     end subroutine new_unitIntegerDim0KindINT16
     subroutine new_unitIntegerDim0KindINT32(n)
       Integer(kind = INT32), intent(out):: n
@@ -8567,7 +8568,7 @@ contains
         end if
       end do
 
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8566,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
+      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8567,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
     end subroutine new_unitIntegerDim0KindINT32
     subroutine new_unitIntegerDim0KindINT64(n)
       Integer(kind = INT64), intent(out):: n
@@ -8582,6 +8583,6 @@ contains
         end if
       end do
 
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8581,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
+      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8582,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
     end subroutine new_unitIntegerDim0KindINT64
 end module lib_io
