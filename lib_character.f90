@@ -207,13 +207,6 @@ contains
       this = repeat(str, n)
     end function repeat_delegatorIntegerDim0KindINT64
 
-    pure function strLogicalDim0(x) result(this)
-      Logical, intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
-
-      this = s(str_fixed(x))
-    end function strLogicalDim0
-
     pure function str_fixedLogicalDim0(x) result(this)
       character(len = STR_LEN):: this
       Logical, intent(in):: x
@@ -221,13 +214,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedLogicalDim0
-    pure function strRealDim0KindREAL32(x) result(this)
-      Real(kind = REAL32), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strLogicalDim0(x) result(this)
+      Logical, intent(in):: x
+      character(len = len(s(str_fixedLogicalDim0(x)))):: this
 
       this = s(str_fixed(x))
-    end function strRealDim0KindREAL32
-
+    end function strLogicalDim0
     pure function str_fixedRealDim0KindREAL32(x) result(this)
       character(len = STR_LEN):: this
       Real(kind = REAL32), intent(in):: x
@@ -235,13 +228,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedRealDim0KindREAL32
-    pure function strRealDim0KindREAL64(x) result(this)
-      Real(kind = REAL64), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strRealDim0KindREAL32(x) result(this)
+      Real(kind = REAL32), intent(in):: x
+      character(len = len(s(str_fixedRealDim0KindREAL32(x)))):: this
 
       this = s(str_fixed(x))
-    end function strRealDim0KindREAL64
-
+    end function strRealDim0KindREAL32
     pure function str_fixedRealDim0KindREAL64(x) result(this)
       character(len = STR_LEN):: this
       Real(kind = REAL64), intent(in):: x
@@ -249,13 +242,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedRealDim0KindREAL64
-    pure function strRealDim0KindREAL128(x) result(this)
-      Real(kind = REAL128), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strRealDim0KindREAL64(x) result(this)
+      Real(kind = REAL64), intent(in):: x
+      character(len = len(s(str_fixedRealDim0KindREAL64(x)))):: this
 
       this = s(str_fixed(x))
-    end function strRealDim0KindREAL128
-
+    end function strRealDim0KindREAL64
     pure function str_fixedRealDim0KindREAL128(x) result(this)
       character(len = STR_LEN):: this
       Real(kind = REAL128), intent(in):: x
@@ -263,13 +256,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedRealDim0KindREAL128
-    pure function strComplexDim0KindREAL32(x) result(this)
-      Complex(kind = REAL32), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strRealDim0KindREAL128(x) result(this)
+      Real(kind = REAL128), intent(in):: x
+      character(len = len(s(str_fixedRealDim0KindREAL128(x)))):: this
 
       this = s(str_fixed(x))
-    end function strComplexDim0KindREAL32
-
+    end function strRealDim0KindREAL128
     pure function str_fixedComplexDim0KindREAL32(x) result(this)
       character(len = STR_LEN):: this
       Complex(kind = REAL32), intent(in):: x
@@ -277,13 +270,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedComplexDim0KindREAL32
-    pure function strComplexDim0KindREAL64(x) result(this)
-      Complex(kind = REAL64), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strComplexDim0KindREAL32(x) result(this)
+      Complex(kind = REAL32), intent(in):: x
+      character(len = len(s(str_fixedComplexDim0KindREAL32(x)))):: this
 
       this = s(str_fixed(x))
-    end function strComplexDim0KindREAL64
-
+    end function strComplexDim0KindREAL32
     pure function str_fixedComplexDim0KindREAL64(x) result(this)
       character(len = STR_LEN):: this
       Complex(kind = REAL64), intent(in):: x
@@ -291,13 +284,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedComplexDim0KindREAL64
-    pure function strComplexDim0KindREAL128(x) result(this)
-      Complex(kind = REAL128), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strComplexDim0KindREAL64(x) result(this)
+      Complex(kind = REAL64), intent(in):: x
+      character(len = len(s(str_fixedComplexDim0KindREAL64(x)))):: this
 
       this = s(str_fixed(x))
-    end function strComplexDim0KindREAL128
-
+    end function strComplexDim0KindREAL64
     pure function str_fixedComplexDim0KindREAL128(x) result(this)
       character(len = STR_LEN):: this
       Complex(kind = REAL128), intent(in):: x
@@ -305,13 +298,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedComplexDim0KindREAL128
-    pure function strCharacterDim0LenAst(x) result(this)
-      Character(len = *), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strComplexDim0KindREAL128(x) result(this)
+      Complex(kind = REAL128), intent(in):: x
+      character(len = len(s(str_fixedComplexDim0KindREAL128(x)))):: this
 
       this = s(str_fixed(x))
-    end function strCharacterDim0LenAst
-
+    end function strComplexDim0KindREAL128
     pure function str_fixedCharacterDim0LenAst(x) result(this)
       character(len = STR_LEN):: this
       Character(len = *), intent(in):: x
@@ -319,13 +312,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedCharacterDim0LenAst
-    pure function strCharacterDim1LenAst(x) result(this)
-      Character(len = *), dimension(:), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strCharacterDim0LenAst(x) result(this)
+      Character(len = *), intent(in):: x
+      character(len = len(s(str_fixedCharacterDim0LenAst(x)))):: this
 
       this = s(str_fixed(x))
-    end function strCharacterDim1LenAst
-
+    end function strCharacterDim0LenAst
     pure function str_fixedCharacterDim1LenAst(x) result(this)
       character(len = STR_LEN):: this
       Character(len = *), dimension(:), intent(in):: x
@@ -333,13 +326,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedCharacterDim1LenAst
-    pure function strCharacterDim2LenAst(x) result(this)
-      Character(len = *), dimension(:, :), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strCharacterDim1LenAst(x) result(this)
+      Character(len = *), dimension(:), intent(in):: x
+      character(len = len(s(str_fixedCharacterDim1LenAst(x)))):: this
 
       this = s(str_fixed(x))
-    end function strCharacterDim2LenAst
-
+    end function strCharacterDim1LenAst
     pure function str_fixedCharacterDim2LenAst(x) result(this)
       character(len = STR_LEN):: this
       Character(len = *), dimension(:, :), intent(in):: x
@@ -347,13 +340,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedCharacterDim2LenAst
-    pure function strCharacterDim3LenAst(x) result(this)
-      Character(len = *), dimension(:, :, :), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strCharacterDim2LenAst(x) result(this)
+      Character(len = *), dimension(:, :), intent(in):: x
+      character(len = len(s(str_fixedCharacterDim2LenAst(x)))):: this
 
       this = s(str_fixed(x))
-    end function strCharacterDim3LenAst
-
+    end function strCharacterDim2LenAst
     pure function str_fixedCharacterDim3LenAst(x) result(this)
       character(len = STR_LEN):: this
       Character(len = *), dimension(:, :, :), intent(in):: x
@@ -361,13 +354,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedCharacterDim3LenAst
-    pure function strCharacterDim4LenAst(x) result(this)
-      Character(len = *), dimension(:, :, :, :), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strCharacterDim3LenAst(x) result(this)
+      Character(len = *), dimension(:, :, :), intent(in):: x
+      character(len = len(s(str_fixedCharacterDim3LenAst(x)))):: this
 
       this = s(str_fixed(x))
-    end function strCharacterDim4LenAst
-
+    end function strCharacterDim3LenAst
     pure function str_fixedCharacterDim4LenAst(x) result(this)
       character(len = STR_LEN):: this
       Character(len = *), dimension(:, :, :, :), intent(in):: x
@@ -375,13 +368,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedCharacterDim4LenAst
-    pure function strCharacterDim5LenAst(x) result(this)
-      Character(len = *), dimension(:, :, :, :, :), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strCharacterDim4LenAst(x) result(this)
+      Character(len = *), dimension(:, :, :, :), intent(in):: x
+      character(len = len(s(str_fixedCharacterDim4LenAst(x)))):: this
 
       this = s(str_fixed(x))
-    end function strCharacterDim5LenAst
-
+    end function strCharacterDim4LenAst
     pure function str_fixedCharacterDim5LenAst(x) result(this)
       character(len = STR_LEN):: this
       Character(len = *), dimension(:, :, :, :, :), intent(in):: x
@@ -389,13 +382,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedCharacterDim5LenAst
-    pure function strCharacterDim6LenAst(x) result(this)
-      Character(len = *), dimension(:, :, :, :, :, :), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strCharacterDim5LenAst(x) result(this)
+      Character(len = *), dimension(:, :, :, :, :), intent(in):: x
+      character(len = len(s(str_fixedCharacterDim5LenAst(x)))):: this
 
       this = s(str_fixed(x))
-    end function strCharacterDim6LenAst
-
+    end function strCharacterDim5LenAst
     pure function str_fixedCharacterDim6LenAst(x) result(this)
       character(len = STR_LEN):: this
       Character(len = *), dimension(:, :, :, :, :, :), intent(in):: x
@@ -403,13 +396,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedCharacterDim6LenAst
-    pure function strCharacterDim7LenAst(x) result(this)
-      Character(len = *), dimension(:, :, :, :, :, :, :), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strCharacterDim6LenAst(x) result(this)
+      Character(len = *), dimension(:, :, :, :, :, :), intent(in):: x
+      character(len = len(s(str_fixedCharacterDim6LenAst(x)))):: this
 
       this = s(str_fixed(x))
-    end function strCharacterDim7LenAst
-
+    end function strCharacterDim6LenAst
     pure function str_fixedCharacterDim7LenAst(x) result(this)
       character(len = STR_LEN):: this
       Character(len = *), dimension(:, :, :, :, :, :, :), intent(in):: x
@@ -417,13 +410,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedCharacterDim7LenAst
-    pure function strIntegerDim0KindINT8(x) result(this)
-      Integer(kind = INT8), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strCharacterDim7LenAst(x) result(this)
+      Character(len = *), dimension(:, :, :, :, :, :, :), intent(in):: x
+      character(len = len(s(str_fixedCharacterDim7LenAst(x)))):: this
 
       this = s(str_fixed(x))
-    end function strIntegerDim0KindINT8
-
+    end function strCharacterDim7LenAst
     pure function str_fixedIntegerDim0KindINT8(x) result(this)
       character(len = STR_LEN):: this
       Integer(kind = INT8), intent(in):: x
@@ -431,13 +424,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedIntegerDim0KindINT8
-    pure function strIntegerDim0KindINT16(x) result(this)
-      Integer(kind = INT16), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strIntegerDim0KindINT8(x) result(this)
+      Integer(kind = INT8), intent(in):: x
+      character(len = len(s(str_fixedIntegerDim0KindINT8(x)))):: this
 
       this = s(str_fixed(x))
-    end function strIntegerDim0KindINT16
-
+    end function strIntegerDim0KindINT8
     pure function str_fixedIntegerDim0KindINT16(x) result(this)
       character(len = STR_LEN):: this
       Integer(kind = INT16), intent(in):: x
@@ -445,13 +438,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedIntegerDim0KindINT16
-    pure function strIntegerDim0KindINT32(x) result(this)
-      Integer(kind = INT32), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strIntegerDim0KindINT16(x) result(this)
+      Integer(kind = INT16), intent(in):: x
+      character(len = len(s(str_fixedIntegerDim0KindINT16(x)))):: this
 
       this = s(str_fixed(x))
-    end function strIntegerDim0KindINT32
-
+    end function strIntegerDim0KindINT16
     pure function str_fixedIntegerDim0KindINT32(x) result(this)
       character(len = STR_LEN):: this
       Integer(kind = INT32), intent(in):: x
@@ -459,13 +452,13 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedIntegerDim0KindINT32
-    pure function strIntegerDim0KindINT64(x) result(this)
-      Integer(kind = INT64), intent(in):: x
-      character(len = len(s(str_fixed(x)))):: this
+
+    pure function strIntegerDim0KindINT32(x) result(this)
+      Integer(kind = INT32), intent(in):: x
+      character(len = len(s(str_fixedIntegerDim0KindINT32(x)))):: this
 
       this = s(str_fixed(x))
-    end function strIntegerDim0KindINT64
-
+    end function strIntegerDim0KindINT32
     pure function str_fixedIntegerDim0KindINT64(x) result(this)
       character(len = STR_LEN):: this
       Integer(kind = INT64), intent(in):: x
@@ -473,4 +466,11 @@ contains
       write(this, *) x
       this = s(this)
     end function str_fixedIntegerDim0KindINT64
+
+    pure function strIntegerDim0KindINT64(x) result(this)
+      Integer(kind = INT64), intent(in):: x
+      character(len = len(s(str_fixedIntegerDim0KindINT64(x)))):: this
+
+      this = s(str_fixed(x))
+    end function strIntegerDim0KindINT64
 end module lib_character
