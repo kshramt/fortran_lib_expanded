@@ -1,41 +1,37 @@
-# 1 "lib_list.f90"
-# 1 "<command-line>"
-# 1 "lib_list.f90"
 
 
-# 1 "utils.h" 1
-# 4 "lib_list.f90" 2
+#include "utils.h"
 module lib_list
-  use, intrinsic:: iso_fortran_env, only: ERROR_UNIT
+  USE_UTILS_H
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
 
   implicit none
 
   private
 
-  public:: new ! Create a size 1 list.
-  public:: size ! Size of a list.
+  public:: new       ! Create a size 1 list.
+  public:: size      ! Size of a list.
   public:: delete_at ! Delete the N-th node and return a value of the node.
   public:: insert_at ! Insert a node to N-th position.
   ! list: -(1)-(2)-(3)-(4)-
-  ! N: 1 2 3 4 5
-  public:: val_at ! Value at N-th node.
-  public:: operator(.val.) ! Same to val_at.
-  public:: node_at ! N-th node.
+  !    N: 1   2   3   4   5
+  public:: val_at              ! Value at N-th node.
+  public:: operator(.val.)     ! Same to val_at.
+  public:: node_at             ! N-th node.
   ! WARNING: Returns pointer!
-  ! BAD: targetNode = node_at(list, pos)
-  ! OK: targetNode => node_at(list, pos)
+  ! BAD: targetNode =  node_at(list, pos)
+  ! OK:  targetNode => node_at(list, pos)
   public:: shift ! Delete the head node and return a value of the node.
-  public:: unshift ! Insert a node to the head.
-  public:: push ! Insert a node to the tail.
-  public:: pop ! Delete the tail node and return a value of the node.
-  public:: clear ! Delete all nodes.
-  public:: swap ! Swap nodes in a list.
-  public:: array_from_list ! List to array convertor.
-  public:: copy ! Cleate a deep copy of a list.
-  public:: assignment(=) ! List to array, array to list, deep copy of list.
-  public:: is_size_one ! .true. if size of list is one.
-  public:: is_empty ! .true. if size of list is zero.
+  public:: unshift              ! Insert a node to the head.
+  public:: push    ! Insert a node to the tail.
+  public:: pop  ! Delete the tail node and return a value of the node.
+  public:: clear                ! Delete all nodes.
+  public:: swap                 ! Swap nodes in a list.
+  public:: array_from_list      ! List to array convertor.
+  public:: copy                 ! Cleate a deep copy of a list.
+  public:: assignment(=)        ! List to array, array to list, deep copy of list.
+  public:: is_size_one          ! .true. if size of list is one.
+  public:: is_empty             ! .true. if size of list is zero.
 
     public:: LogicalDim0List
     public:: CharacterDim0Len1List
@@ -71,7 +67,7 @@ module lib_list
 
     type LogicalDim0List
       type(LogicalDim0ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type LogicalDim0List
     type CharacterDim0Len1ListNode
       Character(len = 1):: val
@@ -81,7 +77,7 @@ module lib_list
 
     type CharacterDim0Len1List
       type(CharacterDim0Len1ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len1List
     type CharacterDim0Len2ListNode
       Character(len = 2):: val
@@ -91,7 +87,7 @@ module lib_list
 
     type CharacterDim0Len2List
       type(CharacterDim0Len2ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len2List
     type CharacterDim0Len4ListNode
       Character(len = 4):: val
@@ -101,7 +97,7 @@ module lib_list
 
     type CharacterDim0Len4List
       type(CharacterDim0Len4ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len4List
     type CharacterDim0Len8ListNode
       Character(len = 8):: val
@@ -111,7 +107,7 @@ module lib_list
 
     type CharacterDim0Len8List
       type(CharacterDim0Len8ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len8List
     type CharacterDim0Len16ListNode
       Character(len = 16):: val
@@ -121,7 +117,7 @@ module lib_list
 
     type CharacterDim0Len16List
       type(CharacterDim0Len16ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len16List
     type CharacterDim0Len32ListNode
       Character(len = 32):: val
@@ -131,7 +127,7 @@ module lib_list
 
     type CharacterDim0Len32List
       type(CharacterDim0Len32ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len32List
     type CharacterDim0Len64ListNode
       Character(len = 64):: val
@@ -141,7 +137,7 @@ module lib_list
 
     type CharacterDim0Len64List
       type(CharacterDim0Len64ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len64List
     type CharacterDim0Len128ListNode
       Character(len = 128):: val
@@ -151,7 +147,7 @@ module lib_list
 
     type CharacterDim0Len128List
       type(CharacterDim0Len128ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len128List
     type CharacterDim0Len256ListNode
       Character(len = 256):: val
@@ -161,7 +157,7 @@ module lib_list
 
     type CharacterDim0Len256List
       type(CharacterDim0Len256ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len256List
     type CharacterDim0Len512ListNode
       Character(len = 512):: val
@@ -171,7 +167,7 @@ module lib_list
 
     type CharacterDim0Len512List
       type(CharacterDim0Len512ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len512List
     type CharacterDim0Len1024ListNode
       Character(len = 1024):: val
@@ -181,7 +177,7 @@ module lib_list
 
     type CharacterDim0Len1024List
       type(CharacterDim0Len1024ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len1024List
     type CharacterDim0Len2048ListNode
       Character(len = 2048):: val
@@ -191,7 +187,7 @@ module lib_list
 
     type CharacterDim0Len2048List
       type(CharacterDim0Len2048ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len2048List
     type CharacterDim0Len4096ListNode
       Character(len = 4096):: val
@@ -201,7 +197,7 @@ module lib_list
 
     type CharacterDim0Len4096List
       type(CharacterDim0Len4096ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len4096List
     type CharacterDim0Len8192ListNode
       Character(len = 8192):: val
@@ -211,7 +207,7 @@ module lib_list
 
     type CharacterDim0Len8192List
       type(CharacterDim0Len8192ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type CharacterDim0Len8192List
     type IntegerDim0KindINT8ListNode
       Integer(kind = INT8):: val
@@ -221,7 +217,7 @@ module lib_list
 
     type IntegerDim0KindINT8List
       type(IntegerDim0KindINT8ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type IntegerDim0KindINT8List
     type IntegerDim0KindINT16ListNode
       Integer(kind = INT16):: val
@@ -231,7 +227,7 @@ module lib_list
 
     type IntegerDim0KindINT16List
       type(IntegerDim0KindINT16ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type IntegerDim0KindINT16List
     type IntegerDim0KindINT32ListNode
       Integer(kind = INT32):: val
@@ -241,7 +237,7 @@ module lib_list
 
     type IntegerDim0KindINT32List
       type(IntegerDim0KindINT32ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type IntegerDim0KindINT32List
     type IntegerDim0KindINT64ListNode
       Integer(kind = INT64):: val
@@ -251,7 +247,7 @@ module lib_list
 
     type IntegerDim0KindINT64List
       type(IntegerDim0KindINT64ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type IntegerDim0KindINT64List
     type RealDim0KindREAL32ListNode
       Real(kind = REAL32):: val
@@ -261,7 +257,7 @@ module lib_list
 
     type RealDim0KindREAL32List
       type(RealDim0KindREAL32ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type RealDim0KindREAL32List
     type RealDim0KindREAL64ListNode
       Real(kind = REAL64):: val
@@ -271,7 +267,7 @@ module lib_list
 
     type RealDim0KindREAL64List
       type(RealDim0KindREAL64ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type RealDim0KindREAL64List
     type RealDim0KindREAL128ListNode
       Real(kind = REAL128):: val
@@ -281,7 +277,7 @@ module lib_list
 
     type RealDim0KindREAL128List
       type(RealDim0KindREAL128ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type RealDim0KindREAL128List
     type ComplexDim0KindREAL32ListNode
       Complex(kind = REAL32):: val
@@ -291,7 +287,7 @@ module lib_list
 
     type ComplexDim0KindREAL32List
       type(ComplexDim0KindREAL32ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type ComplexDim0KindREAL32List
     type ComplexDim0KindREAL64ListNode
       Complex(kind = REAL64):: val
@@ -301,7 +297,7 @@ module lib_list
 
     type ComplexDim0KindREAL64List
       type(ComplexDim0KindREAL64ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type ComplexDim0KindREAL64List
     type ComplexDim0KindREAL128ListNode
       Complex(kind = REAL128):: val
@@ -311,7 +307,7 @@ module lib_list
 
     type ComplexDim0KindREAL128List
       type(ComplexDim0KindREAL128ListNode), pointer:: entry => null()
-      Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      Integer:: size            ! Currently, integer is enough since max size of a dimension of an array is huge(0).
     end type ComplexDim0KindREAL128List
 
     interface new
@@ -2178,7 +2174,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 2177,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -2231,7 +2227,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionLogicalDim0
@@ -2375,7 +2371,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 2374,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -2442,7 +2438,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 2441,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -2495,7 +2491,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len1
@@ -2639,7 +2635,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 2638,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -2706,7 +2702,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 2705,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -2759,7 +2755,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len2
@@ -2903,7 +2899,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 2902,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -2970,7 +2966,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 2969,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -3023,7 +3019,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len4
@@ -3167,7 +3163,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 3166,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -3234,7 +3230,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 3233,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -3287,7 +3283,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len8
@@ -3431,7 +3427,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 3430,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -3498,7 +3494,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 3497,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -3551,7 +3547,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len16
@@ -3695,7 +3691,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 3694,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -3762,7 +3758,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 3761,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -3815,7 +3811,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len32
@@ -3959,7 +3955,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 3958,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -4026,7 +4022,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 4025,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -4079,7 +4075,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len64
@@ -4223,7 +4219,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 4222,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -4290,7 +4286,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 4289,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -4343,7 +4339,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len128
@@ -4487,7 +4483,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 4486,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -4554,7 +4550,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 4553,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -4607,7 +4603,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len256
@@ -4751,7 +4747,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 4750,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -4818,7 +4814,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 4817,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -4871,7 +4867,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len512
@@ -5015,7 +5011,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 5014,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -5082,7 +5078,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 5081,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -5135,7 +5131,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len1024
@@ -5279,7 +5275,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 5278,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -5346,7 +5342,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 5345,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -5399,7 +5395,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len2048
@@ -5543,7 +5539,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 5542,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -5610,7 +5606,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 5609,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -5663,7 +5659,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len4096
@@ -5807,7 +5803,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 5806,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -5874,7 +5870,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 5873,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -5927,7 +5923,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len8192
@@ -6071,7 +6067,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 6070,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -6138,7 +6134,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 6137,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -6191,7 +6187,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionIntegerDim0KindINT8
@@ -6335,7 +6331,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 6334,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -6402,7 +6398,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 6401,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -6455,7 +6451,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionIntegerDim0KindINT16
@@ -6599,7 +6595,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 6598,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -6666,7 +6662,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 6665,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -6719,7 +6715,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionIntegerDim0KindINT32
@@ -6863,7 +6859,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 6862,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -6930,7 +6926,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 6929,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -6983,7 +6979,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionIntegerDim0KindINT64
@@ -7127,7 +7123,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 7126,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -7194,7 +7190,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 7193,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -7247,7 +7243,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionRealDim0KindREAL32
@@ -7391,7 +7387,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 7390,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -7458,7 +7454,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 7457,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -7511,7 +7507,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionRealDim0KindREAL64
@@ -7655,7 +7651,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 7654,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -7722,7 +7718,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 7721,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -7775,7 +7771,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionRealDim0KindREAL128
@@ -7919,7 +7915,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 7918,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -7986,7 +7982,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 7985,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -8039,7 +8035,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionComplexDim0KindREAL32
@@ -8183,7 +8179,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 8182,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -8250,7 +8246,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 8249,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -8303,7 +8299,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionComplexDim0KindREAL64
@@ -8447,7 +8443,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 8446,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -8514,7 +8510,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      if(posL < 1 .or. nList < posR)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 8513,"posL < 1 .or. nList < posR", " ", 'Out of range: posL, posR = ', posL, posR; stop 1; end if
+      raise_if(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -8567,7 +8563,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do i = lbound(array, 1), ubound(array, 1)
+      do ALL_OF(array, 1, i)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionComplexDim0KindREAL128
@@ -8711,7 +8707,7 @@ contains
 
       integer:: posNow
 
-      if(pos < 1 .or. size(list) < pos)then; write(ERROR_UNIT, *) "RAISE: ", "lib_list.f90", " ", 8710,"pos < 1 .or. size(list) < pos", " ", 'Out of range: pos, size(list) = ', pos, size(list); stop 1; end if
+      raise_if(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)

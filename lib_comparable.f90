@@ -1,6 +1,3 @@
-# 1 "lib_comparable.f90"
-# 1 "<command-line>"
-# 1 "lib_comparable.f90"
 
 
 module lib_comparable

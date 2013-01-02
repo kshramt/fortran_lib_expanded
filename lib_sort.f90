@@ -1,12 +1,8 @@
-# 1 "lib_sort.f90"
-# 1 "<command-line>"
-# 1 "lib_sort.f90"
 
-# 1 "utils.h" 1
-# 3 "lib_sort.f90" 2
+#include "utils.h"
 module lib_sort
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
-  use, intrinsic:: iso_fortran_env, only: ERROR_UNIT
+  USE_UTILS_H
   use lib_comparable, only: is_nan
 
   implicit none
@@ -228,15 +224,16 @@ contains
       Real(kind = REAL32):: aMin, aMax, pib
       Integer:: maxlocA(1:1), minlocA(1:1)
 
-      if(any(is_nan(a)))then; write(ERROR_UNIT, *) "RAISE: ", "lib_sort.f90", " ", 227,"any(is_nan(a))", " ", a; stop 1; end if
-
-      if(size(a) <= 1)then ! Anchor case.
+      if(size(a) <= 1)then        ! Anchor case.
         this = a
         return
       end if
 
+      raise_if(any(is_nan(a)))
+
       aMin = minval(a)
       aMax = maxval(a)
+
       if(aMax <= aMin)then ! Quick return if possible: aMin equal aMax means all values in a are same.
         this = a
         return
@@ -244,20 +241,20 @@ contains
 
       ! Infinity case.
       ! These case is separately handled since Inf - Inf = NaN although pib should not be NaN.
-      if(aMin < -huge(aMin))then ! -Inf
+      if(aMin < -huge(aMin))then  ! -Inf
         minlocA = minloc(a)
         this = [aMin, qsort([a(1:minlocA(1) - 1), a(minlocA(1) + 1:size(a))])]
         return
       end if
 
-      if(huge(aMax) < aMax)then ! +Inf
+      if(huge(aMax) < aMax)then   ! +Inf
         maxlocA = maxloc(a)
         this = [qsort([a(1:maxlocA(1) - 1), a(maxlocA(1) + 1:size(a))]), aMax]
         return
       end if
 
-
-      pib = aMin/2 + aMax/2 ! Avoid overflow.
+      pib = aMin/2 + aMax/2       ! Avoid overflow.
+      if(pib >= aMax) pib = aMin  ! Avoid infinite loop
       this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
     end function qsortRealDim1KindREAL32
     recursive function qsortRealDim1KindREAL64(a) result(this)
@@ -267,15 +264,16 @@ contains
       Real(kind = REAL64):: aMin, aMax, pib
       Integer:: maxlocA(1:1), minlocA(1:1)
 
-      if(any(is_nan(a)))then; write(ERROR_UNIT, *) "RAISE: ", "lib_sort.f90", " ", 266,"any(is_nan(a))", " ", a; stop 1; end if
-
-      if(size(a) <= 1)then ! Anchor case.
+      if(size(a) <= 1)then        ! Anchor case.
         this = a
         return
       end if
 
+      raise_if(any(is_nan(a)))
+
       aMin = minval(a)
       aMax = maxval(a)
+
       if(aMax <= aMin)then ! Quick return if possible: aMin equal aMax means all values in a are same.
         this = a
         return
@@ -283,20 +281,20 @@ contains
 
       ! Infinity case.
       ! These case is separately handled since Inf - Inf = NaN although pib should not be NaN.
-      if(aMin < -huge(aMin))then ! -Inf
+      if(aMin < -huge(aMin))then  ! -Inf
         minlocA = minloc(a)
         this = [aMin, qsort([a(1:minlocA(1) - 1), a(minlocA(1) + 1:size(a))])]
         return
       end if
 
-      if(huge(aMax) < aMax)then ! +Inf
+      if(huge(aMax) < aMax)then   ! +Inf
         maxlocA = maxloc(a)
         this = [qsort([a(1:maxlocA(1) - 1), a(maxlocA(1) + 1:size(a))]), aMax]
         return
       end if
 
-
-      pib = aMin/2 + aMax/2 ! Avoid overflow.
+      pib = aMin/2 + aMax/2       ! Avoid overflow.
+      if(pib >= aMax) pib = aMin  ! Avoid infinite loop
       this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
     end function qsortRealDim1KindREAL64
     recursive function qsortRealDim1KindREAL128(a) result(this)
@@ -306,15 +304,16 @@ contains
       Real(kind = REAL128):: aMin, aMax, pib
       Integer:: maxlocA(1:1), minlocA(1:1)
 
-      if(any(is_nan(a)))then; write(ERROR_UNIT, *) "RAISE: ", "lib_sort.f90", " ", 305,"any(is_nan(a))", " ", a; stop 1; end if
-
-      if(size(a) <= 1)then ! Anchor case.
+      if(size(a) <= 1)then        ! Anchor case.
         this = a
         return
       end if
 
+      raise_if(any(is_nan(a)))
+
       aMin = minval(a)
       aMax = maxval(a)
+
       if(aMax <= aMin)then ! Quick return if possible: aMin equal aMax means all values in a are same.
         this = a
         return
@@ -322,20 +321,20 @@ contains
 
       ! Infinity case.
       ! These case is separately handled since Inf - Inf = NaN although pib should not be NaN.
-      if(aMin < -huge(aMin))then ! -Inf
+      if(aMin < -huge(aMin))then  ! -Inf
         minlocA = minloc(a)
         this = [aMin, qsort([a(1:minlocA(1) - 1), a(minlocA(1) + 1:size(a))])]
         return
       end if
 
-      if(huge(aMax) < aMax)then ! +Inf
+      if(huge(aMax) < aMax)then   ! +Inf
         maxlocA = maxloc(a)
         this = [qsort([a(1:maxlocA(1) - 1), a(maxlocA(1) + 1:size(a))]), aMax]
         return
       end if
 
-
-      pib = aMin/2 + aMax/2 ! Avoid overflow.
+      pib = aMin/2 + aMax/2       ! Avoid overflow.
+      if(pib >= aMax) pib = aMin  ! Avoid infinite loop
       this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
     end function qsortRealDim1KindREAL128
 end module lib_sort

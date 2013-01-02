@@ -1,15 +1,11 @@
-# 1 "lib_io.f90"
-# 1 "<command-line>"
-# 1 "lib_io.f90"
 
 
-# 1 "utils.h" 1
-# 4 "lib_io.f90" 2
+#include "utils.h"
 module lib_io
   use, intrinsic:: iso_fortran_env, only: ERROR_UNIT, INPUT_UNIT, OUTPUT_UNIT
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
   use lib_constant, only: TAB
-  use lib_character, only: s, operator(+)
+  use lib_character, only: s, str, operator(+)
 
   implicit none
 
@@ -910,7 +906,7 @@ contains
     call execute_command_line("cat /dev/null > " + SHELL_INTERFACE_FILE)
   end subroutine init_shell_interface_file
 
-  ! YAGNI: this can easily expand to val for r, R, i, (0, 1), z, Z, and l.
+  ! YAGNI: this can easily expand to val for r, R, i, I, z, Z, and l.
   subroutine read_shell_interface_file(val)
     character(len = *), intent(out):: val
 
@@ -949,7 +945,7 @@ contains
     if(present(exitStatus))then
       exitStatus = exitStatus_
     elseif(exitStatus_ /= 0)then
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 948,'Failed to execute mkdir -p ', s(path); stop 1
+      raise('Failed to execute mkdir -p ' + s(path))
     end if
   end subroutine mkdir_p
 
@@ -980,8 +976,8 @@ contains
     this = 0
     do
       read(rU1, *, iostat = ios) dummy
-      if((is_iostat_eor(ios) .or. is_iostat_end(ios))) exit
-      if(this >= huge(this))then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 980,"this >= huge(this)", " ", 'Line number too large.'; stop 1; end if
+      if(is_iostat_bad(ios)) exit
+      raise_if(this >= huge(this))
 
       this = this + 1
     end do
@@ -1018,14 +1014,14 @@ contains
     end do
     do
       read(rU1, '(a1)', advance = 'no', iostat = ios) c
-      if((is_iostat_eor(ios) .or. is_iostat_end(ios)) .or. c == new_line('_')) exit
+      if(is_iostat_bad(ios) .or. c == new_line('_')) exit
 
       select case(mode)
       case(SEEK_SEPARATOR)
-        if(any(SEPARATORS == c)) mode = SEEK_NORMAL_CHAR
+        if(has_val(SEPARATORS, c)) mode = SEEK_NORMAL_CHAR
       case(SEEK_NORMAL_CHAR)
-        if(.not.any(SEPARATORS == c))then
-          if(this >= huge(this))then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1024,"this >= huge(this)", " ", "Column number too large."; stop 1; end if
+        if(.not.has_val(SEPARATORS, c))then
+          raise_if(this >= huge(this))
 
           this = this + 1
           mode = SEEK_SEPARATOR
@@ -1100,7 +1096,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1099,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayLogicalDim1
 
@@ -1120,8 +1116,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1119,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1120,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1196,7 +1192,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1195,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim1KindINT8
 
@@ -1216,8 +1212,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1215,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1216,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1292,7 +1288,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1291,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim1KindINT16
 
@@ -1312,8 +1308,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1311,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1312,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1388,7 +1384,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1387,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim1KindINT32
 
@@ -1408,8 +1404,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1407,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1408,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1484,7 +1480,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1483,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim1KindINT64
 
@@ -1504,8 +1500,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1503,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1504,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1580,7 +1576,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1579,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim2KindINT8
 
@@ -1600,8 +1596,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1599,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1600,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1676,7 +1672,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1675,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim2KindINT16
 
@@ -1696,8 +1692,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1695,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1696,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1772,7 +1768,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1771,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim2KindINT32
 
@@ -1792,8 +1788,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1791,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1792,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1868,7 +1864,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1867,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim2KindINT64
 
@@ -1888,8 +1884,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1887,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1888,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1964,7 +1960,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1963,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim3KindINT8
 
@@ -1984,8 +1980,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1983,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 1984,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2060,7 +2056,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2059,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim3KindINT16
 
@@ -2080,8 +2076,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2079,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2080,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2156,7 +2152,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2155,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim3KindINT32
 
@@ -2176,8 +2172,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2175,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2176,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2252,7 +2248,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2251,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim3KindINT64
 
@@ -2272,8 +2268,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2271,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2272,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2348,7 +2344,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2347,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim4KindINT8
 
@@ -2368,8 +2364,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2367,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2368,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2444,7 +2440,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2443,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim4KindINT16
 
@@ -2464,8 +2460,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2463,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2464,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2540,7 +2536,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2539,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim4KindINT32
 
@@ -2560,8 +2556,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2559,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2560,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2636,7 +2632,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2635,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim4KindINT64
 
@@ -2656,8 +2652,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2655,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2656,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2732,7 +2728,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2731,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim5KindINT8
 
@@ -2752,8 +2748,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2751,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2752,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2828,7 +2824,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2827,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim5KindINT16
 
@@ -2848,8 +2844,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2847,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2848,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2924,7 +2920,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2923,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim5KindINT32
 
@@ -2944,8 +2940,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2943,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 2944,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3020,7 +3016,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3019,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim5KindINT64
 
@@ -3040,8 +3036,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3039,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3040,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3116,7 +3112,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3115,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim6KindINT8
 
@@ -3136,8 +3132,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3135,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3136,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3212,7 +3208,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3211,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim6KindINT16
 
@@ -3232,8 +3228,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3231,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3232,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3308,7 +3304,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3307,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim6KindINT32
 
@@ -3328,8 +3324,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3327,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3328,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3404,7 +3400,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3403,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim6KindINT64
 
@@ -3424,8 +3420,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3423,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3424,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3500,7 +3496,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3499,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim7KindINT8
 
@@ -3520,8 +3516,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3519,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3520,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3596,7 +3592,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3595,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim7KindINT16
 
@@ -3616,8 +3612,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3615,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3616,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3692,7 +3688,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3691,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim7KindINT32
 
@@ -3712,8 +3708,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3711,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3712,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3788,7 +3784,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3787,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim7KindINT64
 
@@ -3808,8 +3804,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3807,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3808,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3884,7 +3880,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3883,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim1KindREAL32
 
@@ -3904,8 +3900,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3903,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3904,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3980,7 +3976,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3979,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim1KindREAL64
 
@@ -4000,8 +3996,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 3999,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4000,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4076,7 +4072,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4075,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim1KindREAL128
 
@@ -4096,8 +4092,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4095,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4096,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4172,7 +4168,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4171,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim2KindREAL32
 
@@ -4192,8 +4188,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4191,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4192,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4268,7 +4264,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4267,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim2KindREAL64
 
@@ -4288,8 +4284,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4287,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4288,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4364,7 +4360,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4363,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim2KindREAL128
 
@@ -4384,8 +4380,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4383,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4384,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4460,7 +4456,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4459,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim3KindREAL32
 
@@ -4480,8 +4476,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4479,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4480,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4556,7 +4552,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4555,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim3KindREAL64
 
@@ -4576,8 +4572,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4575,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4576,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4652,7 +4648,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4651,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim3KindREAL128
 
@@ -4672,8 +4668,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4671,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4672,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4748,7 +4744,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4747,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim4KindREAL32
 
@@ -4768,8 +4764,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4767,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4768,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4844,7 +4840,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4843,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim4KindREAL64
 
@@ -4864,8 +4860,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4863,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4864,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4940,7 +4936,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4939,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim4KindREAL128
 
@@ -4960,8 +4956,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4959,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 4960,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5036,7 +5032,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5035,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim5KindREAL32
 
@@ -5056,8 +5052,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5055,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5056,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5132,7 +5128,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5131,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim5KindREAL64
 
@@ -5152,8 +5148,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5151,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5152,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5228,7 +5224,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5227,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim5KindREAL128
 
@@ -5248,8 +5244,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5247,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5248,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5324,7 +5320,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5323,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim6KindREAL32
 
@@ -5344,8 +5340,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5343,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5344,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5420,7 +5416,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5419,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim6KindREAL64
 
@@ -5440,8 +5436,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5439,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5440,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5516,7 +5512,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5515,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim6KindREAL128
 
@@ -5536,8 +5532,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5535,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5536,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5612,7 +5608,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5611,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim7KindREAL32
 
@@ -5632,8 +5628,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5631,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5632,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5708,7 +5704,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5707,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim7KindREAL64
 
@@ -5728,8 +5724,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5727,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5728,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5804,7 +5800,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5803,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim7KindREAL128
 
@@ -5824,8 +5820,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5823,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5824,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5900,7 +5896,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5899,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim1KindREAL32
 
@@ -5920,8 +5916,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5919,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5920,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5996,7 +5992,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 5995,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim1KindREAL64
 
@@ -6016,8 +6012,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6015,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6016,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6092,7 +6088,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6091,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim1KindREAL128
 
@@ -6112,8 +6108,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6111,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6112,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6188,7 +6184,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6187,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim2KindREAL32
 
@@ -6208,8 +6204,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6207,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6208,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6284,7 +6280,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6283,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim2KindREAL64
 
@@ -6304,8 +6300,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6303,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6304,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6380,7 +6376,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6379,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim2KindREAL128
 
@@ -6400,8 +6396,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6399,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6400,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6476,7 +6472,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6475,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim3KindREAL32
 
@@ -6496,8 +6492,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6495,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6496,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6572,7 +6568,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6571,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim3KindREAL64
 
@@ -6592,8 +6588,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6591,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6592,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6668,7 +6664,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6667,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim3KindREAL128
 
@@ -6688,8 +6684,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6687,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6688,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6764,7 +6760,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6763,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim4KindREAL32
 
@@ -6784,8 +6780,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6783,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6784,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6860,7 +6856,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6859,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim4KindREAL64
 
@@ -6880,8 +6876,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6879,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6880,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6956,7 +6952,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6955,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim4KindREAL128
 
@@ -6976,8 +6972,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6975,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 6976,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7052,7 +7048,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7051,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim5KindREAL32
 
@@ -7072,8 +7068,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7071,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7072,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7148,7 +7144,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7147,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim5KindREAL64
 
@@ -7168,8 +7164,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7167,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7168,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7244,7 +7240,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7243,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim5KindREAL128
 
@@ -7264,8 +7260,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7263,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7264,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7340,7 +7336,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7339,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim6KindREAL32
 
@@ -7360,8 +7356,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7359,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7360,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7436,7 +7432,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7435,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim6KindREAL64
 
@@ -7456,8 +7452,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7455,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7456,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7532,7 +7528,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7531,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim6KindREAL128
 
@@ -7552,8 +7548,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7551,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7552,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7628,7 +7624,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7627,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim7KindREAL32
 
@@ -7648,8 +7644,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7647,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7648,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7724,7 +7720,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7723,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim7KindREAL64
 
@@ -7744,8 +7740,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7743,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7744,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7820,7 +7816,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7819,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim7KindREAL128
 
@@ -7840,8 +7836,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7839,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7840,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7916,7 +7912,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7915,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim1LenAst
 
@@ -7936,8 +7932,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7935,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 7936,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8012,7 +8008,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8011,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim2LenAst
 
@@ -8032,8 +8028,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8031,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8032,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8108,7 +8104,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8107,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim3LenAst
 
@@ -8128,8 +8124,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8127,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8128,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8204,7 +8200,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8203,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim4LenAst
 
@@ -8224,8 +8220,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8223,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8224,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8300,7 +8296,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8299,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim5LenAst
 
@@ -8320,8 +8316,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8319,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8320,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8396,7 +8392,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8395,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim6LenAst
 
@@ -8416,8 +8412,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8415,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8416,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8492,7 +8488,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8491,'Unsupported version: ', libIoVersion; stop 1
+        raise('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim7LenAst
 
@@ -8512,8 +8508,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      if(s(dataType) /= DATA_TYPE_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8511,"s(dataType) /= DATA_TYPE_FOR_SELF", " ", 'Expected: ', DATA_TYPE_FOR_SELF, ' Got: ', s(dataType), ' for ', s(arrayDir); stop 1; end if
-      if(dim /= DIM_FOR_SELF)then; write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8512,"dim /= DIM_FOR_SELF", " ", 'Expected: ', DIM_FOR_SELF, ' ', ' Got: ', dim, ' for ', s(arrayDir); stop 1; end if
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8538,7 +8534,7 @@ contains
         end if
       end do
 
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8537,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
+      raise('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
     end subroutine new_unitIntegerDim0KindINT8
     subroutine new_unitIntegerDim0KindINT16(n)
       Integer(kind = INT16), intent(out):: n
@@ -8553,7 +8549,7 @@ contains
         end if
       end do
 
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8552,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
+      raise('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
     end subroutine new_unitIntegerDim0KindINT16
     subroutine new_unitIntegerDim0KindINT32(n)
       Integer(kind = INT32), intent(out):: n
@@ -8568,7 +8564,7 @@ contains
         end if
       end do
 
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8567,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
+      raise('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
     end subroutine new_unitIntegerDim0KindINT32
     subroutine new_unitIntegerDim0KindINT64(n)
       Integer(kind = INT64), intent(out):: n
@@ -8583,6 +8579,6 @@ contains
         end if
       end do
 
-      write(ERROR_UNIT, *) "RAISE: ", "lib_io.f90", " ", 8582,"No available unit number exist between: ", NEW_UNIT_MIN, NEW_UNIT_MAX; stop 1
+      raise('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
     end subroutine new_unitIntegerDim0KindINT64
 end module lib_io

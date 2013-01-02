@@ -1,6 +1,3 @@
-# 1 "lib_character.f90"
-# 1 "<command-line>"
-# 1 "lib_character.f90"
 
 module lib_character
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
@@ -9,13 +6,13 @@ module lib_character
 
   private
 
-  public:: s ! Same as String#strip method in Ruby.
-  public:: operator(+) ! Syntax sugar of `//'. This will be useful if you want to use `//' within macro where `//' is discarded.
-  public:: operator(*) ! Syntax sugar of `repeat'. Inspired by Ruby's String#*.
-  public:: str ! Convert a value to a string. The result is also stripped.
-  public:: STR_LEN ! Maximum length of str.
+  public:: s                    ! Same as String#strip method in Ruby.
+  public:: operator(+)          ! Syntax sugar of `//'. This will be useful if you want to use `//' within macro where `//' is discarded.
+  public:: operator(*)          ! Syntax sugar of `repeat'. Inspired by Ruby's String#*.
+  public:: str                  ! Convert a value to a string. The result is also stripped.
+  public:: STR_LEN              ! Maximum length of str.
 
-  integer, parameter:: STR_LEN = 1024
+  integer,   parameter:: STR_LEN  = 1024
 
   interface operator(+)
     module procedure add
