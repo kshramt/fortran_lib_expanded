@@ -52,6 +52,72 @@ module lib_io
       module procedure read_array_v_1LogicalDim1
     end interface read_array_v_1
     interface write_array
+      module procedure write_arrayLogicalDim2
+    end interface write_array
+
+    interface read_array
+      module procedure read_arrayLogicalDim2
+    end interface read_array
+
+    interface read_array_v_1
+      module procedure read_array_v_1LogicalDim2
+    end interface read_array_v_1
+    interface write_array
+      module procedure write_arrayLogicalDim3
+    end interface write_array
+
+    interface read_array
+      module procedure read_arrayLogicalDim3
+    end interface read_array
+
+    interface read_array_v_1
+      module procedure read_array_v_1LogicalDim3
+    end interface read_array_v_1
+    interface write_array
+      module procedure write_arrayLogicalDim4
+    end interface write_array
+
+    interface read_array
+      module procedure read_arrayLogicalDim4
+    end interface read_array
+
+    interface read_array_v_1
+      module procedure read_array_v_1LogicalDim4
+    end interface read_array_v_1
+    interface write_array
+      module procedure write_arrayLogicalDim5
+    end interface write_array
+
+    interface read_array
+      module procedure read_arrayLogicalDim5
+    end interface read_array
+
+    interface read_array_v_1
+      module procedure read_array_v_1LogicalDim5
+    end interface read_array_v_1
+    interface write_array
+      module procedure write_arrayLogicalDim6
+    end interface write_array
+
+    interface read_array
+      module procedure read_arrayLogicalDim6
+    end interface read_array
+
+    interface read_array_v_1
+      module procedure read_array_v_1LogicalDim6
+    end interface read_array_v_1
+    interface write_array
+      module procedure write_arrayLogicalDim7
+    end interface write_array
+
+    interface read_array
+      module procedure read_arrayLogicalDim7
+    end interface read_array
+
+    interface read_array_v_1
+      module procedure read_array_v_1LogicalDim7
+    end interface read_array_v_1
+    interface write_array
       module procedure write_arrayIntegerDim1KindINT8
     end interface write_array
 
@@ -1127,6 +1193,582 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
       read(rU1) array
     end subroutine read_array_v_1LogicalDim1
+    subroutine write_arrayLogicalDim2(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :), intent(in):: array
+        character(len = *), intent(in), optional:: desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim2'
+      integer, parameter:: DIM_FOR_SELF = 2
+
+      character(len = len(DATA_TYPE_FOR_SELF)) dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: wU1
+      integer:: i
+
+      namelist /array_meta/ dataType, dim, sizes
+
+      call mkdir_p(s(arrayDir))
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'replace', action = 'write')
+      write(wU1, *) VERSION
+      close(wU1)
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
+      write(wU1) array
+      close(wU1)
+
+      dataType = DATA_TYPE_FOR_SELF
+      dim = DIM_FOR_SELF
+      forall(i = 1:dim) sizes(i) = size(array, i)
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'replace', action = 'write', delim = 'quote')
+      write(wU1, nml = array_meta)
+      close(wU1)
+
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DESCRIPTION_FILE, status = 'replace', action = 'write')
+        if(present(desc1)) write(wU1, *) desc1
+        if(present(desc2)) write(wU1, *) desc2
+        if(present(desc3)) write(wU1, *) desc3
+        if(present(desc4)) write(wU1, *) desc4
+        if(present(desc5)) write(wU1, *) desc5
+        if(present(desc6)) write(wU1, *) desc6
+        if(present(desc7)) write(wU1, *) desc7
+        if(present(desc8)) write(wU1, *) desc8
+        if(present(desc9)) write(wU1, *) desc9
+        if(present(desc10)) write(wU1, *) desc10
+      close(wU1)
+    end subroutine write_arrayLogicalDim2
+
+    subroutine read_arrayLogicalDim2(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :), intent(out), allocatable:: array
+
+      integer:: rU1, libIoVersion
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'old', action = 'read')
+      read(rU1, *) libIoVersion
+      close(rU1)
+
+      select case(libIoVersion)
+      case(1)
+        call read_array_v_1(arrayDir, array)
+      case default
+        raise('Unsupported version: ' + str(libIoVersion))
+      end select
+    end subroutine read_arrayLogicalDim2
+
+    subroutine read_array_v_1LogicalDim2(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :), intent(out), allocatable:: array
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim2'
+      integer, parameter:: DIM_FOR_SELF = 2
+      character(len = 22):: dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: rU1
+      namelist /array_meta/ dataType, dim, sizes
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
+      read(rU1, nml = array_meta)
+
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
+
+      close(rU1)
+
+      allocate(array(1:sizes(1), 1:sizes(2)))
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
+      read(rU1) array
+    end subroutine read_array_v_1LogicalDim2
+    subroutine write_arrayLogicalDim3(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :), intent(in):: array
+        character(len = *), intent(in), optional:: desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim3'
+      integer, parameter:: DIM_FOR_SELF = 3
+
+      character(len = len(DATA_TYPE_FOR_SELF)) dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: wU1
+      integer:: i
+
+      namelist /array_meta/ dataType, dim, sizes
+
+      call mkdir_p(s(arrayDir))
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'replace', action = 'write')
+      write(wU1, *) VERSION
+      close(wU1)
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
+      write(wU1) array
+      close(wU1)
+
+      dataType = DATA_TYPE_FOR_SELF
+      dim = DIM_FOR_SELF
+      forall(i = 1:dim) sizes(i) = size(array, i)
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'replace', action = 'write', delim = 'quote')
+      write(wU1, nml = array_meta)
+      close(wU1)
+
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DESCRIPTION_FILE, status = 'replace', action = 'write')
+        if(present(desc1)) write(wU1, *) desc1
+        if(present(desc2)) write(wU1, *) desc2
+        if(present(desc3)) write(wU1, *) desc3
+        if(present(desc4)) write(wU1, *) desc4
+        if(present(desc5)) write(wU1, *) desc5
+        if(present(desc6)) write(wU1, *) desc6
+        if(present(desc7)) write(wU1, *) desc7
+        if(present(desc8)) write(wU1, *) desc8
+        if(present(desc9)) write(wU1, *) desc9
+        if(present(desc10)) write(wU1, *) desc10
+      close(wU1)
+    end subroutine write_arrayLogicalDim3
+
+    subroutine read_arrayLogicalDim3(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :), intent(out), allocatable:: array
+
+      integer:: rU1, libIoVersion
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'old', action = 'read')
+      read(rU1, *) libIoVersion
+      close(rU1)
+
+      select case(libIoVersion)
+      case(1)
+        call read_array_v_1(arrayDir, array)
+      case default
+        raise('Unsupported version: ' + str(libIoVersion))
+      end select
+    end subroutine read_arrayLogicalDim3
+
+    subroutine read_array_v_1LogicalDim3(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :), intent(out), allocatable:: array
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim3'
+      integer, parameter:: DIM_FOR_SELF = 3
+      character(len = 22):: dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: rU1
+      namelist /array_meta/ dataType, dim, sizes
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
+      read(rU1, nml = array_meta)
+
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
+
+      close(rU1)
+
+      allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3)))
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
+      read(rU1) array
+    end subroutine read_array_v_1LogicalDim3
+    subroutine write_arrayLogicalDim4(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :), intent(in):: array
+        character(len = *), intent(in), optional:: desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim4'
+      integer, parameter:: DIM_FOR_SELF = 4
+
+      character(len = len(DATA_TYPE_FOR_SELF)) dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: wU1
+      integer:: i
+
+      namelist /array_meta/ dataType, dim, sizes
+
+      call mkdir_p(s(arrayDir))
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'replace', action = 'write')
+      write(wU1, *) VERSION
+      close(wU1)
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
+      write(wU1) array
+      close(wU1)
+
+      dataType = DATA_TYPE_FOR_SELF
+      dim = DIM_FOR_SELF
+      forall(i = 1:dim) sizes(i) = size(array, i)
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'replace', action = 'write', delim = 'quote')
+      write(wU1, nml = array_meta)
+      close(wU1)
+
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DESCRIPTION_FILE, status = 'replace', action = 'write')
+        if(present(desc1)) write(wU1, *) desc1
+        if(present(desc2)) write(wU1, *) desc2
+        if(present(desc3)) write(wU1, *) desc3
+        if(present(desc4)) write(wU1, *) desc4
+        if(present(desc5)) write(wU1, *) desc5
+        if(present(desc6)) write(wU1, *) desc6
+        if(present(desc7)) write(wU1, *) desc7
+        if(present(desc8)) write(wU1, *) desc8
+        if(present(desc9)) write(wU1, *) desc9
+        if(present(desc10)) write(wU1, *) desc10
+      close(wU1)
+    end subroutine write_arrayLogicalDim4
+
+    subroutine read_arrayLogicalDim4(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :), intent(out), allocatable:: array
+
+      integer:: rU1, libIoVersion
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'old', action = 'read')
+      read(rU1, *) libIoVersion
+      close(rU1)
+
+      select case(libIoVersion)
+      case(1)
+        call read_array_v_1(arrayDir, array)
+      case default
+        raise('Unsupported version: ' + str(libIoVersion))
+      end select
+    end subroutine read_arrayLogicalDim4
+
+    subroutine read_array_v_1LogicalDim4(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :), intent(out), allocatable:: array
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim4'
+      integer, parameter:: DIM_FOR_SELF = 4
+      character(len = 22):: dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: rU1
+      namelist /array_meta/ dataType, dim, sizes
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
+      read(rU1, nml = array_meta)
+
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
+
+      close(rU1)
+
+      allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4)))
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
+      read(rU1) array
+    end subroutine read_array_v_1LogicalDim4
+    subroutine write_arrayLogicalDim5(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :), intent(in):: array
+        character(len = *), intent(in), optional:: desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim5'
+      integer, parameter:: DIM_FOR_SELF = 5
+
+      character(len = len(DATA_TYPE_FOR_SELF)) dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: wU1
+      integer:: i
+
+      namelist /array_meta/ dataType, dim, sizes
+
+      call mkdir_p(s(arrayDir))
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'replace', action = 'write')
+      write(wU1, *) VERSION
+      close(wU1)
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
+      write(wU1) array
+      close(wU1)
+
+      dataType = DATA_TYPE_FOR_SELF
+      dim = DIM_FOR_SELF
+      forall(i = 1:dim) sizes(i) = size(array, i)
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'replace', action = 'write', delim = 'quote')
+      write(wU1, nml = array_meta)
+      close(wU1)
+
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DESCRIPTION_FILE, status = 'replace', action = 'write')
+        if(present(desc1)) write(wU1, *) desc1
+        if(present(desc2)) write(wU1, *) desc2
+        if(present(desc3)) write(wU1, *) desc3
+        if(present(desc4)) write(wU1, *) desc4
+        if(present(desc5)) write(wU1, *) desc5
+        if(present(desc6)) write(wU1, *) desc6
+        if(present(desc7)) write(wU1, *) desc7
+        if(present(desc8)) write(wU1, *) desc8
+        if(present(desc9)) write(wU1, *) desc9
+        if(present(desc10)) write(wU1, *) desc10
+      close(wU1)
+    end subroutine write_arrayLogicalDim5
+
+    subroutine read_arrayLogicalDim5(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :), intent(out), allocatable:: array
+
+      integer:: rU1, libIoVersion
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'old', action = 'read')
+      read(rU1, *) libIoVersion
+      close(rU1)
+
+      select case(libIoVersion)
+      case(1)
+        call read_array_v_1(arrayDir, array)
+      case default
+        raise('Unsupported version: ' + str(libIoVersion))
+      end select
+    end subroutine read_arrayLogicalDim5
+
+    subroutine read_array_v_1LogicalDim5(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :), intent(out), allocatable:: array
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim5'
+      integer, parameter:: DIM_FOR_SELF = 5
+      character(len = 22):: dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: rU1
+      namelist /array_meta/ dataType, dim, sizes
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
+      read(rU1, nml = array_meta)
+
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
+
+      close(rU1)
+
+      allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5)))
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
+      read(rU1) array
+    end subroutine read_array_v_1LogicalDim5
+    subroutine write_arrayLogicalDim6(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :, :), intent(in):: array
+        character(len = *), intent(in), optional:: desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim6'
+      integer, parameter:: DIM_FOR_SELF = 6
+
+      character(len = len(DATA_TYPE_FOR_SELF)) dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: wU1
+      integer:: i
+
+      namelist /array_meta/ dataType, dim, sizes
+
+      call mkdir_p(s(arrayDir))
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'replace', action = 'write')
+      write(wU1, *) VERSION
+      close(wU1)
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
+      write(wU1) array
+      close(wU1)
+
+      dataType = DATA_TYPE_FOR_SELF
+      dim = DIM_FOR_SELF
+      forall(i = 1:dim) sizes(i) = size(array, i)
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'replace', action = 'write', delim = 'quote')
+      write(wU1, nml = array_meta)
+      close(wU1)
+
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DESCRIPTION_FILE, status = 'replace', action = 'write')
+        if(present(desc1)) write(wU1, *) desc1
+        if(present(desc2)) write(wU1, *) desc2
+        if(present(desc3)) write(wU1, *) desc3
+        if(present(desc4)) write(wU1, *) desc4
+        if(present(desc5)) write(wU1, *) desc5
+        if(present(desc6)) write(wU1, *) desc6
+        if(present(desc7)) write(wU1, *) desc7
+        if(present(desc8)) write(wU1, *) desc8
+        if(present(desc9)) write(wU1, *) desc9
+        if(present(desc10)) write(wU1, *) desc10
+      close(wU1)
+    end subroutine write_arrayLogicalDim6
+
+    subroutine read_arrayLogicalDim6(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :, :), intent(out), allocatable:: array
+
+      integer:: rU1, libIoVersion
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'old', action = 'read')
+      read(rU1, *) libIoVersion
+      close(rU1)
+
+      select case(libIoVersion)
+      case(1)
+        call read_array_v_1(arrayDir, array)
+      case default
+        raise('Unsupported version: ' + str(libIoVersion))
+      end select
+    end subroutine read_arrayLogicalDim6
+
+    subroutine read_array_v_1LogicalDim6(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :, :), intent(out), allocatable:: array
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim6'
+      integer, parameter:: DIM_FOR_SELF = 6
+      character(len = 22):: dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: rU1
+      namelist /array_meta/ dataType, dim, sizes
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
+      read(rU1, nml = array_meta)
+
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
+
+      close(rU1)
+
+      allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6)))
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
+      read(rU1) array
+    end subroutine read_array_v_1LogicalDim6
+    subroutine write_arrayLogicalDim7(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :, :, :), intent(in):: array
+        character(len = *), intent(in), optional:: desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim7'
+      integer, parameter:: DIM_FOR_SELF = 7
+
+      character(len = len(DATA_TYPE_FOR_SELF)) dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: wU1
+      integer:: i
+
+      namelist /array_meta/ dataType, dim, sizes
+
+      call mkdir_p(s(arrayDir))
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'replace', action = 'write')
+      write(wU1, *) VERSION
+      close(wU1)
+
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'replace', action = 'write', form = 'unformatted', access = 'stream')
+      write(wU1) array
+      close(wU1)
+
+      dataType = DATA_TYPE_FOR_SELF
+      dim = DIM_FOR_SELF
+      forall(i = 1:dim) sizes(i) = size(array, i)
+      call new_unit(wU1)
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'replace', action = 'write', delim = 'quote')
+      write(wU1, nml = array_meta)
+      close(wU1)
+
+      open(unit = wU1, file = s(arrayDir) + '/' + ARRAY_DESCRIPTION_FILE, status = 'replace', action = 'write')
+        if(present(desc1)) write(wU1, *) desc1
+        if(present(desc2)) write(wU1, *) desc2
+        if(present(desc3)) write(wU1, *) desc3
+        if(present(desc4)) write(wU1, *) desc4
+        if(present(desc5)) write(wU1, *) desc5
+        if(present(desc6)) write(wU1, *) desc6
+        if(present(desc7)) write(wU1, *) desc7
+        if(present(desc8)) write(wU1, *) desc8
+        if(present(desc9)) write(wU1, *) desc9
+        if(present(desc10)) write(wU1, *) desc10
+      close(wU1)
+    end subroutine write_arrayLogicalDim7
+
+    subroutine read_arrayLogicalDim7(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :, :, :), intent(out), allocatable:: array
+
+      integer:: rU1, libIoVersion
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_VERSION_FILE, status = 'old', action = 'read')
+      read(rU1, *) libIoVersion
+      close(rU1)
+
+      select case(libIoVersion)
+      case(1)
+        call read_array_v_1(arrayDir, array)
+      case default
+        raise('Unsupported version: ' + str(libIoVersion))
+      end select
+    end subroutine read_arrayLogicalDim7
+
+    subroutine read_array_v_1LogicalDim7(arrayDir, array)
+      character(len = *), intent(in):: arrayDir
+      Logical, dimension(:, :, :, :, :, :, :), intent(out), allocatable:: array
+
+      character(len = *), parameter:: DATA_TYPE_FOR_SELF = 'LogicalDim7'
+      integer, parameter:: DIM_FOR_SELF = 7
+      character(len = 22):: dataType
+      integer:: dim
+      integer:: sizes(1:DIM_FOR_SELF)
+      integer:: rU1
+      namelist /array_meta/ dataType, dim, sizes
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
+      read(rU1, nml = array_meta)
+
+      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
+      raise_if(dim /= DIM_FOR_SELF)
+
+      close(rU1)
+
+      allocate(array(1:sizes(1), 1:sizes(2), 1:sizes(3), 1:sizes(4), 1:sizes(5), 1:sizes(6), 1:sizes(7)))
+
+      call new_unit(rU1)
+      open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_DATA_FILE, status = 'old', action = 'read', form = 'unformatted', access = 'stream')
+      read(rU1) array
+    end subroutine read_array_v_1LogicalDim7
     subroutine write_arrayIntegerDim1KindINT8(arrayDir, array, desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9, desc10)
       character(len = *), intent(in):: arrayDir
       Integer(kind = INT8), dimension(:), intent(in):: array

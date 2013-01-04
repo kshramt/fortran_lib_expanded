@@ -23,6 +23,83 @@ module lib_reflectable
       module procedure stem_from_typeLogicalDim0
     end interface stem_from_type
     interface str_from_type
+      module procedure str_from_typeLogicalDim1
+    end interface str_from_type
+
+    interface dim_from_type
+      module procedure dim_from_typeLogicalDim1
+    end interface dim_from_type
+
+    interface stem_from_type
+      module procedure stem_from_typeLogicalDim1
+    end interface stem_from_type
+    interface str_from_type
+      module procedure str_from_typeLogicalDim2
+    end interface str_from_type
+
+    interface dim_from_type
+      module procedure dim_from_typeLogicalDim2
+    end interface dim_from_type
+
+    interface stem_from_type
+      module procedure stem_from_typeLogicalDim2
+    end interface stem_from_type
+    interface str_from_type
+      module procedure str_from_typeLogicalDim3
+    end interface str_from_type
+
+    interface dim_from_type
+      module procedure dim_from_typeLogicalDim3
+    end interface dim_from_type
+
+    interface stem_from_type
+      module procedure stem_from_typeLogicalDim3
+    end interface stem_from_type
+    interface str_from_type
+      module procedure str_from_typeLogicalDim4
+    end interface str_from_type
+
+    interface dim_from_type
+      module procedure dim_from_typeLogicalDim4
+    end interface dim_from_type
+
+    interface stem_from_type
+      module procedure stem_from_typeLogicalDim4
+    end interface stem_from_type
+    interface str_from_type
+      module procedure str_from_typeLogicalDim5
+    end interface str_from_type
+
+    interface dim_from_type
+      module procedure dim_from_typeLogicalDim5
+    end interface dim_from_type
+
+    interface stem_from_type
+      module procedure stem_from_typeLogicalDim5
+    end interface stem_from_type
+    interface str_from_type
+      module procedure str_from_typeLogicalDim6
+    end interface str_from_type
+
+    interface dim_from_type
+      module procedure dim_from_typeLogicalDim6
+    end interface dim_from_type
+
+    interface stem_from_type
+      module procedure stem_from_typeLogicalDim6
+    end interface stem_from_type
+    interface str_from_type
+      module procedure str_from_typeLogicalDim7
+    end interface str_from_type
+
+    interface dim_from_type
+      module procedure dim_from_typeLogicalDim7
+    end interface dim_from_type
+
+    interface stem_from_type
+      module procedure stem_from_typeLogicalDim7
+    end interface stem_from_type
+    interface str_from_type
       module procedure str_from_typeIntegerDim0KindINT8
     end interface str_from_type
 
@@ -1016,6 +1093,167 @@ contains
 
       this = STEM
     end function stem_from_typeLogicalDim0
+    pure function str_from_typeLogicalDim1(v) result(this)
+      character(len = *), parameter:: STRING_EXPRESSION = "LogicalDim1"
+      character(len = len(STRING_EXPRESSION)):: this
+      Logical, dimension(:), intent(in):: v
+
+      this = STRING_EXPRESSION
+    end function str_from_typeLogicalDim1
+
+    pure function dim_from_typeLogicalDim1(v) result(this)
+      integer, parameter:: DIM = 1
+      integer:: this
+      Logical, dimension(:), intent(in):: v
+
+      this = DIM
+    end function dim_from_typeLogicalDim1
+
+    pure function stem_from_typeLogicalDim1(v) result(this)
+      character(len = *), parameter:: STEM = "Logical"
+      character(len = len(STEM)):: this
+      Logical, dimension(:), intent(in):: v
+
+      this = STEM
+    end function stem_from_typeLogicalDim1
+    pure function str_from_typeLogicalDim2(v) result(this)
+      character(len = *), parameter:: STRING_EXPRESSION = "LogicalDim2"
+      character(len = len(STRING_EXPRESSION)):: this
+      Logical, dimension(:, :), intent(in):: v
+
+      this = STRING_EXPRESSION
+    end function str_from_typeLogicalDim2
+
+    pure function dim_from_typeLogicalDim2(v) result(this)
+      integer, parameter:: DIM = 2
+      integer:: this
+      Logical, dimension(:, :), intent(in):: v
+
+      this = DIM
+    end function dim_from_typeLogicalDim2
+
+    pure function stem_from_typeLogicalDim2(v) result(this)
+      character(len = *), parameter:: STEM = "Logical"
+      character(len = len(STEM)):: this
+      Logical, dimension(:, :), intent(in):: v
+
+      this = STEM
+    end function stem_from_typeLogicalDim2
+    pure function str_from_typeLogicalDim3(v) result(this)
+      character(len = *), parameter:: STRING_EXPRESSION = "LogicalDim3"
+      character(len = len(STRING_EXPRESSION)):: this
+      Logical, dimension(:, :, :), intent(in):: v
+
+      this = STRING_EXPRESSION
+    end function str_from_typeLogicalDim3
+
+    pure function dim_from_typeLogicalDim3(v) result(this)
+      integer, parameter:: DIM = 3
+      integer:: this
+      Logical, dimension(:, :, :), intent(in):: v
+
+      this = DIM
+    end function dim_from_typeLogicalDim3
+
+    pure function stem_from_typeLogicalDim3(v) result(this)
+      character(len = *), parameter:: STEM = "Logical"
+      character(len = len(STEM)):: this
+      Logical, dimension(:, :, :), intent(in):: v
+
+      this = STEM
+    end function stem_from_typeLogicalDim3
+    pure function str_from_typeLogicalDim4(v) result(this)
+      character(len = *), parameter:: STRING_EXPRESSION = "LogicalDim4"
+      character(len = len(STRING_EXPRESSION)):: this
+      Logical, dimension(:, :, :, :), intent(in):: v
+
+      this = STRING_EXPRESSION
+    end function str_from_typeLogicalDim4
+
+    pure function dim_from_typeLogicalDim4(v) result(this)
+      integer, parameter:: DIM = 4
+      integer:: this
+      Logical, dimension(:, :, :, :), intent(in):: v
+
+      this = DIM
+    end function dim_from_typeLogicalDim4
+
+    pure function stem_from_typeLogicalDim4(v) result(this)
+      character(len = *), parameter:: STEM = "Logical"
+      character(len = len(STEM)):: this
+      Logical, dimension(:, :, :, :), intent(in):: v
+
+      this = STEM
+    end function stem_from_typeLogicalDim4
+    pure function str_from_typeLogicalDim5(v) result(this)
+      character(len = *), parameter:: STRING_EXPRESSION = "LogicalDim5"
+      character(len = len(STRING_EXPRESSION)):: this
+      Logical, dimension(:, :, :, :, :), intent(in):: v
+
+      this = STRING_EXPRESSION
+    end function str_from_typeLogicalDim5
+
+    pure function dim_from_typeLogicalDim5(v) result(this)
+      integer, parameter:: DIM = 5
+      integer:: this
+      Logical, dimension(:, :, :, :, :), intent(in):: v
+
+      this = DIM
+    end function dim_from_typeLogicalDim5
+
+    pure function stem_from_typeLogicalDim5(v) result(this)
+      character(len = *), parameter:: STEM = "Logical"
+      character(len = len(STEM)):: this
+      Logical, dimension(:, :, :, :, :), intent(in):: v
+
+      this = STEM
+    end function stem_from_typeLogicalDim5
+    pure function str_from_typeLogicalDim6(v) result(this)
+      character(len = *), parameter:: STRING_EXPRESSION = "LogicalDim6"
+      character(len = len(STRING_EXPRESSION)):: this
+      Logical, dimension(:, :, :, :, :, :), intent(in):: v
+
+      this = STRING_EXPRESSION
+    end function str_from_typeLogicalDim6
+
+    pure function dim_from_typeLogicalDim6(v) result(this)
+      integer, parameter:: DIM = 6
+      integer:: this
+      Logical, dimension(:, :, :, :, :, :), intent(in):: v
+
+      this = DIM
+    end function dim_from_typeLogicalDim6
+
+    pure function stem_from_typeLogicalDim6(v) result(this)
+      character(len = *), parameter:: STEM = "Logical"
+      character(len = len(STEM)):: this
+      Logical, dimension(:, :, :, :, :, :), intent(in):: v
+
+      this = STEM
+    end function stem_from_typeLogicalDim6
+    pure function str_from_typeLogicalDim7(v) result(this)
+      character(len = *), parameter:: STRING_EXPRESSION = "LogicalDim7"
+      character(len = len(STRING_EXPRESSION)):: this
+      Logical, dimension(:, :, :, :, :, :, :), intent(in):: v
+
+      this = STRING_EXPRESSION
+    end function str_from_typeLogicalDim7
+
+    pure function dim_from_typeLogicalDim7(v) result(this)
+      integer, parameter:: DIM = 7
+      integer:: this
+      Logical, dimension(:, :, :, :, :, :, :), intent(in):: v
+
+      this = DIM
+    end function dim_from_typeLogicalDim7
+
+    pure function stem_from_typeLogicalDim7(v) result(this)
+      character(len = *), parameter:: STEM = "Logical"
+      character(len = len(STEM)):: this
+      Logical, dimension(:, :, :, :, :, :, :), intent(in):: v
+
+      this = STEM
+    end function stem_from_typeLogicalDim7
     pure function str_from_typeIntegerDim0KindINT8(v) result(this)
       character(len = *), parameter:: STRING_EXPRESSION = "IntegerDim0KindINT8"
       character(len = len(STRING_EXPRESSION)):: this
