@@ -13,6 +13,10 @@ module lib_comparable
       module procedure is_nanRealDim0KindREAL32
       module procedure is_nanRealDim0KindREAL64
       module procedure is_nanRealDim0KindREAL128
+      module procedure is_nanIntegerDim0KindINT8
+      module procedure is_nanIntegerDim0KindINT16
+      module procedure is_nanIntegerDim0KindINT32
+      module procedure is_nanIntegerDim0KindINT64
   end interface is_nan
 
   interface equivalent
@@ -56,24 +60,49 @@ module lib_comparable
 
 contains
 
-    elemental function is_nanRealDim0KindREAL32(a) result(this)
+    elemental function is_nanRealDim0KindREAL32(x) result(this)
       logical:: this
-      Real(kind = REAL32), intent(in):: a
+      Real(kind = REAL32), intent(in):: x
 
-      this = (a /= a)
+      this = (x /= x)
     end function is_nanRealDim0KindREAL32
-    elemental function is_nanRealDim0KindREAL64(a) result(this)
+    elemental function is_nanRealDim0KindREAL64(x) result(this)
       logical:: this
-      Real(kind = REAL64), intent(in):: a
+      Real(kind = REAL64), intent(in):: x
 
-      this = (a /= a)
+      this = (x /= x)
     end function is_nanRealDim0KindREAL64
-    elemental function is_nanRealDim0KindREAL128(a) result(this)
+    elemental function is_nanRealDim0KindREAL128(x) result(this)
       logical:: this
-      Real(kind = REAL128), intent(in):: a
+      Real(kind = REAL128), intent(in):: x
 
-      this = (a /= a)
+      this = (x /= x)
     end function is_nanRealDim0KindREAL128
+
+    elemental function is_nanIntegerDim0KindINT8(n) result(this)
+      logical:: this
+      Integer(kind = INT8), intent(in):: n
+
+      this = .false.
+    end function is_nanIntegerDim0KindINT8
+    elemental function is_nanIntegerDim0KindINT16(n) result(this)
+      logical:: this
+      Integer(kind = INT16), intent(in):: n
+
+      this = .false.
+    end function is_nanIntegerDim0KindINT16
+    elemental function is_nanIntegerDim0KindINT32(n) result(this)
+      logical:: this
+      Integer(kind = INT32), intent(in):: n
+
+      this = .false.
+    end function is_nanIntegerDim0KindINT32
+    elemental function is_nanIntegerDim0KindINT64(n) result(this)
+      logical:: this
+      Integer(kind = INT64), intent(in):: n
+
+      this = .false.
+    end function is_nanIntegerDim0KindINT64
 
     elemental function equivalentRealDim0KindREAL32RealDim0KindREAL32(a, b, delta) result(this)
       logical:: this

@@ -5,336 +5,1129 @@ module lib_sort
   USE_UTILS_H
   use lib_comparable, only: is_nan
 
+  use lib_stack, only: push, pop
+  use lib_stack, only: IntegerDim0KindINT64Stack
+
   implicit none
 
   private
 
-  public:: qsort
+  public:: sort_quick, sorting_quick
 
-    interface qsort
-      module procedure qsortIntegerDim1KindINT8
-    end interface qsort
-    interface qsort
-      module procedure qsortIntegerDim1KindINT16
-    end interface qsort
-    interface qsort
-      module procedure qsortIntegerDim1KindINT32
-    end interface qsort
-    interface qsort
-      module procedure qsortIntegerDim1KindINT64
-    end interface qsort
-    interface qsort
-      module procedure qsortRealDim1KindREAL32
-    end interface qsort
-    interface qsort
-      module procedure qsortRealDim1KindREAL64
-    end interface qsort
-    interface qsort
-      module procedure qsortRealDim1KindREAL128
-    end interface qsort
+    interface sort_quick
+      module procedure sort_quickIntegerDim0KindINT8
+    end interface sort_quick
 
-    interface div_floor
-      module procedure div_floorIntegerDim1KindINT8
-    end interface div_floor
+    interface sorting_quick
+      module procedure sorting_quickIntegerDim0KindINT8
+    end interface sorting_quick
 
-    interface intermediate_floor_avoid_overflow
-      module procedure intermediate_floor_avoid_overflowIntegerDim1KindINT8
-    end interface intermediate_floor_avoid_overflow
-    interface div_floor
-      module procedure div_floorIntegerDim1KindINT16
-    end interface div_floor
+    interface get_pib
+      module procedure get_pibIntegerDim0KindINT8
+    end interface get_pib
 
-    interface intermediate_floor_avoid_overflow
-      module procedure intermediate_floor_avoid_overflowIntegerDim1KindINT16
-    end interface intermediate_floor_avoid_overflow
-    interface div_floor
-      module procedure div_floorIntegerDim1KindINT32
-    end interface div_floor
+    interface sorting_2
+      module procedure sorting_2IntegerDim0KindINT8
+    end interface sorting_2
 
-    interface intermediate_floor_avoid_overflow
-      module procedure intermediate_floor_avoid_overflowIntegerDim1KindINT32
-    end interface intermediate_floor_avoid_overflow
-    interface div_floor
-      module procedure div_floorIntegerDim1KindINT64
-    end interface div_floor
+    interface sorting_3
+      module procedure sorting_3IntegerDim0KindINT8
+    end interface sorting_3
 
-    interface intermediate_floor_avoid_overflow
-      module procedure intermediate_floor_avoid_overflowIntegerDim1KindINT64
-    end interface intermediate_floor_avoid_overflow
+    interface swapping
+      module procedure swappingIntegerDim0KindINT8
+    end interface swapping
+    interface sort_quick
+      module procedure sort_quickIntegerDim0KindINT16
+    end interface sort_quick
+
+    interface sorting_quick
+      module procedure sorting_quickIntegerDim0KindINT16
+    end interface sorting_quick
+
+    interface get_pib
+      module procedure get_pibIntegerDim0KindINT16
+    end interface get_pib
+
+    interface sorting_2
+      module procedure sorting_2IntegerDim0KindINT16
+    end interface sorting_2
+
+    interface sorting_3
+      module procedure sorting_3IntegerDim0KindINT16
+    end interface sorting_3
+
+    interface swapping
+      module procedure swappingIntegerDim0KindINT16
+    end interface swapping
+    interface sort_quick
+      module procedure sort_quickIntegerDim0KindINT32
+    end interface sort_quick
+
+    interface sorting_quick
+      module procedure sorting_quickIntegerDim0KindINT32
+    end interface sorting_quick
+
+    interface get_pib
+      module procedure get_pibIntegerDim0KindINT32
+    end interface get_pib
+
+    interface sorting_2
+      module procedure sorting_2IntegerDim0KindINT32
+    end interface sorting_2
+
+    interface sorting_3
+      module procedure sorting_3IntegerDim0KindINT32
+    end interface sorting_3
+
+    interface swapping
+      module procedure swappingIntegerDim0KindINT32
+    end interface swapping
+    interface sort_quick
+      module procedure sort_quickIntegerDim0KindINT64
+    end interface sort_quick
+
+    interface sorting_quick
+      module procedure sorting_quickIntegerDim0KindINT64
+    end interface sorting_quick
+
+    interface get_pib
+      module procedure get_pibIntegerDim0KindINT64
+    end interface get_pib
+
+    interface sorting_2
+      module procedure sorting_2IntegerDim0KindINT64
+    end interface sorting_2
+
+    interface sorting_3
+      module procedure sorting_3IntegerDim0KindINT64
+    end interface sorting_3
+
+    interface swapping
+      module procedure swappingIntegerDim0KindINT64
+    end interface swapping
+    interface sort_quick
+      module procedure sort_quickRealDim0KindREAL32
+    end interface sort_quick
+
+    interface sorting_quick
+      module procedure sorting_quickRealDim0KindREAL32
+    end interface sorting_quick
+
+    interface get_pib
+      module procedure get_pibRealDim0KindREAL32
+    end interface get_pib
+
+    interface sorting_2
+      module procedure sorting_2RealDim0KindREAL32
+    end interface sorting_2
+
+    interface sorting_3
+      module procedure sorting_3RealDim0KindREAL32
+    end interface sorting_3
+
+    interface swapping
+      module procedure swappingRealDim0KindREAL32
+    end interface swapping
+    interface sort_quick
+      module procedure sort_quickRealDim0KindREAL64
+    end interface sort_quick
+
+    interface sorting_quick
+      module procedure sorting_quickRealDim0KindREAL64
+    end interface sorting_quick
+
+    interface get_pib
+      module procedure get_pibRealDim0KindREAL64
+    end interface get_pib
+
+    interface sorting_2
+      module procedure sorting_2RealDim0KindREAL64
+    end interface sorting_2
+
+    interface sorting_3
+      module procedure sorting_3RealDim0KindREAL64
+    end interface sorting_3
+
+    interface swapping
+      module procedure swappingRealDim0KindREAL64
+    end interface swapping
+    interface sort_quick
+      module procedure sort_quickRealDim0KindREAL128
+    end interface sort_quick
+
+    interface sorting_quick
+      module procedure sorting_quickRealDim0KindREAL128
+    end interface sorting_quick
+
+    interface get_pib
+      module procedure get_pibRealDim0KindREAL128
+    end interface get_pib
+
+    interface sorting_2
+      module procedure sorting_2RealDim0KindREAL128
+    end interface sorting_2
+
+    interface sorting_3
+      module procedure sorting_3RealDim0KindREAL128
+    end interface sorting_3
+
+    interface swapping
+      module procedure swappingRealDim0KindREAL128
+    end interface swapping
 
 contains
 
-    recursive function qsortIntegerDim1KindINT8(a) result(this)
-      Integer(kind = INT8), dimension(:), allocatable:: this
-      Integer(kind = INT8), dimension(:), intent(in):: a
-      Integer(kind = INT8):: aMin, aMax, pib
+    function sort_quickIntegerDim0KindINT8(xs) result(xsSorted)
+      Integer(kind = INT8), allocatable:: xsSorted(:)
+      Integer(kind = INT8), intent(in):: xs(:)
 
-      if(size(a) <= 1)then
-        this = a
+      xsSorted = xs
+      call sorting_quick(xsSorted)
+    end function sort_quickIntegerDim0KindINT8
+
+    subroutine sorting_quickIntegerDim0KindINT8(xs)
+      Integer(kind = INT8), intent(inout):: xs(:)
+      Integer(kind = INT8):: pib
+      type(IntegerDim0KindINT64Stack):: iLs, iRs
+      Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
+      Logical:: isUniform
+
+      raise_if(any(is_nan(xs)))
+
+      call push(iLs, 1_INT64)
+      call push(iRs, size(xs, dim = 1, kind = INT64))
+
+      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
+        assert(pop(iLs, iL))
+
+        iLOriginal = iL      ! Left most index of the current segment.
+        do while(iLOriginal < iR) ! While current segment remains
+          select case(iR - iL)
+          case(-1, 0)
+            exit
+          case(1)
+            call sorting_2(xs(iL:iR))
+            exit
+          case(2)
+            call sorting_3(xs(iL:iR))
+            exit
+          case(3:)
+            pib = get_pib(xs(iL:iR), isUniform)
+            if(isUniform) exit
+
+            iROriginal = iR  ! Right most index of the current segment
+            loop_to_swap: do ! Within the segment
+              do while(xs(iR) > pib)
+                iR = iR - 1
+              end do
+              do while(xs(iL) <= pib)
+                if(iL >= iR)then
+                  call push(iLs, iR + 1)
+                  call push(iRs, iROriginal)
+                  iL = iLOriginal
+                  exit loop_to_swap
+                end if
+
+                iL = iL + 1
+              end do
+
+              call swapping(xs(iL), xs(iR))
+            end do loop_to_swap
+          case default
+            raise('Must not happen.')
+          end select
+        end do
+      end do
+    end subroutine sorting_quickIntegerDim0KindINT8
+
+    function get_pibIntegerDim0KindINT8(xs, isUniform) result(pib)
+      Integer(kind = INT8):: pib
+      Integer(kind = INT8), intent(in):: xs(:)
+      Logical, intent(out):: isUniform
+      Integer(kind = INT8):: xsMin, xsMax
+      Integer(kind = INT64):: iL, iR, nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      if(xs(1) <= xs(nXs))then
+        xsMin = xs(1)
+        xsMax = xs(nXs)
+      else
+        xsMin = xs(nXs)
+        xsMax = xs(1)
+      end if
+      iL = 1 + 1
+      iR = nXs - 1
+      do while(iL <= iR)
+        if(xs(iL) <= xs(iR))then
+          if(xs(iL) < xsMin) xsMin = xs(iL)
+          if(xs(iR) > xsMax) xsMax = xs(iR)
+        else if(xs(iL) > xs(iR))then
+          if(xs(iR) < xsMin) xsMin = xs(iR)
+          if(xs(iL) > xsMax) xsMax = xs(iL)
+        end if
+
+        if(xsMin < xsMax) exit
+        iL = iL + 1
+        iR = iR - 1
+      end do
+
+      isUniform = (xsMax <= xsMin)
+      if(isUniform)then
+        pib = -huge(pib)
         return
       end if
 
-      aMin = minval(a)
-      aMax = maxval(a)
-      if(aMax <= aMin)then
-        this = a
+      pib = (xsMin/2) + (xsMax/2)
+      if(pib == xsMax) pib = xsMin
+    end function get_pibIntegerDim0KindINT8
+
+    subroutine sorting_3IntegerDim0KindINT8(xs)
+      Integer(kind = INT8), intent(inout):: xs(1:3)
+
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+      debug_raise_if(is_nan(xs(3)))
+
+      if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
+      if(xs(3) < xs(2))then
+        call swapping(xs(2), xs(3))
+      else if(xs(2) < xs(1))then
+        call swapping(xs(1), xs(2))
+      end if
+    end subroutine sorting_3IntegerDim0KindINT8
+
+    subroutine sorting_2IntegerDim0KindINT8(xs)
+      Integer(kind = INT8), intent(inout):: xs(1:2)
+
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+
+      if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
+    end subroutine sorting_2IntegerDim0KindINT8
+
+    subroutine swappingIntegerDim0KindINT8(a, b)
+      Integer(kind = INT8), intent(inout):: a, b
+      Integer(kind = INT8):: swap
+
+      swap = b
+      b = a
+      a = swap
+    end subroutine swappingIntegerDim0KindINT8
+    function sort_quickIntegerDim0KindINT16(xs) result(xsSorted)
+      Integer(kind = INT16), allocatable:: xsSorted(:)
+      Integer(kind = INT16), intent(in):: xs(:)
+
+      xsSorted = xs
+      call sorting_quick(xsSorted)
+    end function sort_quickIntegerDim0KindINT16
+
+    subroutine sorting_quickIntegerDim0KindINT16(xs)
+      Integer(kind = INT16), intent(inout):: xs(:)
+      Integer(kind = INT16):: pib
+      type(IntegerDim0KindINT64Stack):: iLs, iRs
+      Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
+      Logical:: isUniform
+
+      raise_if(any(is_nan(xs)))
+
+      call push(iLs, 1_INT64)
+      call push(iRs, size(xs, dim = 1, kind = INT64))
+
+      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
+        assert(pop(iLs, iL))
+
+        iLOriginal = iL      ! Left most index of the current segment.
+        do while(iLOriginal < iR) ! While current segment remains
+          select case(iR - iL)
+          case(-1, 0)
+            exit
+          case(1)
+            call sorting_2(xs(iL:iR))
+            exit
+          case(2)
+            call sorting_3(xs(iL:iR))
+            exit
+          case(3:)
+            pib = get_pib(xs(iL:iR), isUniform)
+            if(isUniform) exit
+
+            iROriginal = iR  ! Right most index of the current segment
+            loop_to_swap: do ! Within the segment
+              do while(xs(iR) > pib)
+                iR = iR - 1
+              end do
+              do while(xs(iL) <= pib)
+                if(iL >= iR)then
+                  call push(iLs, iR + 1)
+                  call push(iRs, iROriginal)
+                  iL = iLOriginal
+                  exit loop_to_swap
+                end if
+
+                iL = iL + 1
+              end do
+
+              call swapping(xs(iL), xs(iR))
+            end do loop_to_swap
+          case default
+            raise('Must not happen.')
+          end select
+        end do
+      end do
+    end subroutine sorting_quickIntegerDim0KindINT16
+
+    function get_pibIntegerDim0KindINT16(xs, isUniform) result(pib)
+      Integer(kind = INT16):: pib
+      Integer(kind = INT16), intent(in):: xs(:)
+      Logical, intent(out):: isUniform
+      Integer(kind = INT16):: xsMin, xsMax
+      Integer(kind = INT64):: iL, iR, nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      if(xs(1) <= xs(nXs))then
+        xsMin = xs(1)
+        xsMax = xs(nXs)
+      else
+        xsMin = xs(nXs)
+        xsMax = xs(1)
+      end if
+      iL = 1 + 1
+      iR = nXs - 1
+      do while(iL <= iR)
+        if(xs(iL) <= xs(iR))then
+          if(xs(iL) < xsMin) xsMin = xs(iL)
+          if(xs(iR) > xsMax) xsMax = xs(iR)
+        else if(xs(iL) > xs(iR))then
+          if(xs(iR) < xsMin) xsMin = xs(iR)
+          if(xs(iL) > xsMax) xsMax = xs(iL)
+        end if
+
+        if(xsMin < xsMax) exit
+        iL = iL + 1
+        iR = iR - 1
+      end do
+
+      isUniform = (xsMax <= xsMin)
+      if(isUniform)then
+        pib = -huge(pib)
         return
       end if
 
-      pib = intermediate_floor_avoid_overflow(aMin, aMax)
-      this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
-    end function qsortIntegerDim1KindINT8
+      pib = (xsMin/2) + (xsMax/2)
+      if(pib == xsMax) pib = xsMin
+    end function get_pibIntegerDim0KindINT16
 
-    ! this: Floor of m/n.
-    function div_floorIntegerDim1KindINT8(m, n) result(this)
-      Integer(kind = INT8):: this
-      Integer(kind = INT8), intent(in):: m, n
+    subroutine sorting_3IntegerDim0KindINT16(xs)
+      Integer(kind = INT16), intent(inout):: xs(1:3)
 
-      this = m/n
-      if(mod(m, n) < 0) this = this - 1_INT8
-    end function div_floorIntegerDim1KindINT8
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+      debug_raise_if(is_nan(xs(3)))
 
-    ! this: Floor of intermediate of m and n without suffering overflow.
-    function intermediate_floor_avoid_overflowIntegerDim1KindINT8(m, n) result(this)
-      Integer(kind = INT8):: this
-      Integer(kind = INT8), intent(in):: m, n
+      if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
+      if(xs(3) < xs(2))then
+        call swapping(xs(2), xs(3))
+      else if(xs(2) < xs(1))then
+        call swapping(xs(1), xs(2))
+      end if
+    end subroutine sorting_3IntegerDim0KindINT16
 
-      this = div_floor(m, 2_INT8) + div_floor(n, 2_INT8)
-      if((mod(m, 2) == 1 .and. mod(n, 2) == 1) .or. (mod(m, 2) == -1 .and. mod(n, 2) == -1)) this = this + 1_INT8
-    end function intermediate_floor_avoid_overflowIntegerDim1KindINT8
-    recursive function qsortIntegerDim1KindINT16(a) result(this)
-      Integer(kind = INT16), dimension(:), allocatable:: this
-      Integer(kind = INT16), dimension(:), intent(in):: a
-      Integer(kind = INT16):: aMin, aMax, pib
+    subroutine sorting_2IntegerDim0KindINT16(xs)
+      Integer(kind = INT16), intent(inout):: xs(1:2)
 
-      if(size(a) <= 1)then
-        this = a
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+
+      if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
+    end subroutine sorting_2IntegerDim0KindINT16
+
+    subroutine swappingIntegerDim0KindINT16(a, b)
+      Integer(kind = INT16), intent(inout):: a, b
+      Integer(kind = INT16):: swap
+
+      swap = b
+      b = a
+      a = swap
+    end subroutine swappingIntegerDim0KindINT16
+    function sort_quickIntegerDim0KindINT32(xs) result(xsSorted)
+      Integer(kind = INT32), allocatable:: xsSorted(:)
+      Integer(kind = INT32), intent(in):: xs(:)
+
+      xsSorted = xs
+      call sorting_quick(xsSorted)
+    end function sort_quickIntegerDim0KindINT32
+
+    subroutine sorting_quickIntegerDim0KindINT32(xs)
+      Integer(kind = INT32), intent(inout):: xs(:)
+      Integer(kind = INT32):: pib
+      type(IntegerDim0KindINT64Stack):: iLs, iRs
+      Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
+      Logical:: isUniform
+
+      raise_if(any(is_nan(xs)))
+
+      call push(iLs, 1_INT64)
+      call push(iRs, size(xs, dim = 1, kind = INT64))
+
+      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
+        assert(pop(iLs, iL))
+
+        iLOriginal = iL      ! Left most index of the current segment.
+        do while(iLOriginal < iR) ! While current segment remains
+          select case(iR - iL)
+          case(-1, 0)
+            exit
+          case(1)
+            call sorting_2(xs(iL:iR))
+            exit
+          case(2)
+            call sorting_3(xs(iL:iR))
+            exit
+          case(3:)
+            pib = get_pib(xs(iL:iR), isUniform)
+            if(isUniform) exit
+
+            iROriginal = iR  ! Right most index of the current segment
+            loop_to_swap: do ! Within the segment
+              do while(xs(iR) > pib)
+                iR = iR - 1
+              end do
+              do while(xs(iL) <= pib)
+                if(iL >= iR)then
+                  call push(iLs, iR + 1)
+                  call push(iRs, iROriginal)
+                  iL = iLOriginal
+                  exit loop_to_swap
+                end if
+
+                iL = iL + 1
+              end do
+
+              call swapping(xs(iL), xs(iR))
+            end do loop_to_swap
+          case default
+            raise('Must not happen.')
+          end select
+        end do
+      end do
+    end subroutine sorting_quickIntegerDim0KindINT32
+
+    function get_pibIntegerDim0KindINT32(xs, isUniform) result(pib)
+      Integer(kind = INT32):: pib
+      Integer(kind = INT32), intent(in):: xs(:)
+      Logical, intent(out):: isUniform
+      Integer(kind = INT32):: xsMin, xsMax
+      Integer(kind = INT64):: iL, iR, nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      if(xs(1) <= xs(nXs))then
+        xsMin = xs(1)
+        xsMax = xs(nXs)
+      else
+        xsMin = xs(nXs)
+        xsMax = xs(1)
+      end if
+      iL = 1 + 1
+      iR = nXs - 1
+      do while(iL <= iR)
+        if(xs(iL) <= xs(iR))then
+          if(xs(iL) < xsMin) xsMin = xs(iL)
+          if(xs(iR) > xsMax) xsMax = xs(iR)
+        else if(xs(iL) > xs(iR))then
+          if(xs(iR) < xsMin) xsMin = xs(iR)
+          if(xs(iL) > xsMax) xsMax = xs(iL)
+        end if
+
+        if(xsMin < xsMax) exit
+        iL = iL + 1
+        iR = iR - 1
+      end do
+
+      isUniform = (xsMax <= xsMin)
+      if(isUniform)then
+        pib = -huge(pib)
         return
       end if
 
-      aMin = minval(a)
-      aMax = maxval(a)
-      if(aMax <= aMin)then
-        this = a
+      pib = (xsMin/2) + (xsMax/2)
+      if(pib == xsMax) pib = xsMin
+    end function get_pibIntegerDim0KindINT32
+
+    subroutine sorting_3IntegerDim0KindINT32(xs)
+      Integer(kind = INT32), intent(inout):: xs(1:3)
+
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+      debug_raise_if(is_nan(xs(3)))
+
+      if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
+      if(xs(3) < xs(2))then
+        call swapping(xs(2), xs(3))
+      else if(xs(2) < xs(1))then
+        call swapping(xs(1), xs(2))
+      end if
+    end subroutine sorting_3IntegerDim0KindINT32
+
+    subroutine sorting_2IntegerDim0KindINT32(xs)
+      Integer(kind = INT32), intent(inout):: xs(1:2)
+
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+
+      if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
+    end subroutine sorting_2IntegerDim0KindINT32
+
+    subroutine swappingIntegerDim0KindINT32(a, b)
+      Integer(kind = INT32), intent(inout):: a, b
+      Integer(kind = INT32):: swap
+
+      swap = b
+      b = a
+      a = swap
+    end subroutine swappingIntegerDim0KindINT32
+    function sort_quickIntegerDim0KindINT64(xs) result(xsSorted)
+      Integer(kind = INT64), allocatable:: xsSorted(:)
+      Integer(kind = INT64), intent(in):: xs(:)
+
+      xsSorted = xs
+      call sorting_quick(xsSorted)
+    end function sort_quickIntegerDim0KindINT64
+
+    subroutine sorting_quickIntegerDim0KindINT64(xs)
+      Integer(kind = INT64), intent(inout):: xs(:)
+      Integer(kind = INT64):: pib
+      type(IntegerDim0KindINT64Stack):: iLs, iRs
+      Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
+      Logical:: isUniform
+
+      raise_if(any(is_nan(xs)))
+
+      call push(iLs, 1_INT64)
+      call push(iRs, size(xs, dim = 1, kind = INT64))
+
+      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
+        assert(pop(iLs, iL))
+
+        iLOriginal = iL      ! Left most index of the current segment.
+        do while(iLOriginal < iR) ! While current segment remains
+          select case(iR - iL)
+          case(-1, 0)
+            exit
+          case(1)
+            call sorting_2(xs(iL:iR))
+            exit
+          case(2)
+            call sorting_3(xs(iL:iR))
+            exit
+          case(3:)
+            pib = get_pib(xs(iL:iR), isUniform)
+            if(isUniform) exit
+
+            iROriginal = iR  ! Right most index of the current segment
+            loop_to_swap: do ! Within the segment
+              do while(xs(iR) > pib)
+                iR = iR - 1
+              end do
+              do while(xs(iL) <= pib)
+                if(iL >= iR)then
+                  call push(iLs, iR + 1)
+                  call push(iRs, iROriginal)
+                  iL = iLOriginal
+                  exit loop_to_swap
+                end if
+
+                iL = iL + 1
+              end do
+
+              call swapping(xs(iL), xs(iR))
+            end do loop_to_swap
+          case default
+            raise('Must not happen.')
+          end select
+        end do
+      end do
+    end subroutine sorting_quickIntegerDim0KindINT64
+
+    function get_pibIntegerDim0KindINT64(xs, isUniform) result(pib)
+      Integer(kind = INT64):: pib
+      Integer(kind = INT64), intent(in):: xs(:)
+      Logical, intent(out):: isUniform
+      Integer(kind = INT64):: xsMin, xsMax
+      Integer(kind = INT64):: iL, iR, nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      if(xs(1) <= xs(nXs))then
+        xsMin = xs(1)
+        xsMax = xs(nXs)
+      else
+        xsMin = xs(nXs)
+        xsMax = xs(1)
+      end if
+      iL = 1 + 1
+      iR = nXs - 1
+      do while(iL <= iR)
+        if(xs(iL) <= xs(iR))then
+          if(xs(iL) < xsMin) xsMin = xs(iL)
+          if(xs(iR) > xsMax) xsMax = xs(iR)
+        else if(xs(iL) > xs(iR))then
+          if(xs(iR) < xsMin) xsMin = xs(iR)
+          if(xs(iL) > xsMax) xsMax = xs(iL)
+        end if
+
+        if(xsMin < xsMax) exit
+        iL = iL + 1
+        iR = iR - 1
+      end do
+
+      isUniform = (xsMax <= xsMin)
+      if(isUniform)then
+        pib = -huge(pib)
         return
       end if
 
-      pib = intermediate_floor_avoid_overflow(aMin, aMax)
-      this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
-    end function qsortIntegerDim1KindINT16
+      pib = (xsMin/2) + (xsMax/2)
+      if(pib == xsMax) pib = xsMin
+    end function get_pibIntegerDim0KindINT64
 
-    ! this: Floor of m/n.
-    function div_floorIntegerDim1KindINT16(m, n) result(this)
-      Integer(kind = INT16):: this
-      Integer(kind = INT16), intent(in):: m, n
+    subroutine sorting_3IntegerDim0KindINT64(xs)
+      Integer(kind = INT64), intent(inout):: xs(1:3)
 
-      this = m/n
-      if(mod(m, n) < 0) this = this - 1_INT16
-    end function div_floorIntegerDim1KindINT16
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+      debug_raise_if(is_nan(xs(3)))
 
-    ! this: Floor of intermediate of m and n without suffering overflow.
-    function intermediate_floor_avoid_overflowIntegerDim1KindINT16(m, n) result(this)
-      Integer(kind = INT16):: this
-      Integer(kind = INT16), intent(in):: m, n
+      if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
+      if(xs(3) < xs(2))then
+        call swapping(xs(2), xs(3))
+      else if(xs(2) < xs(1))then
+        call swapping(xs(1), xs(2))
+      end if
+    end subroutine sorting_3IntegerDim0KindINT64
 
-      this = div_floor(m, 2_INT16) + div_floor(n, 2_INT16)
-      if((mod(m, 2) == 1 .and. mod(n, 2) == 1) .or. (mod(m, 2) == -1 .and. mod(n, 2) == -1)) this = this + 1_INT16
-    end function intermediate_floor_avoid_overflowIntegerDim1KindINT16
-    recursive function qsortIntegerDim1KindINT32(a) result(this)
-      Integer(kind = INT32), dimension(:), allocatable:: this
-      Integer(kind = INT32), dimension(:), intent(in):: a
-      Integer(kind = INT32):: aMin, aMax, pib
+    subroutine sorting_2IntegerDim0KindINT64(xs)
+      Integer(kind = INT64), intent(inout):: xs(1:2)
 
-      if(size(a) <= 1)then
-        this = a
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+
+      if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
+    end subroutine sorting_2IntegerDim0KindINT64
+
+    subroutine swappingIntegerDim0KindINT64(a, b)
+      Integer(kind = INT64), intent(inout):: a, b
+      Integer(kind = INT64):: swap
+
+      swap = b
+      b = a
+      a = swap
+    end subroutine swappingIntegerDim0KindINT64
+    function sort_quickRealDim0KindREAL32(xs) result(xsSorted)
+      Real(kind = REAL32), allocatable:: xsSorted(:)
+      Real(kind = REAL32), intent(in):: xs(:)
+
+      xsSorted = xs
+      call sorting_quick(xsSorted)
+    end function sort_quickRealDim0KindREAL32
+
+    subroutine sorting_quickRealDim0KindREAL32(xs)
+      Real(kind = REAL32), intent(inout):: xs(:)
+      Real(kind = REAL32):: pib
+      type(IntegerDim0KindINT64Stack):: iLs, iRs
+      Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
+      Logical:: isUniform
+
+      raise_if(any(is_nan(xs)))
+
+      call push(iLs, 1_INT64)
+      call push(iRs, size(xs, dim = 1, kind = INT64))
+
+      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
+        assert(pop(iLs, iL))
+
+        iLOriginal = iL      ! Left most index of the current segment.
+        do while(iLOriginal < iR) ! While current segment remains
+          select case(iR - iL)
+          case(-1, 0)
+            exit
+          case(1)
+            call sorting_2(xs(iL:iR))
+            exit
+          case(2)
+            call sorting_3(xs(iL:iR))
+            exit
+          case(3:)
+            pib = get_pib(xs(iL:iR), isUniform)
+            if(isUniform) exit
+
+            iROriginal = iR  ! Right most index of the current segment
+            loop_to_swap: do ! Within the segment
+              do while(xs(iR) > pib)
+                iR = iR - 1
+              end do
+              do while(xs(iL) <= pib)
+                if(iL >= iR)then
+                  call push(iLs, iR + 1)
+                  call push(iRs, iROriginal)
+                  iL = iLOriginal
+                  exit loop_to_swap
+                end if
+
+                iL = iL + 1
+              end do
+
+              call swapping(xs(iL), xs(iR))
+            end do loop_to_swap
+          case default
+            raise('Must not happen.')
+          end select
+        end do
+      end do
+    end subroutine sorting_quickRealDim0KindREAL32
+
+    function get_pibRealDim0KindREAL32(xs, isUniform) result(pib)
+      Real(kind = REAL32):: pib
+      Real(kind = REAL32), intent(in):: xs(:)
+      Logical, intent(out):: isUniform
+      Real(kind = REAL32):: xsMin, xsMax
+      Integer(kind = INT64):: iL, iR, nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      if(xs(1) <= xs(nXs))then
+        xsMin = xs(1)
+        xsMax = xs(nXs)
+      else
+        xsMin = xs(nXs)
+        xsMax = xs(1)
+      end if
+      iL = 1 + 1
+      iR = nXs - 1
+      do while(iL <= iR)
+        if(xs(iL) <= xs(iR))then
+          if(xs(iL) < xsMin) xsMin = xs(iL)
+          if(xs(iR) > xsMax) xsMax = xs(iR)
+        else if(xs(iL) > xs(iR))then
+          if(xs(iR) < xsMin) xsMin = xs(iR)
+          if(xs(iL) > xsMax) xsMax = xs(iL)
+        end if
+
+        if(xsMin < xsMax) exit
+        iL = iL + 1
+        iR = iR - 1
+      end do
+
+      isUniform = (xsMax <= xsMin)
+      if(isUniform)then
+        pib = -huge(pib)
         return
       end if
 
-      aMin = minval(a)
-      aMax = maxval(a)
-      if(aMax <= aMin)then
-        this = a
+      pib = (xsMin/2) + (xsMax/2)
+      if(pib == xsMax) pib = xsMin
+    end function get_pibRealDim0KindREAL32
+
+    subroutine sorting_3RealDim0KindREAL32(xs)
+      Real(kind = REAL32), intent(inout):: xs(1:3)
+
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+      debug_raise_if(is_nan(xs(3)))
+
+      if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
+      if(xs(3) < xs(2))then
+        call swapping(xs(2), xs(3))
+      else if(xs(2) < xs(1))then
+        call swapping(xs(1), xs(2))
+      end if
+    end subroutine sorting_3RealDim0KindREAL32
+
+    subroutine sorting_2RealDim0KindREAL32(xs)
+      Real(kind = REAL32), intent(inout):: xs(1:2)
+
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+
+      if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
+    end subroutine sorting_2RealDim0KindREAL32
+
+    subroutine swappingRealDim0KindREAL32(a, b)
+      Real(kind = REAL32), intent(inout):: a, b
+      Real(kind = REAL32):: swap
+
+      swap = b
+      b = a
+      a = swap
+    end subroutine swappingRealDim0KindREAL32
+    function sort_quickRealDim0KindREAL64(xs) result(xsSorted)
+      Real(kind = REAL64), allocatable:: xsSorted(:)
+      Real(kind = REAL64), intent(in):: xs(:)
+
+      xsSorted = xs
+      call sorting_quick(xsSorted)
+    end function sort_quickRealDim0KindREAL64
+
+    subroutine sorting_quickRealDim0KindREAL64(xs)
+      Real(kind = REAL64), intent(inout):: xs(:)
+      Real(kind = REAL64):: pib
+      type(IntegerDim0KindINT64Stack):: iLs, iRs
+      Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
+      Logical:: isUniform
+
+      raise_if(any(is_nan(xs)))
+
+      call push(iLs, 1_INT64)
+      call push(iRs, size(xs, dim = 1, kind = INT64))
+
+      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
+        assert(pop(iLs, iL))
+
+        iLOriginal = iL      ! Left most index of the current segment.
+        do while(iLOriginal < iR) ! While current segment remains
+          select case(iR - iL)
+          case(-1, 0)
+            exit
+          case(1)
+            call sorting_2(xs(iL:iR))
+            exit
+          case(2)
+            call sorting_3(xs(iL:iR))
+            exit
+          case(3:)
+            pib = get_pib(xs(iL:iR), isUniform)
+            if(isUniform) exit
+
+            iROriginal = iR  ! Right most index of the current segment
+            loop_to_swap: do ! Within the segment
+              do while(xs(iR) > pib)
+                iR = iR - 1
+              end do
+              do while(xs(iL) <= pib)
+                if(iL >= iR)then
+                  call push(iLs, iR + 1)
+                  call push(iRs, iROriginal)
+                  iL = iLOriginal
+                  exit loop_to_swap
+                end if
+
+                iL = iL + 1
+              end do
+
+              call swapping(xs(iL), xs(iR))
+            end do loop_to_swap
+          case default
+            raise('Must not happen.')
+          end select
+        end do
+      end do
+    end subroutine sorting_quickRealDim0KindREAL64
+
+    function get_pibRealDim0KindREAL64(xs, isUniform) result(pib)
+      Real(kind = REAL64):: pib
+      Real(kind = REAL64), intent(in):: xs(:)
+      Logical, intent(out):: isUniform
+      Real(kind = REAL64):: xsMin, xsMax
+      Integer(kind = INT64):: iL, iR, nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      if(xs(1) <= xs(nXs))then
+        xsMin = xs(1)
+        xsMax = xs(nXs)
+      else
+        xsMin = xs(nXs)
+        xsMax = xs(1)
+      end if
+      iL = 1 + 1
+      iR = nXs - 1
+      do while(iL <= iR)
+        if(xs(iL) <= xs(iR))then
+          if(xs(iL) < xsMin) xsMin = xs(iL)
+          if(xs(iR) > xsMax) xsMax = xs(iR)
+        else if(xs(iL) > xs(iR))then
+          if(xs(iR) < xsMin) xsMin = xs(iR)
+          if(xs(iL) > xsMax) xsMax = xs(iL)
+        end if
+
+        if(xsMin < xsMax) exit
+        iL = iL + 1
+        iR = iR - 1
+      end do
+
+      isUniform = (xsMax <= xsMin)
+      if(isUniform)then
+        pib = -huge(pib)
         return
       end if
 
-      pib = intermediate_floor_avoid_overflow(aMin, aMax)
-      this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
-    end function qsortIntegerDim1KindINT32
+      pib = (xsMin/2) + (xsMax/2)
+      if(pib == xsMax) pib = xsMin
+    end function get_pibRealDim0KindREAL64
 
-    ! this: Floor of m/n.
-    function div_floorIntegerDim1KindINT32(m, n) result(this)
-      Integer(kind = INT32):: this
-      Integer(kind = INT32), intent(in):: m, n
+    subroutine sorting_3RealDim0KindREAL64(xs)
+      Real(kind = REAL64), intent(inout):: xs(1:3)
 
-      this = m/n
-      if(mod(m, n) < 0) this = this - 1_INT32
-    end function div_floorIntegerDim1KindINT32
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+      debug_raise_if(is_nan(xs(3)))
 
-    ! this: Floor of intermediate of m and n without suffering overflow.
-    function intermediate_floor_avoid_overflowIntegerDim1KindINT32(m, n) result(this)
-      Integer(kind = INT32):: this
-      Integer(kind = INT32), intent(in):: m, n
+      if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
+      if(xs(3) < xs(2))then
+        call swapping(xs(2), xs(3))
+      else if(xs(2) < xs(1))then
+        call swapping(xs(1), xs(2))
+      end if
+    end subroutine sorting_3RealDim0KindREAL64
 
-      this = div_floor(m, 2_INT32) + div_floor(n, 2_INT32)
-      if((mod(m, 2) == 1 .and. mod(n, 2) == 1) .or. (mod(m, 2) == -1 .and. mod(n, 2) == -1)) this = this + 1_INT32
-    end function intermediate_floor_avoid_overflowIntegerDim1KindINT32
-    recursive function qsortIntegerDim1KindINT64(a) result(this)
-      Integer(kind = INT64), dimension(:), allocatable:: this
-      Integer(kind = INT64), dimension(:), intent(in):: a
-      Integer(kind = INT64):: aMin, aMax, pib
+    subroutine sorting_2RealDim0KindREAL64(xs)
+      Real(kind = REAL64), intent(inout):: xs(1:2)
 
-      if(size(a) <= 1)then
-        this = a
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+
+      if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
+    end subroutine sorting_2RealDim0KindREAL64
+
+    subroutine swappingRealDim0KindREAL64(a, b)
+      Real(kind = REAL64), intent(inout):: a, b
+      Real(kind = REAL64):: swap
+
+      swap = b
+      b = a
+      a = swap
+    end subroutine swappingRealDim0KindREAL64
+    function sort_quickRealDim0KindREAL128(xs) result(xsSorted)
+      Real(kind = REAL128), allocatable:: xsSorted(:)
+      Real(kind = REAL128), intent(in):: xs(:)
+
+      xsSorted = xs
+      call sorting_quick(xsSorted)
+    end function sort_quickRealDim0KindREAL128
+
+    subroutine sorting_quickRealDim0KindREAL128(xs)
+      Real(kind = REAL128), intent(inout):: xs(:)
+      Real(kind = REAL128):: pib
+      type(IntegerDim0KindINT64Stack):: iLs, iRs
+      Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
+      Logical:: isUniform
+
+      raise_if(any(is_nan(xs)))
+
+      call push(iLs, 1_INT64)
+      call push(iRs, size(xs, dim = 1, kind = INT64))
+
+      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
+        assert(pop(iLs, iL))
+
+        iLOriginal = iL      ! Left most index of the current segment.
+        do while(iLOriginal < iR) ! While current segment remains
+          select case(iR - iL)
+          case(-1, 0)
+            exit
+          case(1)
+            call sorting_2(xs(iL:iR))
+            exit
+          case(2)
+            call sorting_3(xs(iL:iR))
+            exit
+          case(3:)
+            pib = get_pib(xs(iL:iR), isUniform)
+            if(isUniform) exit
+
+            iROriginal = iR  ! Right most index of the current segment
+            loop_to_swap: do ! Within the segment
+              do while(xs(iR) > pib)
+                iR = iR - 1
+              end do
+              do while(xs(iL) <= pib)
+                if(iL >= iR)then
+                  call push(iLs, iR + 1)
+                  call push(iRs, iROriginal)
+                  iL = iLOriginal
+                  exit loop_to_swap
+                end if
+
+                iL = iL + 1
+              end do
+
+              call swapping(xs(iL), xs(iR))
+            end do loop_to_swap
+          case default
+            raise('Must not happen.')
+          end select
+        end do
+      end do
+    end subroutine sorting_quickRealDim0KindREAL128
+
+    function get_pibRealDim0KindREAL128(xs, isUniform) result(pib)
+      Real(kind = REAL128):: pib
+      Real(kind = REAL128), intent(in):: xs(:)
+      Logical, intent(out):: isUniform
+      Real(kind = REAL128):: xsMin, xsMax
+      Integer(kind = INT64):: iL, iR, nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      if(xs(1) <= xs(nXs))then
+        xsMin = xs(1)
+        xsMax = xs(nXs)
+      else
+        xsMin = xs(nXs)
+        xsMax = xs(1)
+      end if
+      iL = 1 + 1
+      iR = nXs - 1
+      do while(iL <= iR)
+        if(xs(iL) <= xs(iR))then
+          if(xs(iL) < xsMin) xsMin = xs(iL)
+          if(xs(iR) > xsMax) xsMax = xs(iR)
+        else if(xs(iL) > xs(iR))then
+          if(xs(iR) < xsMin) xsMin = xs(iR)
+          if(xs(iL) > xsMax) xsMax = xs(iL)
+        end if
+
+        if(xsMin < xsMax) exit
+        iL = iL + 1
+        iR = iR - 1
+      end do
+
+      isUniform = (xsMax <= xsMin)
+      if(isUniform)then
+        pib = -huge(pib)
         return
       end if
 
-      aMin = minval(a)
-      aMax = maxval(a)
-      if(aMax <= aMin)then
-        this = a
-        return
+      pib = (xsMin/2) + (xsMax/2)
+      if(pib == xsMax) pib = xsMin
+    end function get_pibRealDim0KindREAL128
+
+    subroutine sorting_3RealDim0KindREAL128(xs)
+      Real(kind = REAL128), intent(inout):: xs(1:3)
+
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
+      debug_raise_if(is_nan(xs(3)))
+
+      if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
+      if(xs(3) < xs(2))then
+        call swapping(xs(2), xs(3))
+      else if(xs(2) < xs(1))then
+        call swapping(xs(1), xs(2))
       end if
+    end subroutine sorting_3RealDim0KindREAL128
 
-      pib = intermediate_floor_avoid_overflow(aMin, aMax)
-      this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
-    end function qsortIntegerDim1KindINT64
+    subroutine sorting_2RealDim0KindREAL128(xs)
+      Real(kind = REAL128), intent(inout):: xs(1:2)
 
-    ! this: Floor of m/n.
-    function div_floorIntegerDim1KindINT64(m, n) result(this)
-      Integer(kind = INT64):: this
-      Integer(kind = INT64), intent(in):: m, n
+      debug_raise_if(is_nan(xs(1)))
+      debug_raise_if(is_nan(xs(2)))
 
-      this = m/n
-      if(mod(m, n) < 0) this = this - 1_INT64
-    end function div_floorIntegerDim1KindINT64
+      if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
+    end subroutine sorting_2RealDim0KindREAL128
 
-    ! this: Floor of intermediate of m and n without suffering overflow.
-    function intermediate_floor_avoid_overflowIntegerDim1KindINT64(m, n) result(this)
-      Integer(kind = INT64):: this
-      Integer(kind = INT64), intent(in):: m, n
+    subroutine swappingRealDim0KindREAL128(a, b)
+      Real(kind = REAL128), intent(inout):: a, b
+      Real(kind = REAL128):: swap
 
-      this = div_floor(m, 2_INT64) + div_floor(n, 2_INT64)
-      if((mod(m, 2) == 1 .and. mod(n, 2) == 1) .or. (mod(m, 2) == -1 .and. mod(n, 2) == -1)) this = this + 1_INT64
-    end function intermediate_floor_avoid_overflowIntegerDim1KindINT64
-
-    recursive function qsortRealDim1KindREAL32(a) result(this)
-      Real(kind = REAL32), dimension(:), intent(in):: a
-      Real(kind = REAL32), dimension(:), allocatable:: this
-
-      Real(kind = REAL32):: aMin, aMax, pib
-      Integer:: maxlocA(1:1), minlocA(1:1)
-
-      if(size(a) <= 1)then        ! Anchor case.
-        this = a
-        return
-      end if
-
-      raise_if(any(is_nan(a)))
-
-      aMin = minval(a)
-      aMax = maxval(a)
-
-      if(aMax <= aMin)then ! Quick return if possible: aMin equal aMax means all values in a are same.
-        this = a
-        return
-      end if
-
-      ! Infinity case.
-      ! These case is separately handled since Inf - Inf = NaN although pib should not be NaN.
-      if(aMin < -huge(aMin))then  ! -Inf
-        minlocA = minloc(a)
-        this = [aMin, qsort([a(1:minlocA(1) - 1), a(minlocA(1) + 1:size(a))])]
-        return
-      end if
-
-      if(huge(aMax) < aMax)then   ! +Inf
-        maxlocA = maxloc(a)
-        this = [qsort([a(1:maxlocA(1) - 1), a(maxlocA(1) + 1:size(a))]), aMax]
-        return
-      end if
-
-      pib = aMin/2 + aMax/2       ! Avoid overflow.
-      if(pib >= aMax) pib = aMin  ! Avoid infinite loop
-      this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
-    end function qsortRealDim1KindREAL32
-    recursive function qsortRealDim1KindREAL64(a) result(this)
-      Real(kind = REAL64), dimension(:), intent(in):: a
-      Real(kind = REAL64), dimension(:), allocatable:: this
-
-      Real(kind = REAL64):: aMin, aMax, pib
-      Integer:: maxlocA(1:1), minlocA(1:1)
-
-      if(size(a) <= 1)then        ! Anchor case.
-        this = a
-        return
-      end if
-
-      raise_if(any(is_nan(a)))
-
-      aMin = minval(a)
-      aMax = maxval(a)
-
-      if(aMax <= aMin)then ! Quick return if possible: aMin equal aMax means all values in a are same.
-        this = a
-        return
-      end if
-
-      ! Infinity case.
-      ! These case is separately handled since Inf - Inf = NaN although pib should not be NaN.
-      if(aMin < -huge(aMin))then  ! -Inf
-        minlocA = minloc(a)
-        this = [aMin, qsort([a(1:minlocA(1) - 1), a(minlocA(1) + 1:size(a))])]
-        return
-      end if
-
-      if(huge(aMax) < aMax)then   ! +Inf
-        maxlocA = maxloc(a)
-        this = [qsort([a(1:maxlocA(1) - 1), a(maxlocA(1) + 1:size(a))]), aMax]
-        return
-      end if
-
-      pib = aMin/2 + aMax/2       ! Avoid overflow.
-      if(pib >= aMax) pib = aMin  ! Avoid infinite loop
-      this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
-    end function qsortRealDim1KindREAL64
-    recursive function qsortRealDim1KindREAL128(a) result(this)
-      Real(kind = REAL128), dimension(:), intent(in):: a
-      Real(kind = REAL128), dimension(:), allocatable:: this
-
-      Real(kind = REAL128):: aMin, aMax, pib
-      Integer:: maxlocA(1:1), minlocA(1:1)
-
-      if(size(a) <= 1)then        ! Anchor case.
-        this = a
-        return
-      end if
-
-      raise_if(any(is_nan(a)))
-
-      aMin = minval(a)
-      aMax = maxval(a)
-
-      if(aMax <= aMin)then ! Quick return if possible: aMin equal aMax means all values in a are same.
-        this = a
-        return
-      end if
-
-      ! Infinity case.
-      ! These case is separately handled since Inf - Inf = NaN although pib should not be NaN.
-      if(aMin < -huge(aMin))then  ! -Inf
-        minlocA = minloc(a)
-        this = [aMin, qsort([a(1:minlocA(1) - 1), a(minlocA(1) + 1:size(a))])]
-        return
-      end if
-
-      if(huge(aMax) < aMax)then   ! +Inf
-        maxlocA = maxloc(a)
-        this = [qsort([a(1:maxlocA(1) - 1), a(maxlocA(1) + 1:size(a))]), aMax]
-        return
-      end if
-
-      pib = aMin/2 + aMax/2       ! Avoid overflow.
-      if(pib >= aMax) pib = aMin  ! Avoid infinite loop
-      this = [qsort(pack(a, a <= pib)), qsort(pack(a, a > pib))]
-    end function qsortRealDim1KindREAL128
+      swap = b
+      b = a
+      a = swap
+    end subroutine swappingRealDim0KindREAL128
 end module lib_sort
