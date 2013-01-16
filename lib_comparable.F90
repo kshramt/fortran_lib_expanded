@@ -8,16 +8,57 @@ module lib_comparable
   private
   public:: equivalent
   public:: is_nan
+  public:: is_infinity
 
-  interface is_nan
+    interface is_nan
       module procedure is_nanRealDim0KindREAL32
+    end interface is_nan
+
+    interface is_infinity
+      module procedure is_infinityRealDim0KindREAL32
+    end interface is_infinity
+    interface is_nan
       module procedure is_nanRealDim0KindREAL64
+    end interface is_nan
+
+    interface is_infinity
+      module procedure is_infinityRealDim0KindREAL64
+    end interface is_infinity
+    interface is_nan
       module procedure is_nanRealDim0KindREAL128
+    end interface is_nan
+
+    interface is_infinity
+      module procedure is_infinityRealDim0KindREAL128
+    end interface is_infinity
+    interface is_nan
       module procedure is_nanIntegerDim0KindINT8
+    end interface is_nan
+
+    interface is_infinity
+      module procedure is_infinityIntegerDim0KindINT8
+    end interface is_infinity
+    interface is_nan
       module procedure is_nanIntegerDim0KindINT16
+    end interface is_nan
+
+    interface is_infinity
+      module procedure is_infinityIntegerDim0KindINT16
+    end interface is_infinity
+    interface is_nan
       module procedure is_nanIntegerDim0KindINT32
+    end interface is_nan
+
+    interface is_infinity
+      module procedure is_infinityIntegerDim0KindINT32
+    end interface is_infinity
+    interface is_nan
       module procedure is_nanIntegerDim0KindINT64
-  end interface is_nan
+    end interface is_nan
+
+    interface is_infinity
+      module procedure is_infinityIntegerDim0KindINT64
+    end interface is_infinity
 
   interface equivalent
       module procedure equivalentIntegerDim0KindINT8IntegerDim0KindINT8
@@ -66,12 +107,26 @@ contains
 
       this = (x /= x)
     end function is_nanRealDim0KindREAL32
+
+    elemental function is_infinityRealDim0KindREAL32(x) result(answer)
+      Logical:: answer
+      Real(kind = REAL32), intent(in):: x
+
+      answer = x > huge(x)
+    end function is_infinityRealDim0KindREAL32
     elemental function is_nanRealDim0KindREAL64(x) result(this)
       logical:: this
       Real(kind = REAL64), intent(in):: x
 
       this = (x /= x)
     end function is_nanRealDim0KindREAL64
+
+    elemental function is_infinityRealDim0KindREAL64(x) result(answer)
+      Logical:: answer
+      Real(kind = REAL64), intent(in):: x
+
+      answer = x > huge(x)
+    end function is_infinityRealDim0KindREAL64
     elemental function is_nanRealDim0KindREAL128(x) result(this)
       logical:: this
       Real(kind = REAL128), intent(in):: x
@@ -79,30 +134,65 @@ contains
       this = (x /= x)
     end function is_nanRealDim0KindREAL128
 
+    elemental function is_infinityRealDim0KindREAL128(x) result(answer)
+      Logical:: answer
+      Real(kind = REAL128), intent(in):: x
+
+      answer = x > huge(x)
+    end function is_infinityRealDim0KindREAL128
+
     elemental function is_nanIntegerDim0KindINT8(n) result(this)
       logical:: this
       Integer(kind = INT8), intent(in):: n
 
       this = .false.
     end function is_nanIntegerDim0KindINT8
+
+    elemental function is_infinityIntegerDim0KindINT8(x) result(answer)
+      Logical:: answer
+      Integer(kind = INT8), intent(in):: x
+
+      answer = .false.
+    end function is_infinityIntegerDim0KindINT8
     elemental function is_nanIntegerDim0KindINT16(n) result(this)
       logical:: this
       Integer(kind = INT16), intent(in):: n
 
       this = .false.
     end function is_nanIntegerDim0KindINT16
+
+    elemental function is_infinityIntegerDim0KindINT16(x) result(answer)
+      Logical:: answer
+      Integer(kind = INT16), intent(in):: x
+
+      answer = .false.
+    end function is_infinityIntegerDim0KindINT16
     elemental function is_nanIntegerDim0KindINT32(n) result(this)
       logical:: this
       Integer(kind = INT32), intent(in):: n
 
       this = .false.
     end function is_nanIntegerDim0KindINT32
+
+    elemental function is_infinityIntegerDim0KindINT32(x) result(answer)
+      Logical:: answer
+      Integer(kind = INT32), intent(in):: x
+
+      answer = .false.
+    end function is_infinityIntegerDim0KindINT32
     elemental function is_nanIntegerDim0KindINT64(n) result(this)
       logical:: this
       Integer(kind = INT64), intent(in):: n
 
       this = .false.
     end function is_nanIntegerDim0KindINT64
+
+    elemental function is_infinityIntegerDim0KindINT64(x) result(answer)
+      Logical:: answer
+      Integer(kind = INT64), intent(in):: x
+
+      answer = .false.
+    end function is_infinityIntegerDim0KindINT64
 
     elemental function equivalentRealDim0KindREAL32RealDim0KindREAL32(a, b, delta) result(this)
       logical:: this
@@ -112,6 +202,16 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
 
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))
@@ -132,6 +232,16 @@ contains
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
 
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
+
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))
       else
@@ -150,6 +260,16 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
 
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))
@@ -170,6 +290,16 @@ contains
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
 
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
+
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))
       else
@@ -188,6 +318,16 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
 
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))
@@ -208,6 +348,16 @@ contains
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
 
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
+
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))
       else
@@ -226,6 +376,16 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
 
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))
@@ -246,6 +406,16 @@ contains
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
 
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
+
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))
       else
@@ -264,6 +434,16 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+
+      if(is_nan(a) .and. is_nan(b))then
+        this = .true.
+        return
+      end if
+
+      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+        this = .true.
+        return
+      end if
 
       if(present(delta))then
         delta_ = delta*max(abs(a), abs(b))

@@ -3,8 +3,8 @@
 program test_lib_comparable
   USE_UTILS_H
   use iso_fortran_env, only: OUTPUT_UNIT, INPUT_UNIT, REAL32, REAL64, INT32, INT64
+  use lib_constant, only: get_nan, get_infinity
   use lib_comparable
-  use lib_constant, only: get_nan
   implicit none
 
   test(.not.is_nan(0.0))
@@ -12,6 +12,19 @@ program test_lib_comparable
   test(.not.is_nan(0))
   test(.not.is_nan(0_INT64))
   test(is_nan(get_nan()))
+
+  test(.not.is_infinity(0.0))
+  test(.not.is_infinity(0.0_REAL64))
+  test(.not.is_infinity(0))
+  test(.not.is_infinity(0_INT64))
+  test(is_infinity(get_infinity()))
+
+  test(.not.equivalent(get_nan(), 0.0))
+  test(equivalent(get_nan(), get_nan()))
+
+  test(.not.equivalent(get_infinity(), 0.0))
+  test(.not.equivalent(get_infinity(), -get_infinity()))
+  test(equivalent(get_infinity(), get_infinity()))
 
     test(equivalent(0, 0))
     test(equivalent(1, 1))

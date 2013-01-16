@@ -6,6 +6,7 @@ module lib_io
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
   use lib_constant, only: TAB
   use lib_character, only: s, str, operator(+)
+  use lib_queue, only: CharacterDim0Len1Queue, push, pull
 
   implicit none
 
@@ -21,6 +22,7 @@ module lib_io
   public:: close_tempfile
   public:: init_shell_interface_file
   public:: read_shell_interface_file
+  public:: read_line
 
   integer, parameter:: VERSION = 1 ! Array file format's compatibility.
   integer, parameter:: NEW_UNIT_MIN = max(ERROR_UNIT, INPUT_UNIT, OUTPUT_UNIT, 0) + 1 ! 0 is decraled to handle a case where *_UNIT <= -1.
@@ -966,6 +968,44 @@ module lib_io
     end interface read_array_v_1
 
 contains
+
+  ! str
+  !   space:              retained
+  !   new line character: removed
+  function read_line(io, str) result(isSuccess)
+    Integer, intent(in):: io
+    Character(len = :), allocatable, intent(out):: str
+    Logical:: isSuccess
+
+    Character:: c
+    type(CharacterDim0Len1Queue):: queue
+    Integer:: nQueue, i
+    Integer:: ios
+
+    isSuccess = .false.
+    nQueue = 0
+    do
+      read(io, '(a1)', advance = 'no', iostat = ios) c
+      if(is_iostat_ok(ios))then
+        call push(queue, c)
+        nQueue = nQueue + 1
+      else if(is_iostat_eor(ios) .or. is_iostat_end(ios))then
+        exit
+      else
+        isSuccess = .false.
+        return
+      end if
+    end do
+
+    allocate(Character(len = nQueue):: str)
+    do i = 1, nQueue
+      isSuccess = shift(queue, c)
+      debug_assert(isSuccess)
+      str(i:i) = c
+    end do
+
+    isSuccess = .true.
+  end function read_line
 
   subroutine init_shell_interface_file()
     call mkdir_p(TMP_DIR)

@@ -3,7 +3,7 @@
 module lib_sort
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
   USE_UTILS_H
-  use lib_comparable, only: is_nan
+  use lib_comparable, only: is_nan, is_infinity
 
   use lib_stack, only: push, pop
   use lib_stack, only: IntegerDim0KindINT64Stack
@@ -278,8 +278,15 @@ contains
         return
       end if
 
-      pib = (xsMin/2) + (xsMax/2)
-      if(pib == xsMax) pib = xsMin
+      if(is_infinity(xsMax))then
+        pib = huge(xsMax)
+      elseif(is_infinity(-xsMin))then
+        pib = -huge(xsMin)
+      else
+        pib = (xsMin/2) + (xsMax/2)
+
+        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+      end if
     end function get_pibIntegerDim0KindINT8
 
     subroutine sorting_3IntegerDim0KindINT8(xs)
@@ -414,8 +421,15 @@ contains
         return
       end if
 
-      pib = (xsMin/2) + (xsMax/2)
-      if(pib == xsMax) pib = xsMin
+      if(is_infinity(xsMax))then
+        pib = huge(xsMax)
+      elseif(is_infinity(-xsMin))then
+        pib = -huge(xsMin)
+      else
+        pib = (xsMin/2) + (xsMax/2)
+
+        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+      end if
     end function get_pibIntegerDim0KindINT16
 
     subroutine sorting_3IntegerDim0KindINT16(xs)
@@ -550,8 +564,15 @@ contains
         return
       end if
 
-      pib = (xsMin/2) + (xsMax/2)
-      if(pib == xsMax) pib = xsMin
+      if(is_infinity(xsMax))then
+        pib = huge(xsMax)
+      elseif(is_infinity(-xsMin))then
+        pib = -huge(xsMin)
+      else
+        pib = (xsMin/2) + (xsMax/2)
+
+        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+      end if
     end function get_pibIntegerDim0KindINT32
 
     subroutine sorting_3IntegerDim0KindINT32(xs)
@@ -686,8 +707,15 @@ contains
         return
       end if
 
-      pib = (xsMin/2) + (xsMax/2)
-      if(pib == xsMax) pib = xsMin
+      if(is_infinity(xsMax))then
+        pib = huge(xsMax)
+      elseif(is_infinity(-xsMin))then
+        pib = -huge(xsMin)
+      else
+        pib = (xsMin/2) + (xsMax/2)
+
+        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+      end if
     end function get_pibIntegerDim0KindINT64
 
     subroutine sorting_3IntegerDim0KindINT64(xs)
@@ -822,8 +850,15 @@ contains
         return
       end if
 
-      pib = (xsMin/2) + (xsMax/2)
-      if(pib == xsMax) pib = xsMin
+      if(is_infinity(xsMax))then
+        pib = huge(xsMax)
+      elseif(is_infinity(-xsMin))then
+        pib = -huge(xsMin)
+      else
+        pib = (xsMin/2) + (xsMax/2)
+
+        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+      end if
     end function get_pibRealDim0KindREAL32
 
     subroutine sorting_3RealDim0KindREAL32(xs)
@@ -958,8 +993,15 @@ contains
         return
       end if
 
-      pib = (xsMin/2) + (xsMax/2)
-      if(pib == xsMax) pib = xsMin
+      if(is_infinity(xsMax))then
+        pib = huge(xsMax)
+      elseif(is_infinity(-xsMin))then
+        pib = -huge(xsMin)
+      else
+        pib = (xsMin/2) + (xsMax/2)
+
+        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+      end if
     end function get_pibRealDim0KindREAL64
 
     subroutine sorting_3RealDim0KindREAL64(xs)
@@ -1094,8 +1136,15 @@ contains
         return
       end if
 
-      pib = (xsMin/2) + (xsMax/2)
-      if(pib == xsMax) pib = xsMin
+      if(is_infinity(xsMax))then
+        pib = huge(xsMax)
+      elseif(is_infinity(-xsMin))then
+        pib = -huge(xsMin)
+      else
+        pib = (xsMin/2) + (xsMax/2)
+
+        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+      end if
     end function get_pibRealDim0KindREAL128
 
     subroutine sorting_3RealDim0KindREAL128(xs)
