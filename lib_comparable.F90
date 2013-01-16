@@ -202,14 +202,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
@@ -231,14 +242,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
@@ -260,14 +282,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
@@ -289,14 +322,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
@@ -318,14 +362,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
@@ -347,14 +402,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
@@ -376,14 +442,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
@@ -405,14 +482,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
@@ -434,14 +522,25 @@ contains
 
       real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
       real(min(kind(a), kind(b))):: lowerPrecision
+      Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
       if(is_nan(a) .and. is_nan(b))then
         this = .true.
         return
       end if
 
-      if((is_infinity(a) .and. is_infinity(b)) .or. (is_infinity(-a) .and. is_infinity(-b)))then
+      isAInfinity = is_infinity(a)
+      isBInfinity = is_infinity(b)
+      isAMinusInfinity = is_infinity(-a)
+      isBMinusInfinity = is_infinity(-b)
+
+      if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
         this = .true.
+        return
+      end if
+
+      if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
+        this = .false.
         return
       end if
 
