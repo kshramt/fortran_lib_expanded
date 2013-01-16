@@ -3426,563 +3426,483 @@ contains
     end function stem_from_typeComplexDim7KindREAL128
 
     pure function kind_from_typeIntegerDim0KindINT8(v) result(answer)
-      character(len = *), parameter:: KIND = "INT8"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT8), intent(in):: v
 
-      answer = KIND
+      answer = INT8
     end function kind_from_typeIntegerDim0KindINT8
     pure function kind_from_typeIntegerDim0KindINT16(v) result(answer)
-      character(len = *), parameter:: KIND = "INT16"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT16), intent(in):: v
 
-      answer = KIND
+      answer = INT16
     end function kind_from_typeIntegerDim0KindINT16
     pure function kind_from_typeIntegerDim0KindINT32(v) result(answer)
-      character(len = *), parameter:: KIND = "INT32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT32), intent(in):: v
 
-      answer = KIND
+      answer = INT32
     end function kind_from_typeIntegerDim0KindINT32
     pure function kind_from_typeIntegerDim0KindINT64(v) result(answer)
-      character(len = *), parameter:: KIND = "INT64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT64), intent(in):: v
 
-      answer = KIND
+      answer = INT64
     end function kind_from_typeIntegerDim0KindINT64
     pure function kind_from_typeIntegerDim1KindINT8(v) result(answer)
-      character(len = *), parameter:: KIND = "INT8"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT8), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = INT8
     end function kind_from_typeIntegerDim1KindINT8
     pure function kind_from_typeIntegerDim1KindINT16(v) result(answer)
-      character(len = *), parameter:: KIND = "INT16"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT16), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = INT16
     end function kind_from_typeIntegerDim1KindINT16
     pure function kind_from_typeIntegerDim1KindINT32(v) result(answer)
-      character(len = *), parameter:: KIND = "INT32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT32), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = INT32
     end function kind_from_typeIntegerDim1KindINT32
     pure function kind_from_typeIntegerDim1KindINT64(v) result(answer)
-      character(len = *), parameter:: KIND = "INT64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT64), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = INT64
     end function kind_from_typeIntegerDim1KindINT64
     pure function kind_from_typeIntegerDim2KindINT8(v) result(answer)
-      character(len = *), parameter:: KIND = "INT8"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT8), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = INT8
     end function kind_from_typeIntegerDim2KindINT8
     pure function kind_from_typeIntegerDim2KindINT16(v) result(answer)
-      character(len = *), parameter:: KIND = "INT16"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT16), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = INT16
     end function kind_from_typeIntegerDim2KindINT16
     pure function kind_from_typeIntegerDim2KindINT32(v) result(answer)
-      character(len = *), parameter:: KIND = "INT32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT32), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = INT32
     end function kind_from_typeIntegerDim2KindINT32
     pure function kind_from_typeIntegerDim2KindINT64(v) result(answer)
-      character(len = *), parameter:: KIND = "INT64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT64), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = INT64
     end function kind_from_typeIntegerDim2KindINT64
     pure function kind_from_typeIntegerDim3KindINT8(v) result(answer)
-      character(len = *), parameter:: KIND = "INT8"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT8), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT8
     end function kind_from_typeIntegerDim3KindINT8
     pure function kind_from_typeIntegerDim3KindINT16(v) result(answer)
-      character(len = *), parameter:: KIND = "INT16"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT16), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT16
     end function kind_from_typeIntegerDim3KindINT16
     pure function kind_from_typeIntegerDim3KindINT32(v) result(answer)
-      character(len = *), parameter:: KIND = "INT32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT32), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT32
     end function kind_from_typeIntegerDim3KindINT32
     pure function kind_from_typeIntegerDim3KindINT64(v) result(answer)
-      character(len = *), parameter:: KIND = "INT64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT64), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT64
     end function kind_from_typeIntegerDim3KindINT64
     pure function kind_from_typeIntegerDim4KindINT8(v) result(answer)
-      character(len = *), parameter:: KIND = "INT8"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT8), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT8
     end function kind_from_typeIntegerDim4KindINT8
     pure function kind_from_typeIntegerDim4KindINT16(v) result(answer)
-      character(len = *), parameter:: KIND = "INT16"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT16), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT16
     end function kind_from_typeIntegerDim4KindINT16
     pure function kind_from_typeIntegerDim4KindINT32(v) result(answer)
-      character(len = *), parameter:: KIND = "INT32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT32), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT32
     end function kind_from_typeIntegerDim4KindINT32
     pure function kind_from_typeIntegerDim4KindINT64(v) result(answer)
-      character(len = *), parameter:: KIND = "INT64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT64), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT64
     end function kind_from_typeIntegerDim4KindINT64
     pure function kind_from_typeIntegerDim5KindINT8(v) result(answer)
-      character(len = *), parameter:: KIND = "INT8"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT8), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT8
     end function kind_from_typeIntegerDim5KindINT8
     pure function kind_from_typeIntegerDim5KindINT16(v) result(answer)
-      character(len = *), parameter:: KIND = "INT16"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT16), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT16
     end function kind_from_typeIntegerDim5KindINT16
     pure function kind_from_typeIntegerDim5KindINT32(v) result(answer)
-      character(len = *), parameter:: KIND = "INT32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT32), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT32
     end function kind_from_typeIntegerDim5KindINT32
     pure function kind_from_typeIntegerDim5KindINT64(v) result(answer)
-      character(len = *), parameter:: KIND = "INT64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT64), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT64
     end function kind_from_typeIntegerDim5KindINT64
     pure function kind_from_typeIntegerDim6KindINT8(v) result(answer)
-      character(len = *), parameter:: KIND = "INT8"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT8), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT8
     end function kind_from_typeIntegerDim6KindINT8
     pure function kind_from_typeIntegerDim6KindINT16(v) result(answer)
-      character(len = *), parameter:: KIND = "INT16"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT16), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT16
     end function kind_from_typeIntegerDim6KindINT16
     pure function kind_from_typeIntegerDim6KindINT32(v) result(answer)
-      character(len = *), parameter:: KIND = "INT32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT32), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT32
     end function kind_from_typeIntegerDim6KindINT32
     pure function kind_from_typeIntegerDim6KindINT64(v) result(answer)
-      character(len = *), parameter:: KIND = "INT64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT64), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT64
     end function kind_from_typeIntegerDim6KindINT64
     pure function kind_from_typeIntegerDim7KindINT8(v) result(answer)
-      character(len = *), parameter:: KIND = "INT8"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT8), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT8
     end function kind_from_typeIntegerDim7KindINT8
     pure function kind_from_typeIntegerDim7KindINT16(v) result(answer)
-      character(len = *), parameter:: KIND = "INT16"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT16), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT16
     end function kind_from_typeIntegerDim7KindINT16
     pure function kind_from_typeIntegerDim7KindINT32(v) result(answer)
-      character(len = *), parameter:: KIND = "INT32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT32), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT32
     end function kind_from_typeIntegerDim7KindINT32
     pure function kind_from_typeIntegerDim7KindINT64(v) result(answer)
-      character(len = *), parameter:: KIND = "INT64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Integer(kind = INT64), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = INT64
     end function kind_from_typeIntegerDim7KindINT64
     pure function kind_from_typeRealDim0KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL32), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeRealDim0KindREAL32
     pure function kind_from_typeRealDim0KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL64), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeRealDim0KindREAL64
     pure function kind_from_typeRealDim0KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL128), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeRealDim0KindREAL128
     pure function kind_from_typeRealDim1KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL32), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeRealDim1KindREAL32
     pure function kind_from_typeRealDim1KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL64), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeRealDim1KindREAL64
     pure function kind_from_typeRealDim1KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL128), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeRealDim1KindREAL128
     pure function kind_from_typeRealDim2KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL32), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeRealDim2KindREAL32
     pure function kind_from_typeRealDim2KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL64), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeRealDim2KindREAL64
     pure function kind_from_typeRealDim2KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL128), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeRealDim2KindREAL128
     pure function kind_from_typeRealDim3KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL32), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeRealDim3KindREAL32
     pure function kind_from_typeRealDim3KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL64), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeRealDim3KindREAL64
     pure function kind_from_typeRealDim3KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL128), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeRealDim3KindREAL128
     pure function kind_from_typeRealDim4KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL32), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeRealDim4KindREAL32
     pure function kind_from_typeRealDim4KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL64), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeRealDim4KindREAL64
     pure function kind_from_typeRealDim4KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL128), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeRealDim4KindREAL128
     pure function kind_from_typeRealDim5KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL32), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeRealDim5KindREAL32
     pure function kind_from_typeRealDim5KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL64), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeRealDim5KindREAL64
     pure function kind_from_typeRealDim5KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL128), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeRealDim5KindREAL128
     pure function kind_from_typeRealDim6KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL32), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeRealDim6KindREAL32
     pure function kind_from_typeRealDim6KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL64), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeRealDim6KindREAL64
     pure function kind_from_typeRealDim6KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL128), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeRealDim6KindREAL128
     pure function kind_from_typeRealDim7KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL32), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeRealDim7KindREAL32
     pure function kind_from_typeRealDim7KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL64), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeRealDim7KindREAL64
     pure function kind_from_typeRealDim7KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Real(kind = REAL128), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeRealDim7KindREAL128
     pure function kind_from_typeComplexDim0KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL32), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeComplexDim0KindREAL32
     pure function kind_from_typeComplexDim0KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL64), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeComplexDim0KindREAL64
     pure function kind_from_typeComplexDim0KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL128), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeComplexDim0KindREAL128
     pure function kind_from_typeComplexDim1KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL32), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeComplexDim1KindREAL32
     pure function kind_from_typeComplexDim1KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL64), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeComplexDim1KindREAL64
     pure function kind_from_typeComplexDim1KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL128), dimension(:), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeComplexDim1KindREAL128
     pure function kind_from_typeComplexDim2KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL32), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeComplexDim2KindREAL32
     pure function kind_from_typeComplexDim2KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL64), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeComplexDim2KindREAL64
     pure function kind_from_typeComplexDim2KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL128), dimension(:, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeComplexDim2KindREAL128
     pure function kind_from_typeComplexDim3KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL32), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeComplexDim3KindREAL32
     pure function kind_from_typeComplexDim3KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL64), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeComplexDim3KindREAL64
     pure function kind_from_typeComplexDim3KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL128), dimension(:, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeComplexDim3KindREAL128
     pure function kind_from_typeComplexDim4KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL32), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeComplexDim4KindREAL32
     pure function kind_from_typeComplexDim4KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL64), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeComplexDim4KindREAL64
     pure function kind_from_typeComplexDim4KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL128), dimension(:, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeComplexDim4KindREAL128
     pure function kind_from_typeComplexDim5KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL32), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeComplexDim5KindREAL32
     pure function kind_from_typeComplexDim5KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL64), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeComplexDim5KindREAL64
     pure function kind_from_typeComplexDim5KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL128), dimension(:, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeComplexDim5KindREAL128
     pure function kind_from_typeComplexDim6KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL32), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeComplexDim6KindREAL32
     pure function kind_from_typeComplexDim6KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL64), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeComplexDim6KindREAL64
     pure function kind_from_typeComplexDim6KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL128), dimension(:, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeComplexDim6KindREAL128
     pure function kind_from_typeComplexDim7KindREAL32(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL32"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL32), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL32
     end function kind_from_typeComplexDim7KindREAL32
     pure function kind_from_typeComplexDim7KindREAL64(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL64"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL64), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL64
     end function kind_from_typeComplexDim7KindREAL64
     pure function kind_from_typeComplexDim7KindREAL128(v) result(answer)
-      character(len = *), parameter:: KIND = "REAL128"
-      character(len = len(KIND)):: answer
+      Integer:: answer
       Complex(kind = REAL128), dimension(:, :, :, :, :, :, :), intent(in):: v
 
-      answer = KIND
+      answer = REAL128
     end function kind_from_typeComplexDim7KindREAL128
 end module lib_reflectable
