@@ -22,17 +22,17 @@ module lib_sort
       module procedure sorting_quickIntegerDim0KindINT8
     end interface sorting_quick
 
-    interface get_pib
-      module procedure get_pibIntegerDim0KindINT8
-    end interface get_pib
-
-    interface sorting_2
-      module procedure sorting_2IntegerDim0KindINT8
-    end interface sorting_2
+    interface get_pivot
+      module procedure get_pivotIntegerDim0KindINT8
+    end interface get_pivot
 
     interface sorting_3
       module procedure sorting_3IntegerDim0KindINT8
     end interface sorting_3
+
+    interface sorting_2
+      module procedure sorting_2IntegerDim0KindINT8
+    end interface sorting_2
 
     interface swapping
       module procedure swappingIntegerDim0KindINT8
@@ -45,17 +45,17 @@ module lib_sort
       module procedure sorting_quickIntegerDim0KindINT16
     end interface sorting_quick
 
-    interface get_pib
-      module procedure get_pibIntegerDim0KindINT16
-    end interface get_pib
-
-    interface sorting_2
-      module procedure sorting_2IntegerDim0KindINT16
-    end interface sorting_2
+    interface get_pivot
+      module procedure get_pivotIntegerDim0KindINT16
+    end interface get_pivot
 
     interface sorting_3
       module procedure sorting_3IntegerDim0KindINT16
     end interface sorting_3
+
+    interface sorting_2
+      module procedure sorting_2IntegerDim0KindINT16
+    end interface sorting_2
 
     interface swapping
       module procedure swappingIntegerDim0KindINT16
@@ -68,17 +68,17 @@ module lib_sort
       module procedure sorting_quickIntegerDim0KindINT32
     end interface sorting_quick
 
-    interface get_pib
-      module procedure get_pibIntegerDim0KindINT32
-    end interface get_pib
-
-    interface sorting_2
-      module procedure sorting_2IntegerDim0KindINT32
-    end interface sorting_2
+    interface get_pivot
+      module procedure get_pivotIntegerDim0KindINT32
+    end interface get_pivot
 
     interface sorting_3
       module procedure sorting_3IntegerDim0KindINT32
     end interface sorting_3
+
+    interface sorting_2
+      module procedure sorting_2IntegerDim0KindINT32
+    end interface sorting_2
 
     interface swapping
       module procedure swappingIntegerDim0KindINT32
@@ -91,17 +91,17 @@ module lib_sort
       module procedure sorting_quickIntegerDim0KindINT64
     end interface sorting_quick
 
-    interface get_pib
-      module procedure get_pibIntegerDim0KindINT64
-    end interface get_pib
-
-    interface sorting_2
-      module procedure sorting_2IntegerDim0KindINT64
-    end interface sorting_2
+    interface get_pivot
+      module procedure get_pivotIntegerDim0KindINT64
+    end interface get_pivot
 
     interface sorting_3
       module procedure sorting_3IntegerDim0KindINT64
     end interface sorting_3
+
+    interface sorting_2
+      module procedure sorting_2IntegerDim0KindINT64
+    end interface sorting_2
 
     interface swapping
       module procedure swappingIntegerDim0KindINT64
@@ -114,17 +114,17 @@ module lib_sort
       module procedure sorting_quickRealDim0KindREAL32
     end interface sorting_quick
 
-    interface get_pib
-      module procedure get_pibRealDim0KindREAL32
-    end interface get_pib
-
-    interface sorting_2
-      module procedure sorting_2RealDim0KindREAL32
-    end interface sorting_2
+    interface get_pivot
+      module procedure get_pivotRealDim0KindREAL32
+    end interface get_pivot
 
     interface sorting_3
       module procedure sorting_3RealDim0KindREAL32
     end interface sorting_3
+
+    interface sorting_2
+      module procedure sorting_2RealDim0KindREAL32
+    end interface sorting_2
 
     interface swapping
       module procedure swappingRealDim0KindREAL32
@@ -137,17 +137,17 @@ module lib_sort
       module procedure sorting_quickRealDim0KindREAL64
     end interface sorting_quick
 
-    interface get_pib
-      module procedure get_pibRealDim0KindREAL64
-    end interface get_pib
-
-    interface sorting_2
-      module procedure sorting_2RealDim0KindREAL64
-    end interface sorting_2
+    interface get_pivot
+      module procedure get_pivotRealDim0KindREAL64
+    end interface get_pivot
 
     interface sorting_3
       module procedure sorting_3RealDim0KindREAL64
     end interface sorting_3
+
+    interface sorting_2
+      module procedure sorting_2RealDim0KindREAL64
+    end interface sorting_2
 
     interface swapping
       module procedure swappingRealDim0KindREAL64
@@ -160,17 +160,17 @@ module lib_sort
       module procedure sorting_quickRealDim0KindREAL128
     end interface sorting_quick
 
-    interface get_pib
-      module procedure get_pibRealDim0KindREAL128
-    end interface get_pib
-
-    interface sorting_2
-      module procedure sorting_2RealDim0KindREAL128
-    end interface sorting_2
+    interface get_pivot
+      module procedure get_pivotRealDim0KindREAL128
+    end interface get_pivot
 
     interface sorting_3
       module procedure sorting_3RealDim0KindREAL128
     end interface sorting_3
+
+    interface sorting_2
+      module procedure sorting_2RealDim0KindREAL128
+    end interface sorting_2
 
     interface swapping
       module procedure swappingRealDim0KindREAL128
@@ -188,7 +188,7 @@ contains
 
     subroutine sorting_quickIntegerDim0KindINT8(xs)
       Integer(kind = INT8), intent(inout):: xs(:)
-      Integer(kind = INT8):: pib
+      Integer(kind = INT8):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
@@ -213,15 +213,15 @@ contains
             call sorting_3(xs(iL:iR))
             exit
           case(3:)
-            pib = get_pib(xs(iL:iR), isUniform)
+            pivot = get_pivot(xs(iL:iR), isUniform)
             if(isUniform) exit
 
             iROriginal = iR  ! Right most index of the current segment
             loop_to_swap: do ! Within the segment
-              do while(xs(iR) > pib)
+              do while(xs(iR) > pivot)
                 iR = iR - 1
               end do
-              do while(xs(iL) <= pib)
+              do while(xs(iL) <= pivot)
                 if(iL >= iR)then
                   call push(iLs, iR + 1)
                   call push(iRs, iROriginal)
@@ -241,8 +241,8 @@ contains
       end do
     end subroutine sorting_quickIntegerDim0KindINT8
 
-    function get_pibIntegerDim0KindINT8(xs, isUniform) result(pib)
-      Integer(kind = INT8):: pib
+    function get_pivotIntegerDim0KindINT8(xs, isUniform) result(pivot)
+      Integer(kind = INT8):: pivot
       Integer(kind = INT8), intent(in):: xs(:)
       Logical, intent(out):: isUniform
       Integer(kind = INT8):: xsMin, xsMax
@@ -274,27 +274,23 @@ contains
 
       isUniform = (xsMax <= xsMin)
       if(isUniform)then
-        pib = -huge(pib)
+        pivot = -huge(pivot)
         return
       end if
 
       if(is_infinity(xsMax))then
-        pib = huge(xsMax)
+        pivot = huge(xsMax)
       elseif(is_infinity(-xsMin))then
-        pib = -huge(xsMin)
+        pivot = -huge(xsMin)
       else
-        pib = (xsMin/2) + (xsMax/2)
+        pivot = (xsMin/2) + (xsMax/2)
 
-        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
-    end function get_pibIntegerDim0KindINT8
+    end function get_pivotIntegerDim0KindINT8
 
-    subroutine sorting_3IntegerDim0KindINT8(xs)
+    pure subroutine sorting_3IntegerDim0KindINT8(xs)
       Integer(kind = INT8), intent(inout):: xs(1:3)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
-      debug_raise_if(is_nan(xs(3)))
 
       if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
       if(xs(3) < xs(2))then
@@ -304,16 +300,13 @@ contains
       end if
     end subroutine sorting_3IntegerDim0KindINT8
 
-    subroutine sorting_2IntegerDim0KindINT8(xs)
+    pure subroutine sorting_2IntegerDim0KindINT8(xs)
       Integer(kind = INT8), intent(inout):: xs(1:2)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
 
       if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
     end subroutine sorting_2IntegerDim0KindINT8
 
-    subroutine swappingIntegerDim0KindINT8(a, b)
+    elemental subroutine swappingIntegerDim0KindINT8(a, b)
       Integer(kind = INT8), intent(inout):: a, b
       Integer(kind = INT8):: swap
 
@@ -331,7 +324,7 @@ contains
 
     subroutine sorting_quickIntegerDim0KindINT16(xs)
       Integer(kind = INT16), intent(inout):: xs(:)
-      Integer(kind = INT16):: pib
+      Integer(kind = INT16):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
@@ -356,15 +349,15 @@ contains
             call sorting_3(xs(iL:iR))
             exit
           case(3:)
-            pib = get_pib(xs(iL:iR), isUniform)
+            pivot = get_pivot(xs(iL:iR), isUniform)
             if(isUniform) exit
 
             iROriginal = iR  ! Right most index of the current segment
             loop_to_swap: do ! Within the segment
-              do while(xs(iR) > pib)
+              do while(xs(iR) > pivot)
                 iR = iR - 1
               end do
-              do while(xs(iL) <= pib)
+              do while(xs(iL) <= pivot)
                 if(iL >= iR)then
                   call push(iLs, iR + 1)
                   call push(iRs, iROriginal)
@@ -384,8 +377,8 @@ contains
       end do
     end subroutine sorting_quickIntegerDim0KindINT16
 
-    function get_pibIntegerDim0KindINT16(xs, isUniform) result(pib)
-      Integer(kind = INT16):: pib
+    function get_pivotIntegerDim0KindINT16(xs, isUniform) result(pivot)
+      Integer(kind = INT16):: pivot
       Integer(kind = INT16), intent(in):: xs(:)
       Logical, intent(out):: isUniform
       Integer(kind = INT16):: xsMin, xsMax
@@ -417,27 +410,23 @@ contains
 
       isUniform = (xsMax <= xsMin)
       if(isUniform)then
-        pib = -huge(pib)
+        pivot = -huge(pivot)
         return
       end if
 
       if(is_infinity(xsMax))then
-        pib = huge(xsMax)
+        pivot = huge(xsMax)
       elseif(is_infinity(-xsMin))then
-        pib = -huge(xsMin)
+        pivot = -huge(xsMin)
       else
-        pib = (xsMin/2) + (xsMax/2)
+        pivot = (xsMin/2) + (xsMax/2)
 
-        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
-    end function get_pibIntegerDim0KindINT16
+    end function get_pivotIntegerDim0KindINT16
 
-    subroutine sorting_3IntegerDim0KindINT16(xs)
+    pure subroutine sorting_3IntegerDim0KindINT16(xs)
       Integer(kind = INT16), intent(inout):: xs(1:3)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
-      debug_raise_if(is_nan(xs(3)))
 
       if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
       if(xs(3) < xs(2))then
@@ -447,16 +436,13 @@ contains
       end if
     end subroutine sorting_3IntegerDim0KindINT16
 
-    subroutine sorting_2IntegerDim0KindINT16(xs)
+    pure subroutine sorting_2IntegerDim0KindINT16(xs)
       Integer(kind = INT16), intent(inout):: xs(1:2)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
 
       if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
     end subroutine sorting_2IntegerDim0KindINT16
 
-    subroutine swappingIntegerDim0KindINT16(a, b)
+    elemental subroutine swappingIntegerDim0KindINT16(a, b)
       Integer(kind = INT16), intent(inout):: a, b
       Integer(kind = INT16):: swap
 
@@ -474,7 +460,7 @@ contains
 
     subroutine sorting_quickIntegerDim0KindINT32(xs)
       Integer(kind = INT32), intent(inout):: xs(:)
-      Integer(kind = INT32):: pib
+      Integer(kind = INT32):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
@@ -499,15 +485,15 @@ contains
             call sorting_3(xs(iL:iR))
             exit
           case(3:)
-            pib = get_pib(xs(iL:iR), isUniform)
+            pivot = get_pivot(xs(iL:iR), isUniform)
             if(isUniform) exit
 
             iROriginal = iR  ! Right most index of the current segment
             loop_to_swap: do ! Within the segment
-              do while(xs(iR) > pib)
+              do while(xs(iR) > pivot)
                 iR = iR - 1
               end do
-              do while(xs(iL) <= pib)
+              do while(xs(iL) <= pivot)
                 if(iL >= iR)then
                   call push(iLs, iR + 1)
                   call push(iRs, iROriginal)
@@ -527,8 +513,8 @@ contains
       end do
     end subroutine sorting_quickIntegerDim0KindINT32
 
-    function get_pibIntegerDim0KindINT32(xs, isUniform) result(pib)
-      Integer(kind = INT32):: pib
+    function get_pivotIntegerDim0KindINT32(xs, isUniform) result(pivot)
+      Integer(kind = INT32):: pivot
       Integer(kind = INT32), intent(in):: xs(:)
       Logical, intent(out):: isUniform
       Integer(kind = INT32):: xsMin, xsMax
@@ -560,27 +546,23 @@ contains
 
       isUniform = (xsMax <= xsMin)
       if(isUniform)then
-        pib = -huge(pib)
+        pivot = -huge(pivot)
         return
       end if
 
       if(is_infinity(xsMax))then
-        pib = huge(xsMax)
+        pivot = huge(xsMax)
       elseif(is_infinity(-xsMin))then
-        pib = -huge(xsMin)
+        pivot = -huge(xsMin)
       else
-        pib = (xsMin/2) + (xsMax/2)
+        pivot = (xsMin/2) + (xsMax/2)
 
-        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
-    end function get_pibIntegerDim0KindINT32
+    end function get_pivotIntegerDim0KindINT32
 
-    subroutine sorting_3IntegerDim0KindINT32(xs)
+    pure subroutine sorting_3IntegerDim0KindINT32(xs)
       Integer(kind = INT32), intent(inout):: xs(1:3)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
-      debug_raise_if(is_nan(xs(3)))
 
       if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
       if(xs(3) < xs(2))then
@@ -590,16 +572,13 @@ contains
       end if
     end subroutine sorting_3IntegerDim0KindINT32
 
-    subroutine sorting_2IntegerDim0KindINT32(xs)
+    pure subroutine sorting_2IntegerDim0KindINT32(xs)
       Integer(kind = INT32), intent(inout):: xs(1:2)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
 
       if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
     end subroutine sorting_2IntegerDim0KindINT32
 
-    subroutine swappingIntegerDim0KindINT32(a, b)
+    elemental subroutine swappingIntegerDim0KindINT32(a, b)
       Integer(kind = INT32), intent(inout):: a, b
       Integer(kind = INT32):: swap
 
@@ -617,7 +596,7 @@ contains
 
     subroutine sorting_quickIntegerDim0KindINT64(xs)
       Integer(kind = INT64), intent(inout):: xs(:)
-      Integer(kind = INT64):: pib
+      Integer(kind = INT64):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
@@ -642,15 +621,15 @@ contains
             call sorting_3(xs(iL:iR))
             exit
           case(3:)
-            pib = get_pib(xs(iL:iR), isUniform)
+            pivot = get_pivot(xs(iL:iR), isUniform)
             if(isUniform) exit
 
             iROriginal = iR  ! Right most index of the current segment
             loop_to_swap: do ! Within the segment
-              do while(xs(iR) > pib)
+              do while(xs(iR) > pivot)
                 iR = iR - 1
               end do
-              do while(xs(iL) <= pib)
+              do while(xs(iL) <= pivot)
                 if(iL >= iR)then
                   call push(iLs, iR + 1)
                   call push(iRs, iROriginal)
@@ -670,8 +649,8 @@ contains
       end do
     end subroutine sorting_quickIntegerDim0KindINT64
 
-    function get_pibIntegerDim0KindINT64(xs, isUniform) result(pib)
-      Integer(kind = INT64):: pib
+    function get_pivotIntegerDim0KindINT64(xs, isUniform) result(pivot)
+      Integer(kind = INT64):: pivot
       Integer(kind = INT64), intent(in):: xs(:)
       Logical, intent(out):: isUniform
       Integer(kind = INT64):: xsMin, xsMax
@@ -703,27 +682,23 @@ contains
 
       isUniform = (xsMax <= xsMin)
       if(isUniform)then
-        pib = -huge(pib)
+        pivot = -huge(pivot)
         return
       end if
 
       if(is_infinity(xsMax))then
-        pib = huge(xsMax)
+        pivot = huge(xsMax)
       elseif(is_infinity(-xsMin))then
-        pib = -huge(xsMin)
+        pivot = -huge(xsMin)
       else
-        pib = (xsMin/2) + (xsMax/2)
+        pivot = (xsMin/2) + (xsMax/2)
 
-        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
-    end function get_pibIntegerDim0KindINT64
+    end function get_pivotIntegerDim0KindINT64
 
-    subroutine sorting_3IntegerDim0KindINT64(xs)
+    pure subroutine sorting_3IntegerDim0KindINT64(xs)
       Integer(kind = INT64), intent(inout):: xs(1:3)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
-      debug_raise_if(is_nan(xs(3)))
 
       if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
       if(xs(3) < xs(2))then
@@ -733,16 +708,13 @@ contains
       end if
     end subroutine sorting_3IntegerDim0KindINT64
 
-    subroutine sorting_2IntegerDim0KindINT64(xs)
+    pure subroutine sorting_2IntegerDim0KindINT64(xs)
       Integer(kind = INT64), intent(inout):: xs(1:2)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
 
       if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
     end subroutine sorting_2IntegerDim0KindINT64
 
-    subroutine swappingIntegerDim0KindINT64(a, b)
+    elemental subroutine swappingIntegerDim0KindINT64(a, b)
       Integer(kind = INT64), intent(inout):: a, b
       Integer(kind = INT64):: swap
 
@@ -760,7 +732,7 @@ contains
 
     subroutine sorting_quickRealDim0KindREAL32(xs)
       Real(kind = REAL32), intent(inout):: xs(:)
-      Real(kind = REAL32):: pib
+      Real(kind = REAL32):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
@@ -785,15 +757,15 @@ contains
             call sorting_3(xs(iL:iR))
             exit
           case(3:)
-            pib = get_pib(xs(iL:iR), isUniform)
+            pivot = get_pivot(xs(iL:iR), isUniform)
             if(isUniform) exit
 
             iROriginal = iR  ! Right most index of the current segment
             loop_to_swap: do ! Within the segment
-              do while(xs(iR) > pib)
+              do while(xs(iR) > pivot)
                 iR = iR - 1
               end do
-              do while(xs(iL) <= pib)
+              do while(xs(iL) <= pivot)
                 if(iL >= iR)then
                   call push(iLs, iR + 1)
                   call push(iRs, iROriginal)
@@ -813,8 +785,8 @@ contains
       end do
     end subroutine sorting_quickRealDim0KindREAL32
 
-    function get_pibRealDim0KindREAL32(xs, isUniform) result(pib)
-      Real(kind = REAL32):: pib
+    function get_pivotRealDim0KindREAL32(xs, isUniform) result(pivot)
+      Real(kind = REAL32):: pivot
       Real(kind = REAL32), intent(in):: xs(:)
       Logical, intent(out):: isUniform
       Real(kind = REAL32):: xsMin, xsMax
@@ -846,27 +818,23 @@ contains
 
       isUniform = (xsMax <= xsMin)
       if(isUniform)then
-        pib = -huge(pib)
+        pivot = -huge(pivot)
         return
       end if
 
       if(is_infinity(xsMax))then
-        pib = huge(xsMax)
+        pivot = huge(xsMax)
       elseif(is_infinity(-xsMin))then
-        pib = -huge(xsMin)
+        pivot = -huge(xsMin)
       else
-        pib = (xsMin/2) + (xsMax/2)
+        pivot = (xsMin/2) + (xsMax/2)
 
-        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
-    end function get_pibRealDim0KindREAL32
+    end function get_pivotRealDim0KindREAL32
 
-    subroutine sorting_3RealDim0KindREAL32(xs)
+    pure subroutine sorting_3RealDim0KindREAL32(xs)
       Real(kind = REAL32), intent(inout):: xs(1:3)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
-      debug_raise_if(is_nan(xs(3)))
 
       if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
       if(xs(3) < xs(2))then
@@ -876,16 +844,13 @@ contains
       end if
     end subroutine sorting_3RealDim0KindREAL32
 
-    subroutine sorting_2RealDim0KindREAL32(xs)
+    pure subroutine sorting_2RealDim0KindREAL32(xs)
       Real(kind = REAL32), intent(inout):: xs(1:2)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
 
       if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
     end subroutine sorting_2RealDim0KindREAL32
 
-    subroutine swappingRealDim0KindREAL32(a, b)
+    elemental subroutine swappingRealDim0KindREAL32(a, b)
       Real(kind = REAL32), intent(inout):: a, b
       Real(kind = REAL32):: swap
 
@@ -903,7 +868,7 @@ contains
 
     subroutine sorting_quickRealDim0KindREAL64(xs)
       Real(kind = REAL64), intent(inout):: xs(:)
-      Real(kind = REAL64):: pib
+      Real(kind = REAL64):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
@@ -928,15 +893,15 @@ contains
             call sorting_3(xs(iL:iR))
             exit
           case(3:)
-            pib = get_pib(xs(iL:iR), isUniform)
+            pivot = get_pivot(xs(iL:iR), isUniform)
             if(isUniform) exit
 
             iROriginal = iR  ! Right most index of the current segment
             loop_to_swap: do ! Within the segment
-              do while(xs(iR) > pib)
+              do while(xs(iR) > pivot)
                 iR = iR - 1
               end do
-              do while(xs(iL) <= pib)
+              do while(xs(iL) <= pivot)
                 if(iL >= iR)then
                   call push(iLs, iR + 1)
                   call push(iRs, iROriginal)
@@ -956,8 +921,8 @@ contains
       end do
     end subroutine sorting_quickRealDim0KindREAL64
 
-    function get_pibRealDim0KindREAL64(xs, isUniform) result(pib)
-      Real(kind = REAL64):: pib
+    function get_pivotRealDim0KindREAL64(xs, isUniform) result(pivot)
+      Real(kind = REAL64):: pivot
       Real(kind = REAL64), intent(in):: xs(:)
       Logical, intent(out):: isUniform
       Real(kind = REAL64):: xsMin, xsMax
@@ -989,27 +954,23 @@ contains
 
       isUniform = (xsMax <= xsMin)
       if(isUniform)then
-        pib = -huge(pib)
+        pivot = -huge(pivot)
         return
       end if
 
       if(is_infinity(xsMax))then
-        pib = huge(xsMax)
+        pivot = huge(xsMax)
       elseif(is_infinity(-xsMin))then
-        pib = -huge(xsMin)
+        pivot = -huge(xsMin)
       else
-        pib = (xsMin/2) + (xsMax/2)
+        pivot = (xsMin/2) + (xsMax/2)
 
-        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
-    end function get_pibRealDim0KindREAL64
+    end function get_pivotRealDim0KindREAL64
 
-    subroutine sorting_3RealDim0KindREAL64(xs)
+    pure subroutine sorting_3RealDim0KindREAL64(xs)
       Real(kind = REAL64), intent(inout):: xs(1:3)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
-      debug_raise_if(is_nan(xs(3)))
 
       if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
       if(xs(3) < xs(2))then
@@ -1019,16 +980,13 @@ contains
       end if
     end subroutine sorting_3RealDim0KindREAL64
 
-    subroutine sorting_2RealDim0KindREAL64(xs)
+    pure subroutine sorting_2RealDim0KindREAL64(xs)
       Real(kind = REAL64), intent(inout):: xs(1:2)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
 
       if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
     end subroutine sorting_2RealDim0KindREAL64
 
-    subroutine swappingRealDim0KindREAL64(a, b)
+    elemental subroutine swappingRealDim0KindREAL64(a, b)
       Real(kind = REAL64), intent(inout):: a, b
       Real(kind = REAL64):: swap
 
@@ -1046,7 +1004,7 @@ contains
 
     subroutine sorting_quickRealDim0KindREAL128(xs)
       Real(kind = REAL128), intent(inout):: xs(:)
-      Real(kind = REAL128):: pib
+      Real(kind = REAL128):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
@@ -1071,15 +1029,15 @@ contains
             call sorting_3(xs(iL:iR))
             exit
           case(3:)
-            pib = get_pib(xs(iL:iR), isUniform)
+            pivot = get_pivot(xs(iL:iR), isUniform)
             if(isUniform) exit
 
             iROriginal = iR  ! Right most index of the current segment
             loop_to_swap: do ! Within the segment
-              do while(xs(iR) > pib)
+              do while(xs(iR) > pivot)
                 iR = iR - 1
               end do
-              do while(xs(iL) <= pib)
+              do while(xs(iL) <= pivot)
                 if(iL >= iR)then
                   call push(iLs, iR + 1)
                   call push(iRs, iROriginal)
@@ -1099,8 +1057,8 @@ contains
       end do
     end subroutine sorting_quickRealDim0KindREAL128
 
-    function get_pibRealDim0KindREAL128(xs, isUniform) result(pib)
-      Real(kind = REAL128):: pib
+    function get_pivotRealDim0KindREAL128(xs, isUniform) result(pivot)
+      Real(kind = REAL128):: pivot
       Real(kind = REAL128), intent(in):: xs(:)
       Logical, intent(out):: isUniform
       Real(kind = REAL128):: xsMin, xsMax
@@ -1132,27 +1090,23 @@ contains
 
       isUniform = (xsMax <= xsMin)
       if(isUniform)then
-        pib = -huge(pib)
+        pivot = -huge(pivot)
         return
       end if
 
       if(is_infinity(xsMax))then
-        pib = huge(xsMax)
+        pivot = huge(xsMax)
       elseif(is_infinity(-xsMin))then
-        pib = -huge(xsMin)
+        pivot = -huge(xsMin)
       else
-        pib = (xsMin/2) + (xsMax/2)
+        pivot = (xsMin/2) + (xsMax/2)
 
-        if(pib >= xsMax .or. pib < xsMin) pib = xsMin ! I'm not sure whether the second condition could be true.
+        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
-    end function get_pibRealDim0KindREAL128
+    end function get_pivotRealDim0KindREAL128
 
-    subroutine sorting_3RealDim0KindREAL128(xs)
+    pure subroutine sorting_3RealDim0KindREAL128(xs)
       Real(kind = REAL128), intent(inout):: xs(1:3)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
-      debug_raise_if(is_nan(xs(3)))
 
       if(xs(3) < xs(1)) call swapping(xs(1), xs(3))
       if(xs(3) < xs(2))then
@@ -1162,16 +1116,13 @@ contains
       end if
     end subroutine sorting_3RealDim0KindREAL128
 
-    subroutine sorting_2RealDim0KindREAL128(xs)
+    pure subroutine sorting_2RealDim0KindREAL128(xs)
       Real(kind = REAL128), intent(inout):: xs(1:2)
-
-      debug_raise_if(is_nan(xs(1)))
-      debug_raise_if(is_nan(xs(2)))
 
       if(xs(2) < xs(1)) call swapping(xs(1), xs(2))
     end subroutine sorting_2RealDim0KindREAL128
 
-    subroutine swappingRealDim0KindREAL128(a, b)
+    elemental subroutine swappingRealDim0KindREAL128(a, b)
       Real(kind = REAL128), intent(inout):: a, b
       Real(kind = REAL128):: swap
 
