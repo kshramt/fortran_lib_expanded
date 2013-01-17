@@ -358,48 +358,28 @@ contains
       Integer(kind = INT8):: pivot
       Integer(kind = INT8), intent(in):: xs(:)
       Logical, intent(out):: isUniform
-      Integer(kind = INT8):: xsMin, xsMax
-      Integer(kind = INT64):: iL, iR, nXs
+      Integer(kind = INT8):: tmpX
+      Integer(kind = INT64):: iXs, nXs
+
+      isUniform = .false.
 
       nXs = size(xs, dim = 1, kind = INT64)
-      if(xs(1) <= xs(nXs))then
-        xsMin = xs(1)
-        xsMax = xs(nXs)
-      else
-        xsMin = xs(nXs)
-        xsMax = xs(1)
-      end if
-      iL = 1 + 1
-      iR = nXs - 1
-      do while(iL <= iR)
-        if(xs(iL) <= xs(iR))then
-          if(xs(iL) < xsMin) xsMin = xs(iL)
-          if(xs(iR) > xsMax) xsMax = xs(iR)
-        else if(xs(iL) > xs(iR))then
-          if(xs(iR) < xsMin) xsMin = xs(iR)
-          if(xs(iL) > xsMax) xsMax = xs(iL)
-        end if
 
-        if(xsMin < xsMax) exit
-        iL = iL + 1
-        iR = iR - 1
-      end do
-
-      isUniform = (xsMax <= xsMin)
-      if(isUniform)then
-        pivot = -huge(pivot)
+      if(xs(1) /= xs(nXs))then
+        pivot = min(xs(1), xs(nXs))
         return
       end if
 
-      if(is_infinity(xsMax))then
-        pivot = huge(xsMax)
-      elseif(is_infinity(-xsMin))then
-        pivot = -huge(xsMin)
-      else
-        pivot = (xsMin/2) + (xsMax/2)
+      tmpX = xs(1)
+      do iXs = 2, nXs - 1
+        if(xs(iXs) /= tmpX)then
+          pivot = min(xs(iXs), tmpX)
+          return
+        end if
+      end do
 
-        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
-      end if
+      pivot = huge(pivot)
+      isUniform = .true.
     end function get_pivotIntegerDim0KindINT8
 
     function sort_mergeIntegerDim0KindINT8(xs) result(xsSorted)
@@ -568,48 +548,28 @@ contains
       Integer(kind = INT16):: pivot
       Integer(kind = INT16), intent(in):: xs(:)
       Logical, intent(out):: isUniform
-      Integer(kind = INT16):: xsMin, xsMax
-      Integer(kind = INT64):: iL, iR, nXs
+      Integer(kind = INT16):: tmpX
+      Integer(kind = INT64):: iXs, nXs
+
+      isUniform = .false.
 
       nXs = size(xs, dim = 1, kind = INT64)
-      if(xs(1) <= xs(nXs))then
-        xsMin = xs(1)
-        xsMax = xs(nXs)
-      else
-        xsMin = xs(nXs)
-        xsMax = xs(1)
-      end if
-      iL = 1 + 1
-      iR = nXs - 1
-      do while(iL <= iR)
-        if(xs(iL) <= xs(iR))then
-          if(xs(iL) < xsMin) xsMin = xs(iL)
-          if(xs(iR) > xsMax) xsMax = xs(iR)
-        else if(xs(iL) > xs(iR))then
-          if(xs(iR) < xsMin) xsMin = xs(iR)
-          if(xs(iL) > xsMax) xsMax = xs(iL)
-        end if
 
-        if(xsMin < xsMax) exit
-        iL = iL + 1
-        iR = iR - 1
-      end do
-
-      isUniform = (xsMax <= xsMin)
-      if(isUniform)then
-        pivot = -huge(pivot)
+      if(xs(1) /= xs(nXs))then
+        pivot = min(xs(1), xs(nXs))
         return
       end if
 
-      if(is_infinity(xsMax))then
-        pivot = huge(xsMax)
-      elseif(is_infinity(-xsMin))then
-        pivot = -huge(xsMin)
-      else
-        pivot = (xsMin/2) + (xsMax/2)
+      tmpX = xs(1)
+      do iXs = 2, nXs - 1
+        if(xs(iXs) /= tmpX)then
+          pivot = min(xs(iXs), tmpX)
+          return
+        end if
+      end do
 
-        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
-      end if
+      pivot = huge(pivot)
+      isUniform = .true.
     end function get_pivotIntegerDim0KindINT16
 
     function sort_mergeIntegerDim0KindINT16(xs) result(xsSorted)
@@ -778,48 +738,28 @@ contains
       Integer(kind = INT32):: pivot
       Integer(kind = INT32), intent(in):: xs(:)
       Logical, intent(out):: isUniform
-      Integer(kind = INT32):: xsMin, xsMax
-      Integer(kind = INT64):: iL, iR, nXs
+      Integer(kind = INT32):: tmpX
+      Integer(kind = INT64):: iXs, nXs
+
+      isUniform = .false.
 
       nXs = size(xs, dim = 1, kind = INT64)
-      if(xs(1) <= xs(nXs))then
-        xsMin = xs(1)
-        xsMax = xs(nXs)
-      else
-        xsMin = xs(nXs)
-        xsMax = xs(1)
-      end if
-      iL = 1 + 1
-      iR = nXs - 1
-      do while(iL <= iR)
-        if(xs(iL) <= xs(iR))then
-          if(xs(iL) < xsMin) xsMin = xs(iL)
-          if(xs(iR) > xsMax) xsMax = xs(iR)
-        else if(xs(iL) > xs(iR))then
-          if(xs(iR) < xsMin) xsMin = xs(iR)
-          if(xs(iL) > xsMax) xsMax = xs(iL)
-        end if
 
-        if(xsMin < xsMax) exit
-        iL = iL + 1
-        iR = iR - 1
-      end do
-
-      isUniform = (xsMax <= xsMin)
-      if(isUniform)then
-        pivot = -huge(pivot)
+      if(xs(1) /= xs(nXs))then
+        pivot = min(xs(1), xs(nXs))
         return
       end if
 
-      if(is_infinity(xsMax))then
-        pivot = huge(xsMax)
-      elseif(is_infinity(-xsMin))then
-        pivot = -huge(xsMin)
-      else
-        pivot = (xsMin/2) + (xsMax/2)
+      tmpX = xs(1)
+      do iXs = 2, nXs - 1
+        if(xs(iXs) /= tmpX)then
+          pivot = min(xs(iXs), tmpX)
+          return
+        end if
+      end do
 
-        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
-      end if
+      pivot = huge(pivot)
+      isUniform = .true.
     end function get_pivotIntegerDim0KindINT32
 
     function sort_mergeIntegerDim0KindINT32(xs) result(xsSorted)
@@ -988,48 +928,28 @@ contains
       Integer(kind = INT64):: pivot
       Integer(kind = INT64), intent(in):: xs(:)
       Logical, intent(out):: isUniform
-      Integer(kind = INT64):: xsMin, xsMax
-      Integer(kind = INT64):: iL, iR, nXs
+      Integer(kind = INT64):: tmpX
+      Integer(kind = INT64):: iXs, nXs
+
+      isUniform = .false.
 
       nXs = size(xs, dim = 1, kind = INT64)
-      if(xs(1) <= xs(nXs))then
-        xsMin = xs(1)
-        xsMax = xs(nXs)
-      else
-        xsMin = xs(nXs)
-        xsMax = xs(1)
-      end if
-      iL = 1 + 1
-      iR = nXs - 1
-      do while(iL <= iR)
-        if(xs(iL) <= xs(iR))then
-          if(xs(iL) < xsMin) xsMin = xs(iL)
-          if(xs(iR) > xsMax) xsMax = xs(iR)
-        else if(xs(iL) > xs(iR))then
-          if(xs(iR) < xsMin) xsMin = xs(iR)
-          if(xs(iL) > xsMax) xsMax = xs(iL)
-        end if
 
-        if(xsMin < xsMax) exit
-        iL = iL + 1
-        iR = iR - 1
-      end do
-
-      isUniform = (xsMax <= xsMin)
-      if(isUniform)then
-        pivot = -huge(pivot)
+      if(xs(1) /= xs(nXs))then
+        pivot = min(xs(1), xs(nXs))
         return
       end if
 
-      if(is_infinity(xsMax))then
-        pivot = huge(xsMax)
-      elseif(is_infinity(-xsMin))then
-        pivot = -huge(xsMin)
-      else
-        pivot = (xsMin/2) + (xsMax/2)
+      tmpX = xs(1)
+      do iXs = 2, nXs - 1
+        if(xs(iXs) /= tmpX)then
+          pivot = min(xs(iXs), tmpX)
+          return
+        end if
+      end do
 
-        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
-      end if
+      pivot = huge(pivot)
+      isUniform = .true.
     end function get_pivotIntegerDim0KindINT64
 
     function sort_mergeIntegerDim0KindINT64(xs) result(xsSorted)
@@ -1198,48 +1118,28 @@ contains
       Real(kind = REAL32):: pivot
       Real(kind = REAL32), intent(in):: xs(:)
       Logical, intent(out):: isUniform
-      Real(kind = REAL32):: xsMin, xsMax
-      Integer(kind = INT64):: iL, iR, nXs
+      Real(kind = REAL32):: tmpX
+      Integer(kind = INT64):: iXs, nXs
+
+      isUniform = .false.
 
       nXs = size(xs, dim = 1, kind = INT64)
-      if(xs(1) <= xs(nXs))then
-        xsMin = xs(1)
-        xsMax = xs(nXs)
-      else
-        xsMin = xs(nXs)
-        xsMax = xs(1)
-      end if
-      iL = 1 + 1
-      iR = nXs - 1
-      do while(iL <= iR)
-        if(xs(iL) <= xs(iR))then
-          if(xs(iL) < xsMin) xsMin = xs(iL)
-          if(xs(iR) > xsMax) xsMax = xs(iR)
-        else if(xs(iL) > xs(iR))then
-          if(xs(iR) < xsMin) xsMin = xs(iR)
-          if(xs(iL) > xsMax) xsMax = xs(iL)
-        end if
 
-        if(xsMin < xsMax) exit
-        iL = iL + 1
-        iR = iR - 1
-      end do
-
-      isUniform = (xsMax <= xsMin)
-      if(isUniform)then
-        pivot = -huge(pivot)
+      if(xs(1) /= xs(nXs))then
+        pivot = min(xs(1), xs(nXs))
         return
       end if
 
-      if(is_infinity(xsMax))then
-        pivot = huge(xsMax)
-      elseif(is_infinity(-xsMin))then
-        pivot = -huge(xsMin)
-      else
-        pivot = (xsMin/2) + (xsMax/2)
+      tmpX = xs(1)
+      do iXs = 2, nXs - 1
+        if(xs(iXs) /= tmpX)then
+          pivot = min(xs(iXs), tmpX)
+          return
+        end if
+      end do
 
-        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
-      end if
+      pivot = huge(pivot)
+      isUniform = .true.
     end function get_pivotRealDim0KindREAL32
 
     function sort_mergeRealDim0KindREAL32(xs) result(xsSorted)
@@ -1408,48 +1308,28 @@ contains
       Real(kind = REAL64):: pivot
       Real(kind = REAL64), intent(in):: xs(:)
       Logical, intent(out):: isUniform
-      Real(kind = REAL64):: xsMin, xsMax
-      Integer(kind = INT64):: iL, iR, nXs
+      Real(kind = REAL64):: tmpX
+      Integer(kind = INT64):: iXs, nXs
+
+      isUniform = .false.
 
       nXs = size(xs, dim = 1, kind = INT64)
-      if(xs(1) <= xs(nXs))then
-        xsMin = xs(1)
-        xsMax = xs(nXs)
-      else
-        xsMin = xs(nXs)
-        xsMax = xs(1)
-      end if
-      iL = 1 + 1
-      iR = nXs - 1
-      do while(iL <= iR)
-        if(xs(iL) <= xs(iR))then
-          if(xs(iL) < xsMin) xsMin = xs(iL)
-          if(xs(iR) > xsMax) xsMax = xs(iR)
-        else if(xs(iL) > xs(iR))then
-          if(xs(iR) < xsMin) xsMin = xs(iR)
-          if(xs(iL) > xsMax) xsMax = xs(iL)
-        end if
 
-        if(xsMin < xsMax) exit
-        iL = iL + 1
-        iR = iR - 1
-      end do
-
-      isUniform = (xsMax <= xsMin)
-      if(isUniform)then
-        pivot = -huge(pivot)
+      if(xs(1) /= xs(nXs))then
+        pivot = min(xs(1), xs(nXs))
         return
       end if
 
-      if(is_infinity(xsMax))then
-        pivot = huge(xsMax)
-      elseif(is_infinity(-xsMin))then
-        pivot = -huge(xsMin)
-      else
-        pivot = (xsMin/2) + (xsMax/2)
+      tmpX = xs(1)
+      do iXs = 2, nXs - 1
+        if(xs(iXs) /= tmpX)then
+          pivot = min(xs(iXs), tmpX)
+          return
+        end if
+      end do
 
-        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
-      end if
+      pivot = huge(pivot)
+      isUniform = .true.
     end function get_pivotRealDim0KindREAL64
 
     function sort_mergeRealDim0KindREAL64(xs) result(xsSorted)
@@ -1618,48 +1498,28 @@ contains
       Real(kind = REAL128):: pivot
       Real(kind = REAL128), intent(in):: xs(:)
       Logical, intent(out):: isUniform
-      Real(kind = REAL128):: xsMin, xsMax
-      Integer(kind = INT64):: iL, iR, nXs
+      Real(kind = REAL128):: tmpX
+      Integer(kind = INT64):: iXs, nXs
+
+      isUniform = .false.
 
       nXs = size(xs, dim = 1, kind = INT64)
-      if(xs(1) <= xs(nXs))then
-        xsMin = xs(1)
-        xsMax = xs(nXs)
-      else
-        xsMin = xs(nXs)
-        xsMax = xs(1)
-      end if
-      iL = 1 + 1
-      iR = nXs - 1
-      do while(iL <= iR)
-        if(xs(iL) <= xs(iR))then
-          if(xs(iL) < xsMin) xsMin = xs(iL)
-          if(xs(iR) > xsMax) xsMax = xs(iR)
-        else if(xs(iL) > xs(iR))then
-          if(xs(iR) < xsMin) xsMin = xs(iR)
-          if(xs(iL) > xsMax) xsMax = xs(iL)
-        end if
 
-        if(xsMin < xsMax) exit
-        iL = iL + 1
-        iR = iR - 1
-      end do
-
-      isUniform = (xsMax <= xsMin)
-      if(isUniform)then
-        pivot = -huge(pivot)
+      if(xs(1) /= xs(nXs))then
+        pivot = min(xs(1), xs(nXs))
         return
       end if
 
-      if(is_infinity(xsMax))then
-        pivot = huge(xsMax)
-      elseif(is_infinity(-xsMin))then
-        pivot = -huge(xsMin)
-      else
-        pivot = (xsMin/2) + (xsMax/2)
+      tmpX = xs(1)
+      do iXs = 2, nXs - 1
+        if(xs(iXs) /= tmpX)then
+          pivot = min(xs(iXs), tmpX)
+          return
+        end if
+      end do
 
-        if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
-      end if
+      pivot = huge(pivot)
+      isUniform = .true.
     end function get_pivotRealDim0KindREAL128
 
     function sort_mergeRealDim0KindREAL128(xs) result(xsSorted)
