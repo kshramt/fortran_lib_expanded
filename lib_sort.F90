@@ -13,6 +13,7 @@ module lib_sort
   private
 
   public:: sort_quick, sorting_quick
+  public:: sort_merge, sorting_merge
 
     interface sort_quick
       module procedure sort_quickIntegerDim0KindINT8
@@ -25,6 +26,22 @@ module lib_sort
     interface get_pivot
       module procedure get_pivotIntegerDim0KindINT8
     end interface get_pivot
+
+    interface sort_merge
+      module procedure sort_mergeIntegerDim0KindINT8
+    end interface sort_merge
+
+    interface sorting_merge
+      module procedure sorting_mergeIntegerDim0KindINT8
+    end interface sorting_merge
+
+    interface sorting_merge_substance
+      module procedure sorting_merge_substanceIntegerDim0KindINT8
+    end interface sorting_merge_substance
+
+    interface merge_sorted_lists
+      module procedure merge_sorted_listsIntegerDim0KindINT8
+    end interface merge_sorted_lists
 
     interface sorting_3
       module procedure sorting_3IntegerDim0KindINT8
@@ -49,6 +66,22 @@ module lib_sort
       module procedure get_pivotIntegerDim0KindINT16
     end interface get_pivot
 
+    interface sort_merge
+      module procedure sort_mergeIntegerDim0KindINT16
+    end interface sort_merge
+
+    interface sorting_merge
+      module procedure sorting_mergeIntegerDim0KindINT16
+    end interface sorting_merge
+
+    interface sorting_merge_substance
+      module procedure sorting_merge_substanceIntegerDim0KindINT16
+    end interface sorting_merge_substance
+
+    interface merge_sorted_lists
+      module procedure merge_sorted_listsIntegerDim0KindINT16
+    end interface merge_sorted_lists
+
     interface sorting_3
       module procedure sorting_3IntegerDim0KindINT16
     end interface sorting_3
@@ -71,6 +104,22 @@ module lib_sort
     interface get_pivot
       module procedure get_pivotIntegerDim0KindINT32
     end interface get_pivot
+
+    interface sort_merge
+      module procedure sort_mergeIntegerDim0KindINT32
+    end interface sort_merge
+
+    interface sorting_merge
+      module procedure sorting_mergeIntegerDim0KindINT32
+    end interface sorting_merge
+
+    interface sorting_merge_substance
+      module procedure sorting_merge_substanceIntegerDim0KindINT32
+    end interface sorting_merge_substance
+
+    interface merge_sorted_lists
+      module procedure merge_sorted_listsIntegerDim0KindINT32
+    end interface merge_sorted_lists
 
     interface sorting_3
       module procedure sorting_3IntegerDim0KindINT32
@@ -95,6 +144,22 @@ module lib_sort
       module procedure get_pivotIntegerDim0KindINT64
     end interface get_pivot
 
+    interface sort_merge
+      module procedure sort_mergeIntegerDim0KindINT64
+    end interface sort_merge
+
+    interface sorting_merge
+      module procedure sorting_mergeIntegerDim0KindINT64
+    end interface sorting_merge
+
+    interface sorting_merge_substance
+      module procedure sorting_merge_substanceIntegerDim0KindINT64
+    end interface sorting_merge_substance
+
+    interface merge_sorted_lists
+      module procedure merge_sorted_listsIntegerDim0KindINT64
+    end interface merge_sorted_lists
+
     interface sorting_3
       module procedure sorting_3IntegerDim0KindINT64
     end interface sorting_3
@@ -117,6 +182,22 @@ module lib_sort
     interface get_pivot
       module procedure get_pivotRealDim0KindREAL32
     end interface get_pivot
+
+    interface sort_merge
+      module procedure sort_mergeRealDim0KindREAL32
+    end interface sort_merge
+
+    interface sorting_merge
+      module procedure sorting_mergeRealDim0KindREAL32
+    end interface sorting_merge
+
+    interface sorting_merge_substance
+      module procedure sorting_merge_substanceRealDim0KindREAL32
+    end interface sorting_merge_substance
+
+    interface merge_sorted_lists
+      module procedure merge_sorted_listsRealDim0KindREAL32
+    end interface merge_sorted_lists
 
     interface sorting_3
       module procedure sorting_3RealDim0KindREAL32
@@ -141,6 +222,22 @@ module lib_sort
       module procedure get_pivotRealDim0KindREAL64
     end interface get_pivot
 
+    interface sort_merge
+      module procedure sort_mergeRealDim0KindREAL64
+    end interface sort_merge
+
+    interface sorting_merge
+      module procedure sorting_mergeRealDim0KindREAL64
+    end interface sorting_merge
+
+    interface sorting_merge_substance
+      module procedure sorting_merge_substanceRealDim0KindREAL64
+    end interface sorting_merge_substance
+
+    interface merge_sorted_lists
+      module procedure merge_sorted_listsRealDim0KindREAL64
+    end interface merge_sorted_lists
+
     interface sorting_3
       module procedure sorting_3RealDim0KindREAL64
     end interface sorting_3
@@ -163,6 +260,22 @@ module lib_sort
     interface get_pivot
       module procedure get_pivotRealDim0KindREAL128
     end interface get_pivot
+
+    interface sort_merge
+      module procedure sort_mergeRealDim0KindREAL128
+    end interface sort_merge
+
+    interface sorting_merge
+      module procedure sorting_mergeRealDim0KindREAL128
+    end interface sorting_merge
+
+    interface sorting_merge_substance
+      module procedure sorting_merge_substanceRealDim0KindREAL128
+    end interface sorting_merge_substance
+
+    interface merge_sorted_lists
+      module procedure merge_sorted_listsRealDim0KindREAL128
+    end interface merge_sorted_lists
 
     interface sorting_3
       module procedure sorting_3RealDim0KindREAL128
@@ -288,6 +401,80 @@ contains
         if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
     end function get_pivotIntegerDim0KindINT8
+
+    function sort_mergeIntegerDim0KindINT8(xs) result(xsSorted)
+      Integer(kind = INT8), intent(in):: xs(:)
+      Integer(kind = INT8), allocatable:: xsSorted(:)
+
+      xsSorted = xs
+      call sorting_mergeIntegerDim0KindINT8(xsSorted)
+    end function sort_mergeIntegerDim0KindINT8
+
+    subroutine sorting_mergeIntegerDim0KindINT8(xs)
+      Integer(kind = INT8), intent(inout):: xs(:)
+
+      raise_if(any(is_nan(xs)))
+      call sorting_merge_substanceIntegerDim0KindINT8(xs)
+    end subroutine sorting_mergeIntegerDim0KindINT8
+
+    recursive subroutine sorting_merge_substanceIntegerDim0KindINT8(xs)
+      Integer(kind = INT8), intent(inout):: xs(:)
+      Integer(kind = INT8), allocatable:: xsL(:), xsR(:)
+      Integer(kind = INT64):: nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      select case(nXs)
+      case(:1)
+        ! Nothing to do.
+      case(2)
+        call sorting_2(xs)
+      case(3)
+        call sorting_3(xs)
+      case default
+        xsL = xs(1:nXs/2)
+        xsR = xs((nXs/2 + 1):nXs)
+        call sorting_merge_substance(xsL)
+        call sorting_merge_substance(xsR)
+        call merge_sorted_lists(xsL, xsR, xs)
+      end select
+    end subroutine sorting_merge_substanceIntegerDim0KindINT8
+
+    ! Merge sorted 1-D array xs and ys into zs.
+    subroutine merge_sorted_listsIntegerDim0KindINT8(xs, ys, zs)
+      Integer(kind = INT8), intent(in):: xs(:), ys(:)
+      Integer(kind = INT8), intent(out):: zs(:)
+      Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      nYs = size(ys, dim = 1, kind = INT64)
+      nZs = size(zs, dim = 1, kind = INT64)
+      debug_assert(nXs >= 1)
+      debug_assert(nYs >= 1)
+      debug_assert(nZs >= 1)
+      debug_assert(nXs + nYs == nZs)
+
+      iXs = 1
+      iYs = 1
+      iZs = 1
+      do while(iXs <= nXs .and. iYs <= nYs)
+        debug_assert(iZs <= nZs)
+
+        if(xs(iXs) <= ys(iYs))then
+          zs(iZs) = xs(iXs)
+          iXs = iXs + 1
+        else
+          zs(iZs) = ys(iYs)
+          iYs = iYs + 1
+        end if
+        iZs = iZs + 1
+      end do
+
+      if(iXs <= nXs)then
+        zs(iZs:nZs) = xs(iXs:nXs)
+      else
+        zs(iZs:nZs) = ys(iYs:nYs)
+      end if
+    end subroutine merge_sorted_listsIntegerDim0KindINT8
 
     pure subroutine sorting_3IntegerDim0KindINT8(xs)
       Integer(kind = INT8), intent(inout):: xs(1:3)
@@ -425,6 +612,80 @@ contains
       end if
     end function get_pivotIntegerDim0KindINT16
 
+    function sort_mergeIntegerDim0KindINT16(xs) result(xsSorted)
+      Integer(kind = INT16), intent(in):: xs(:)
+      Integer(kind = INT16), allocatable:: xsSorted(:)
+
+      xsSorted = xs
+      call sorting_mergeIntegerDim0KindINT16(xsSorted)
+    end function sort_mergeIntegerDim0KindINT16
+
+    subroutine sorting_mergeIntegerDim0KindINT16(xs)
+      Integer(kind = INT16), intent(inout):: xs(:)
+
+      raise_if(any(is_nan(xs)))
+      call sorting_merge_substanceIntegerDim0KindINT16(xs)
+    end subroutine sorting_mergeIntegerDim0KindINT16
+
+    recursive subroutine sorting_merge_substanceIntegerDim0KindINT16(xs)
+      Integer(kind = INT16), intent(inout):: xs(:)
+      Integer(kind = INT16), allocatable:: xsL(:), xsR(:)
+      Integer(kind = INT64):: nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      select case(nXs)
+      case(:1)
+        ! Nothing to do.
+      case(2)
+        call sorting_2(xs)
+      case(3)
+        call sorting_3(xs)
+      case default
+        xsL = xs(1:nXs/2)
+        xsR = xs((nXs/2 + 1):nXs)
+        call sorting_merge_substance(xsL)
+        call sorting_merge_substance(xsR)
+        call merge_sorted_lists(xsL, xsR, xs)
+      end select
+    end subroutine sorting_merge_substanceIntegerDim0KindINT16
+
+    ! Merge sorted 1-D array xs and ys into zs.
+    subroutine merge_sorted_listsIntegerDim0KindINT16(xs, ys, zs)
+      Integer(kind = INT16), intent(in):: xs(:), ys(:)
+      Integer(kind = INT16), intent(out):: zs(:)
+      Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      nYs = size(ys, dim = 1, kind = INT64)
+      nZs = size(zs, dim = 1, kind = INT64)
+      debug_assert(nXs >= 1)
+      debug_assert(nYs >= 1)
+      debug_assert(nZs >= 1)
+      debug_assert(nXs + nYs == nZs)
+
+      iXs = 1
+      iYs = 1
+      iZs = 1
+      do while(iXs <= nXs .and. iYs <= nYs)
+        debug_assert(iZs <= nZs)
+
+        if(xs(iXs) <= ys(iYs))then
+          zs(iZs) = xs(iXs)
+          iXs = iXs + 1
+        else
+          zs(iZs) = ys(iYs)
+          iYs = iYs + 1
+        end if
+        iZs = iZs + 1
+      end do
+
+      if(iXs <= nXs)then
+        zs(iZs:nZs) = xs(iXs:nXs)
+      else
+        zs(iZs:nZs) = ys(iYs:nYs)
+      end if
+    end subroutine merge_sorted_listsIntegerDim0KindINT16
+
     pure subroutine sorting_3IntegerDim0KindINT16(xs)
       Integer(kind = INT16), intent(inout):: xs(1:3)
 
@@ -560,6 +821,80 @@ contains
         if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
     end function get_pivotIntegerDim0KindINT32
+
+    function sort_mergeIntegerDim0KindINT32(xs) result(xsSorted)
+      Integer(kind = INT32), intent(in):: xs(:)
+      Integer(kind = INT32), allocatable:: xsSorted(:)
+
+      xsSorted = xs
+      call sorting_mergeIntegerDim0KindINT32(xsSorted)
+    end function sort_mergeIntegerDim0KindINT32
+
+    subroutine sorting_mergeIntegerDim0KindINT32(xs)
+      Integer(kind = INT32), intent(inout):: xs(:)
+
+      raise_if(any(is_nan(xs)))
+      call sorting_merge_substanceIntegerDim0KindINT32(xs)
+    end subroutine sorting_mergeIntegerDim0KindINT32
+
+    recursive subroutine sorting_merge_substanceIntegerDim0KindINT32(xs)
+      Integer(kind = INT32), intent(inout):: xs(:)
+      Integer(kind = INT32), allocatable:: xsL(:), xsR(:)
+      Integer(kind = INT64):: nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      select case(nXs)
+      case(:1)
+        ! Nothing to do.
+      case(2)
+        call sorting_2(xs)
+      case(3)
+        call sorting_3(xs)
+      case default
+        xsL = xs(1:nXs/2)
+        xsR = xs((nXs/2 + 1):nXs)
+        call sorting_merge_substance(xsL)
+        call sorting_merge_substance(xsR)
+        call merge_sorted_lists(xsL, xsR, xs)
+      end select
+    end subroutine sorting_merge_substanceIntegerDim0KindINT32
+
+    ! Merge sorted 1-D array xs and ys into zs.
+    subroutine merge_sorted_listsIntegerDim0KindINT32(xs, ys, zs)
+      Integer(kind = INT32), intent(in):: xs(:), ys(:)
+      Integer(kind = INT32), intent(out):: zs(:)
+      Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      nYs = size(ys, dim = 1, kind = INT64)
+      nZs = size(zs, dim = 1, kind = INT64)
+      debug_assert(nXs >= 1)
+      debug_assert(nYs >= 1)
+      debug_assert(nZs >= 1)
+      debug_assert(nXs + nYs == nZs)
+
+      iXs = 1
+      iYs = 1
+      iZs = 1
+      do while(iXs <= nXs .and. iYs <= nYs)
+        debug_assert(iZs <= nZs)
+
+        if(xs(iXs) <= ys(iYs))then
+          zs(iZs) = xs(iXs)
+          iXs = iXs + 1
+        else
+          zs(iZs) = ys(iYs)
+          iYs = iYs + 1
+        end if
+        iZs = iZs + 1
+      end do
+
+      if(iXs <= nXs)then
+        zs(iZs:nZs) = xs(iXs:nXs)
+      else
+        zs(iZs:nZs) = ys(iYs:nYs)
+      end if
+    end subroutine merge_sorted_listsIntegerDim0KindINT32
 
     pure subroutine sorting_3IntegerDim0KindINT32(xs)
       Integer(kind = INT32), intent(inout):: xs(1:3)
@@ -697,6 +1032,80 @@ contains
       end if
     end function get_pivotIntegerDim0KindINT64
 
+    function sort_mergeIntegerDim0KindINT64(xs) result(xsSorted)
+      Integer(kind = INT64), intent(in):: xs(:)
+      Integer(kind = INT64), allocatable:: xsSorted(:)
+
+      xsSorted = xs
+      call sorting_mergeIntegerDim0KindINT64(xsSorted)
+    end function sort_mergeIntegerDim0KindINT64
+
+    subroutine sorting_mergeIntegerDim0KindINT64(xs)
+      Integer(kind = INT64), intent(inout):: xs(:)
+
+      raise_if(any(is_nan(xs)))
+      call sorting_merge_substanceIntegerDim0KindINT64(xs)
+    end subroutine sorting_mergeIntegerDim0KindINT64
+
+    recursive subroutine sorting_merge_substanceIntegerDim0KindINT64(xs)
+      Integer(kind = INT64), intent(inout):: xs(:)
+      Integer(kind = INT64), allocatable:: xsL(:), xsR(:)
+      Integer(kind = INT64):: nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      select case(nXs)
+      case(:1)
+        ! Nothing to do.
+      case(2)
+        call sorting_2(xs)
+      case(3)
+        call sorting_3(xs)
+      case default
+        xsL = xs(1:nXs/2)
+        xsR = xs((nXs/2 + 1):nXs)
+        call sorting_merge_substance(xsL)
+        call sorting_merge_substance(xsR)
+        call merge_sorted_lists(xsL, xsR, xs)
+      end select
+    end subroutine sorting_merge_substanceIntegerDim0KindINT64
+
+    ! Merge sorted 1-D array xs and ys into zs.
+    subroutine merge_sorted_listsIntegerDim0KindINT64(xs, ys, zs)
+      Integer(kind = INT64), intent(in):: xs(:), ys(:)
+      Integer(kind = INT64), intent(out):: zs(:)
+      Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      nYs = size(ys, dim = 1, kind = INT64)
+      nZs = size(zs, dim = 1, kind = INT64)
+      debug_assert(nXs >= 1)
+      debug_assert(nYs >= 1)
+      debug_assert(nZs >= 1)
+      debug_assert(nXs + nYs == nZs)
+
+      iXs = 1
+      iYs = 1
+      iZs = 1
+      do while(iXs <= nXs .and. iYs <= nYs)
+        debug_assert(iZs <= nZs)
+
+        if(xs(iXs) <= ys(iYs))then
+          zs(iZs) = xs(iXs)
+          iXs = iXs + 1
+        else
+          zs(iZs) = ys(iYs)
+          iYs = iYs + 1
+        end if
+        iZs = iZs + 1
+      end do
+
+      if(iXs <= nXs)then
+        zs(iZs:nZs) = xs(iXs:nXs)
+      else
+        zs(iZs:nZs) = ys(iYs:nYs)
+      end if
+    end subroutine merge_sorted_listsIntegerDim0KindINT64
+
     pure subroutine sorting_3IntegerDim0KindINT64(xs)
       Integer(kind = INT64), intent(inout):: xs(1:3)
 
@@ -832,6 +1241,80 @@ contains
         if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
     end function get_pivotRealDim0KindREAL32
+
+    function sort_mergeRealDim0KindREAL32(xs) result(xsSorted)
+      Real(kind = REAL32), intent(in):: xs(:)
+      Real(kind = REAL32), allocatable:: xsSorted(:)
+
+      xsSorted = xs
+      call sorting_mergeRealDim0KindREAL32(xsSorted)
+    end function sort_mergeRealDim0KindREAL32
+
+    subroutine sorting_mergeRealDim0KindREAL32(xs)
+      Real(kind = REAL32), intent(inout):: xs(:)
+
+      raise_if(any(is_nan(xs)))
+      call sorting_merge_substanceRealDim0KindREAL32(xs)
+    end subroutine sorting_mergeRealDim0KindREAL32
+
+    recursive subroutine sorting_merge_substanceRealDim0KindREAL32(xs)
+      Real(kind = REAL32), intent(inout):: xs(:)
+      Real(kind = REAL32), allocatable:: xsL(:), xsR(:)
+      Integer(kind = INT64):: nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      select case(nXs)
+      case(:1)
+        ! Nothing to do.
+      case(2)
+        call sorting_2(xs)
+      case(3)
+        call sorting_3(xs)
+      case default
+        xsL = xs(1:nXs/2)
+        xsR = xs((nXs/2 + 1):nXs)
+        call sorting_merge_substance(xsL)
+        call sorting_merge_substance(xsR)
+        call merge_sorted_lists(xsL, xsR, xs)
+      end select
+    end subroutine sorting_merge_substanceRealDim0KindREAL32
+
+    ! Merge sorted 1-D array xs and ys into zs.
+    subroutine merge_sorted_listsRealDim0KindREAL32(xs, ys, zs)
+      Real(kind = REAL32), intent(in):: xs(:), ys(:)
+      Real(kind = REAL32), intent(out):: zs(:)
+      Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      nYs = size(ys, dim = 1, kind = INT64)
+      nZs = size(zs, dim = 1, kind = INT64)
+      debug_assert(nXs >= 1)
+      debug_assert(nYs >= 1)
+      debug_assert(nZs >= 1)
+      debug_assert(nXs + nYs == nZs)
+
+      iXs = 1
+      iYs = 1
+      iZs = 1
+      do while(iXs <= nXs .and. iYs <= nYs)
+        debug_assert(iZs <= nZs)
+
+        if(xs(iXs) <= ys(iYs))then
+          zs(iZs) = xs(iXs)
+          iXs = iXs + 1
+        else
+          zs(iZs) = ys(iYs)
+          iYs = iYs + 1
+        end if
+        iZs = iZs + 1
+      end do
+
+      if(iXs <= nXs)then
+        zs(iZs:nZs) = xs(iXs:nXs)
+      else
+        zs(iZs:nZs) = ys(iYs:nYs)
+      end if
+    end subroutine merge_sorted_listsRealDim0KindREAL32
 
     pure subroutine sorting_3RealDim0KindREAL32(xs)
       Real(kind = REAL32), intent(inout):: xs(1:3)
@@ -969,6 +1452,80 @@ contains
       end if
     end function get_pivotRealDim0KindREAL64
 
+    function sort_mergeRealDim0KindREAL64(xs) result(xsSorted)
+      Real(kind = REAL64), intent(in):: xs(:)
+      Real(kind = REAL64), allocatable:: xsSorted(:)
+
+      xsSorted = xs
+      call sorting_mergeRealDim0KindREAL64(xsSorted)
+    end function sort_mergeRealDim0KindREAL64
+
+    subroutine sorting_mergeRealDim0KindREAL64(xs)
+      Real(kind = REAL64), intent(inout):: xs(:)
+
+      raise_if(any(is_nan(xs)))
+      call sorting_merge_substanceRealDim0KindREAL64(xs)
+    end subroutine sorting_mergeRealDim0KindREAL64
+
+    recursive subroutine sorting_merge_substanceRealDim0KindREAL64(xs)
+      Real(kind = REAL64), intent(inout):: xs(:)
+      Real(kind = REAL64), allocatable:: xsL(:), xsR(:)
+      Integer(kind = INT64):: nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      select case(nXs)
+      case(:1)
+        ! Nothing to do.
+      case(2)
+        call sorting_2(xs)
+      case(3)
+        call sorting_3(xs)
+      case default
+        xsL = xs(1:nXs/2)
+        xsR = xs((nXs/2 + 1):nXs)
+        call sorting_merge_substance(xsL)
+        call sorting_merge_substance(xsR)
+        call merge_sorted_lists(xsL, xsR, xs)
+      end select
+    end subroutine sorting_merge_substanceRealDim0KindREAL64
+
+    ! Merge sorted 1-D array xs and ys into zs.
+    subroutine merge_sorted_listsRealDim0KindREAL64(xs, ys, zs)
+      Real(kind = REAL64), intent(in):: xs(:), ys(:)
+      Real(kind = REAL64), intent(out):: zs(:)
+      Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      nYs = size(ys, dim = 1, kind = INT64)
+      nZs = size(zs, dim = 1, kind = INT64)
+      debug_assert(nXs >= 1)
+      debug_assert(nYs >= 1)
+      debug_assert(nZs >= 1)
+      debug_assert(nXs + nYs == nZs)
+
+      iXs = 1
+      iYs = 1
+      iZs = 1
+      do while(iXs <= nXs .and. iYs <= nYs)
+        debug_assert(iZs <= nZs)
+
+        if(xs(iXs) <= ys(iYs))then
+          zs(iZs) = xs(iXs)
+          iXs = iXs + 1
+        else
+          zs(iZs) = ys(iYs)
+          iYs = iYs + 1
+        end if
+        iZs = iZs + 1
+      end do
+
+      if(iXs <= nXs)then
+        zs(iZs:nZs) = xs(iXs:nXs)
+      else
+        zs(iZs:nZs) = ys(iYs:nYs)
+      end if
+    end subroutine merge_sorted_listsRealDim0KindREAL64
+
     pure subroutine sorting_3RealDim0KindREAL64(xs)
       Real(kind = REAL64), intent(inout):: xs(1:3)
 
@@ -1104,6 +1661,80 @@ contains
         if(pivot >= xsMax .or. pivot < xsMin) pivot = xsMin ! I'm not sure whether the second condition could be true.
       end if
     end function get_pivotRealDim0KindREAL128
+
+    function sort_mergeRealDim0KindREAL128(xs) result(xsSorted)
+      Real(kind = REAL128), intent(in):: xs(:)
+      Real(kind = REAL128), allocatable:: xsSorted(:)
+
+      xsSorted = xs
+      call sorting_mergeRealDim0KindREAL128(xsSorted)
+    end function sort_mergeRealDim0KindREAL128
+
+    subroutine sorting_mergeRealDim0KindREAL128(xs)
+      Real(kind = REAL128), intent(inout):: xs(:)
+
+      raise_if(any(is_nan(xs)))
+      call sorting_merge_substanceRealDim0KindREAL128(xs)
+    end subroutine sorting_mergeRealDim0KindREAL128
+
+    recursive subroutine sorting_merge_substanceRealDim0KindREAL128(xs)
+      Real(kind = REAL128), intent(inout):: xs(:)
+      Real(kind = REAL128), allocatable:: xsL(:), xsR(:)
+      Integer(kind = INT64):: nXs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      select case(nXs)
+      case(:1)
+        ! Nothing to do.
+      case(2)
+        call sorting_2(xs)
+      case(3)
+        call sorting_3(xs)
+      case default
+        xsL = xs(1:nXs/2)
+        xsR = xs((nXs/2 + 1):nXs)
+        call sorting_merge_substance(xsL)
+        call sorting_merge_substance(xsR)
+        call merge_sorted_lists(xsL, xsR, xs)
+      end select
+    end subroutine sorting_merge_substanceRealDim0KindREAL128
+
+    ! Merge sorted 1-D array xs and ys into zs.
+    subroutine merge_sorted_listsRealDim0KindREAL128(xs, ys, zs)
+      Real(kind = REAL128), intent(in):: xs(:), ys(:)
+      Real(kind = REAL128), intent(out):: zs(:)
+      Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
+
+      nXs = size(xs, dim = 1, kind = INT64)
+      nYs = size(ys, dim = 1, kind = INT64)
+      nZs = size(zs, dim = 1, kind = INT64)
+      debug_assert(nXs >= 1)
+      debug_assert(nYs >= 1)
+      debug_assert(nZs >= 1)
+      debug_assert(nXs + nYs == nZs)
+
+      iXs = 1
+      iYs = 1
+      iZs = 1
+      do while(iXs <= nXs .and. iYs <= nYs)
+        debug_assert(iZs <= nZs)
+
+        if(xs(iXs) <= ys(iYs))then
+          zs(iZs) = xs(iXs)
+          iXs = iXs + 1
+        else
+          zs(iZs) = ys(iYs)
+          iYs = iYs + 1
+        end if
+        iZs = iZs + 1
+      end do
+
+      if(iXs <= nXs)then
+        zs(iZs:nZs) = xs(iXs:nXs)
+      else
+        zs(iZs:nZs) = ys(iYs:nYs)
+      end if
+    end subroutine merge_sorted_listsRealDim0KindREAL128
 
     pure subroutine sorting_3RealDim0KindREAL128(xs)
       Real(kind = REAL128), intent(inout):: xs(1:3)
