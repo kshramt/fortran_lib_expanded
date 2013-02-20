@@ -12,32 +12,32 @@ module lib_sort
 
   private
 
-  public:: sort_quick, sorting_quick
-  public:: sort_merge, sorting_merge
+  public:: quick_sort, quick_sorting
+  public:: merge_sort, merge_sorting
 
-    interface sort_quick
-      module procedure sort_quickIntegerDim0KindINT8
-    end interface sort_quick
+    interface quick_sort
+      module procedure quick_sortIntegerDim0KindINT8
+    end interface quick_sort
 
-    interface sorting_quick
-      module procedure sorting_quickIntegerDim0KindINT8
-    end interface sorting_quick
+    interface quick_sorting
+      module procedure quick_sortingIntegerDim0KindINT8
+    end interface quick_sorting
 
     interface get_pivot
       module procedure get_pivotIntegerDim0KindINT8
     end interface get_pivot
 
-    interface sort_merge
-      module procedure sort_mergeIntegerDim0KindINT8
-    end interface sort_merge
+    interface merge_sort
+      module procedure merge_sortIntegerDim0KindINT8
+    end interface merge_sort
 
-    interface sorting_merge
-      module procedure sorting_mergeIntegerDim0KindINT8
-    end interface sorting_merge
+    interface merge_sorting
+      module procedure merge_sortingIntegerDim0KindINT8
+    end interface merge_sorting
 
-    interface sorting_merge_substance
-      module procedure sorting_merge_substanceIntegerDim0KindINT8
-    end interface sorting_merge_substance
+    interface merge_sorting_substance
+      module procedure merge_sorting_substanceIntegerDim0KindINT8
+    end interface merge_sorting_substance
 
     interface merge_sorted_lists
       module procedure merge_sorted_listsIntegerDim0KindINT8
@@ -54,29 +54,29 @@ module lib_sort
     interface swapping
       module procedure swappingIntegerDim0KindINT8
     end interface swapping
-    interface sort_quick
-      module procedure sort_quickIntegerDim0KindINT16
-    end interface sort_quick
+    interface quick_sort
+      module procedure quick_sortIntegerDim0KindINT16
+    end interface quick_sort
 
-    interface sorting_quick
-      module procedure sorting_quickIntegerDim0KindINT16
-    end interface sorting_quick
+    interface quick_sorting
+      module procedure quick_sortingIntegerDim0KindINT16
+    end interface quick_sorting
 
     interface get_pivot
       module procedure get_pivotIntegerDim0KindINT16
     end interface get_pivot
 
-    interface sort_merge
-      module procedure sort_mergeIntegerDim0KindINT16
-    end interface sort_merge
+    interface merge_sort
+      module procedure merge_sortIntegerDim0KindINT16
+    end interface merge_sort
 
-    interface sorting_merge
-      module procedure sorting_mergeIntegerDim0KindINT16
-    end interface sorting_merge
+    interface merge_sorting
+      module procedure merge_sortingIntegerDim0KindINT16
+    end interface merge_sorting
 
-    interface sorting_merge_substance
-      module procedure sorting_merge_substanceIntegerDim0KindINT16
-    end interface sorting_merge_substance
+    interface merge_sorting_substance
+      module procedure merge_sorting_substanceIntegerDim0KindINT16
+    end interface merge_sorting_substance
 
     interface merge_sorted_lists
       module procedure merge_sorted_listsIntegerDim0KindINT16
@@ -93,29 +93,29 @@ module lib_sort
     interface swapping
       module procedure swappingIntegerDim0KindINT16
     end interface swapping
-    interface sort_quick
-      module procedure sort_quickIntegerDim0KindINT32
-    end interface sort_quick
+    interface quick_sort
+      module procedure quick_sortIntegerDim0KindINT32
+    end interface quick_sort
 
-    interface sorting_quick
-      module procedure sorting_quickIntegerDim0KindINT32
-    end interface sorting_quick
+    interface quick_sorting
+      module procedure quick_sortingIntegerDim0KindINT32
+    end interface quick_sorting
 
     interface get_pivot
       module procedure get_pivotIntegerDim0KindINT32
     end interface get_pivot
 
-    interface sort_merge
-      module procedure sort_mergeIntegerDim0KindINT32
-    end interface sort_merge
+    interface merge_sort
+      module procedure merge_sortIntegerDim0KindINT32
+    end interface merge_sort
 
-    interface sorting_merge
-      module procedure sorting_mergeIntegerDim0KindINT32
-    end interface sorting_merge
+    interface merge_sorting
+      module procedure merge_sortingIntegerDim0KindINT32
+    end interface merge_sorting
 
-    interface sorting_merge_substance
-      module procedure sorting_merge_substanceIntegerDim0KindINT32
-    end interface sorting_merge_substance
+    interface merge_sorting_substance
+      module procedure merge_sorting_substanceIntegerDim0KindINT32
+    end interface merge_sorting_substance
 
     interface merge_sorted_lists
       module procedure merge_sorted_listsIntegerDim0KindINT32
@@ -132,29 +132,29 @@ module lib_sort
     interface swapping
       module procedure swappingIntegerDim0KindINT32
     end interface swapping
-    interface sort_quick
-      module procedure sort_quickIntegerDim0KindINT64
-    end interface sort_quick
+    interface quick_sort
+      module procedure quick_sortIntegerDim0KindINT64
+    end interface quick_sort
 
-    interface sorting_quick
-      module procedure sorting_quickIntegerDim0KindINT64
-    end interface sorting_quick
+    interface quick_sorting
+      module procedure quick_sortingIntegerDim0KindINT64
+    end interface quick_sorting
 
     interface get_pivot
       module procedure get_pivotIntegerDim0KindINT64
     end interface get_pivot
 
-    interface sort_merge
-      module procedure sort_mergeIntegerDim0KindINT64
-    end interface sort_merge
+    interface merge_sort
+      module procedure merge_sortIntegerDim0KindINT64
+    end interface merge_sort
 
-    interface sorting_merge
-      module procedure sorting_mergeIntegerDim0KindINT64
-    end interface sorting_merge
+    interface merge_sorting
+      module procedure merge_sortingIntegerDim0KindINT64
+    end interface merge_sorting
 
-    interface sorting_merge_substance
-      module procedure sorting_merge_substanceIntegerDim0KindINT64
-    end interface sorting_merge_substance
+    interface merge_sorting_substance
+      module procedure merge_sorting_substanceIntegerDim0KindINT64
+    end interface merge_sorting_substance
 
     interface merge_sorted_lists
       module procedure merge_sorted_listsIntegerDim0KindINT64
@@ -171,29 +171,29 @@ module lib_sort
     interface swapping
       module procedure swappingIntegerDim0KindINT64
     end interface swapping
-    interface sort_quick
-      module procedure sort_quickRealDim0KindREAL32
-    end interface sort_quick
+    interface quick_sort
+      module procedure quick_sortRealDim0KindREAL32
+    end interface quick_sort
 
-    interface sorting_quick
-      module procedure sorting_quickRealDim0KindREAL32
-    end interface sorting_quick
+    interface quick_sorting
+      module procedure quick_sortingRealDim0KindREAL32
+    end interface quick_sorting
 
     interface get_pivot
       module procedure get_pivotRealDim0KindREAL32
     end interface get_pivot
 
-    interface sort_merge
-      module procedure sort_mergeRealDim0KindREAL32
-    end interface sort_merge
+    interface merge_sort
+      module procedure merge_sortRealDim0KindREAL32
+    end interface merge_sort
 
-    interface sorting_merge
-      module procedure sorting_mergeRealDim0KindREAL32
-    end interface sorting_merge
+    interface merge_sorting
+      module procedure merge_sortingRealDim0KindREAL32
+    end interface merge_sorting
 
-    interface sorting_merge_substance
-      module procedure sorting_merge_substanceRealDim0KindREAL32
-    end interface sorting_merge_substance
+    interface merge_sorting_substance
+      module procedure merge_sorting_substanceRealDim0KindREAL32
+    end interface merge_sorting_substance
 
     interface merge_sorted_lists
       module procedure merge_sorted_listsRealDim0KindREAL32
@@ -210,29 +210,29 @@ module lib_sort
     interface swapping
       module procedure swappingRealDim0KindREAL32
     end interface swapping
-    interface sort_quick
-      module procedure sort_quickRealDim0KindREAL64
-    end interface sort_quick
+    interface quick_sort
+      module procedure quick_sortRealDim0KindREAL64
+    end interface quick_sort
 
-    interface sorting_quick
-      module procedure sorting_quickRealDim0KindREAL64
-    end interface sorting_quick
+    interface quick_sorting
+      module procedure quick_sortingRealDim0KindREAL64
+    end interface quick_sorting
 
     interface get_pivot
       module procedure get_pivotRealDim0KindREAL64
     end interface get_pivot
 
-    interface sort_merge
-      module procedure sort_mergeRealDim0KindREAL64
-    end interface sort_merge
+    interface merge_sort
+      module procedure merge_sortRealDim0KindREAL64
+    end interface merge_sort
 
-    interface sorting_merge
-      module procedure sorting_mergeRealDim0KindREAL64
-    end interface sorting_merge
+    interface merge_sorting
+      module procedure merge_sortingRealDim0KindREAL64
+    end interface merge_sorting
 
-    interface sorting_merge_substance
-      module procedure sorting_merge_substanceRealDim0KindREAL64
-    end interface sorting_merge_substance
+    interface merge_sorting_substance
+      module procedure merge_sorting_substanceRealDim0KindREAL64
+    end interface merge_sorting_substance
 
     interface merge_sorted_lists
       module procedure merge_sorted_listsRealDim0KindREAL64
@@ -249,29 +249,29 @@ module lib_sort
     interface swapping
       module procedure swappingRealDim0KindREAL64
     end interface swapping
-    interface sort_quick
-      module procedure sort_quickRealDim0KindREAL128
-    end interface sort_quick
+    interface quick_sort
+      module procedure quick_sortRealDim0KindREAL128
+    end interface quick_sort
 
-    interface sorting_quick
-      module procedure sorting_quickRealDim0KindREAL128
-    end interface sorting_quick
+    interface quick_sorting
+      module procedure quick_sortingRealDim0KindREAL128
+    end interface quick_sorting
 
     interface get_pivot
       module procedure get_pivotRealDim0KindREAL128
     end interface get_pivot
 
-    interface sort_merge
-      module procedure sort_mergeRealDim0KindREAL128
-    end interface sort_merge
+    interface merge_sort
+      module procedure merge_sortRealDim0KindREAL128
+    end interface merge_sort
 
-    interface sorting_merge
-      module procedure sorting_mergeRealDim0KindREAL128
-    end interface sorting_merge
+    interface merge_sorting
+      module procedure merge_sortingRealDim0KindREAL128
+    end interface merge_sorting
 
-    interface sorting_merge_substance
-      module procedure sorting_merge_substanceRealDim0KindREAL128
-    end interface sorting_merge_substance
+    interface merge_sorting_substance
+      module procedure merge_sorting_substanceRealDim0KindREAL128
+    end interface merge_sorting_substance
 
     interface merge_sorted_lists
       module procedure merge_sorted_listsRealDim0KindREAL128
@@ -291,28 +291,28 @@ module lib_sort
 
 contains
 
-    function sort_quickIntegerDim0KindINT8(xs) result(xsSorted)
+    function quick_sortIntegerDim0KindINT8(xs) result(xsSorted)
       Integer(kind = INT8), allocatable:: xsSorted(:)
       Integer(kind = INT8), intent(in):: xs(:)
 
       xsSorted = xs
-      call sorting_quick(xsSorted)
-    end function sort_quickIntegerDim0KindINT8
+      call quick_sorting(xsSorted)
+    end function quick_sortIntegerDim0KindINT8
 
-    subroutine sorting_quickIntegerDim0KindINT8(xs)
+    subroutine quick_sortingIntegerDim0KindINT8(xs)
       Integer(kind = INT8), intent(inout):: xs(:)
       Integer(kind = INT8):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
 
-      raise_if(any(is_nan(xs)))
+      RAISE_IF(any(is_nan(xs)))
 
       call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = INT64))
+      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
 
       do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        assert(pop(iLs, iL))
+        ASSERT(pop(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -348,11 +348,11 @@ contains
               call swapping(xs(iL), xs(iR))
             end do loop_to_swap
           case default
-            raise('Must not happen.')
+            RAISE('Must not happen.')
           end select
         end do
       end do
-    end subroutine sorting_quickIntegerDim0KindINT8
+    end subroutine quick_sortingIntegerDim0KindINT8
 
     function get_pivotIntegerDim0KindINT8(xs, isUniform) result(pivot)
       Integer(kind = INT8):: pivot
@@ -363,7 +363,7 @@ contains
 
       isUniform = .false.
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
 
       if(xs(1) /= xs(nXs))then
         pivot = min(xs(1), xs(nXs))
@@ -382,27 +382,27 @@ contains
       isUniform = .true.
     end function get_pivotIntegerDim0KindINT8
 
-    function sort_mergeIntegerDim0KindINT8(xs) result(xsSorted)
+    function merge_sortIntegerDim0KindINT8(xs) result(xsSorted)
       Integer(kind = INT8), intent(in):: xs(:)
       Integer(kind = INT8), allocatable:: xsSorted(:)
 
       xsSorted = xs
-      call sorting_mergeIntegerDim0KindINT8(xsSorted)
-    end function sort_mergeIntegerDim0KindINT8
+      call merge_sortingIntegerDim0KindINT8(xsSorted)
+    end function merge_sortIntegerDim0KindINT8
 
-    subroutine sorting_mergeIntegerDim0KindINT8(xs)
+    subroutine merge_sortingIntegerDim0KindINT8(xs)
       Integer(kind = INT8), intent(inout):: xs(:)
 
-      raise_if(any(is_nan(xs)))
-      call sorting_merge_substanceIntegerDim0KindINT8(xs)
-    end subroutine sorting_mergeIntegerDim0KindINT8
+      RAISE_IF(any(is_nan(xs)))
+      call merge_sorting_substanceIntegerDim0KindINT8(xs)
+    end subroutine merge_sortingIntegerDim0KindINT8
 
-    recursive subroutine sorting_merge_substanceIntegerDim0KindINT8(xs)
+    recursive subroutine merge_sorting_substanceIntegerDim0KindINT8(xs)
       Integer(kind = INT8), intent(inout):: xs(:)
       Integer(kind = INT8), allocatable:: xsL(:), xsR(:)
       Integer(kind = INT64):: nXs
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
       select case(nXs)
       case(:1)
         ! Nothing to do.
@@ -413,11 +413,11 @@ contains
       case default
         xsL = xs(1:nXs/2)
         xsR = xs((nXs/2 + 1):nXs)
-        call sorting_merge_substance(xsL)
-        call sorting_merge_substance(xsR)
+        call merge_sorting_substance(xsL)
+        call merge_sorting_substance(xsR)
         call merge_sorted_lists(xsL, xsR, xs)
       end select
-    end subroutine sorting_merge_substanceIntegerDim0KindINT8
+    end subroutine merge_sorting_substanceIntegerDim0KindINT8
 
     ! Merge sorted 1-D array xs and ys into zs.
     subroutine merge_sorted_listsIntegerDim0KindINT8(xs, ys, zs)
@@ -425,19 +425,19 @@ contains
       Integer(kind = INT8), intent(out):: zs(:)
       Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
 
-      nXs = size(xs, dim = 1, kind = INT64)
-      nYs = size(ys, dim = 1, kind = INT64)
-      nZs = size(zs, dim = 1, kind = INT64)
-      debug_assert(nXs >= 1)
-      debug_assert(nYs >= 1)
-      debug_assert(nZs >= 1)
-      debug_assert(nXs + nYs == nZs)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
+      nYs = size(ys, dim = 1, kind = kind(nYs))
+      nZs = size(zs, dim = 1, kind = kind(nZs))
+      DEBUG_ASSERT(nXs >= 1)
+      DEBUG_ASSERT(nYs >= 1)
+      DEBUG_ASSERT(nZs >= 1)
+      DEBUG_ASSERT(nXs + nYs == nZs)
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        debug_assert(iZs <= nZs)
+        DEBUG_ASSERT(iZs <= nZs)
 
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
@@ -481,28 +481,28 @@ contains
       b = a
       a = swap
     end subroutine swappingIntegerDim0KindINT8
-    function sort_quickIntegerDim0KindINT16(xs) result(xsSorted)
+    function quick_sortIntegerDim0KindINT16(xs) result(xsSorted)
       Integer(kind = INT16), allocatable:: xsSorted(:)
       Integer(kind = INT16), intent(in):: xs(:)
 
       xsSorted = xs
-      call sorting_quick(xsSorted)
-    end function sort_quickIntegerDim0KindINT16
+      call quick_sorting(xsSorted)
+    end function quick_sortIntegerDim0KindINT16
 
-    subroutine sorting_quickIntegerDim0KindINT16(xs)
+    subroutine quick_sortingIntegerDim0KindINT16(xs)
       Integer(kind = INT16), intent(inout):: xs(:)
       Integer(kind = INT16):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
 
-      raise_if(any(is_nan(xs)))
+      RAISE_IF(any(is_nan(xs)))
 
       call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = INT64))
+      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
 
       do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        assert(pop(iLs, iL))
+        ASSERT(pop(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -538,11 +538,11 @@ contains
               call swapping(xs(iL), xs(iR))
             end do loop_to_swap
           case default
-            raise('Must not happen.')
+            RAISE('Must not happen.')
           end select
         end do
       end do
-    end subroutine sorting_quickIntegerDim0KindINT16
+    end subroutine quick_sortingIntegerDim0KindINT16
 
     function get_pivotIntegerDim0KindINT16(xs, isUniform) result(pivot)
       Integer(kind = INT16):: pivot
@@ -553,7 +553,7 @@ contains
 
       isUniform = .false.
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
 
       if(xs(1) /= xs(nXs))then
         pivot = min(xs(1), xs(nXs))
@@ -572,27 +572,27 @@ contains
       isUniform = .true.
     end function get_pivotIntegerDim0KindINT16
 
-    function sort_mergeIntegerDim0KindINT16(xs) result(xsSorted)
+    function merge_sortIntegerDim0KindINT16(xs) result(xsSorted)
       Integer(kind = INT16), intent(in):: xs(:)
       Integer(kind = INT16), allocatable:: xsSorted(:)
 
       xsSorted = xs
-      call sorting_mergeIntegerDim0KindINT16(xsSorted)
-    end function sort_mergeIntegerDim0KindINT16
+      call merge_sortingIntegerDim0KindINT16(xsSorted)
+    end function merge_sortIntegerDim0KindINT16
 
-    subroutine sorting_mergeIntegerDim0KindINT16(xs)
+    subroutine merge_sortingIntegerDim0KindINT16(xs)
       Integer(kind = INT16), intent(inout):: xs(:)
 
-      raise_if(any(is_nan(xs)))
-      call sorting_merge_substanceIntegerDim0KindINT16(xs)
-    end subroutine sorting_mergeIntegerDim0KindINT16
+      RAISE_IF(any(is_nan(xs)))
+      call merge_sorting_substanceIntegerDim0KindINT16(xs)
+    end subroutine merge_sortingIntegerDim0KindINT16
 
-    recursive subroutine sorting_merge_substanceIntegerDim0KindINT16(xs)
+    recursive subroutine merge_sorting_substanceIntegerDim0KindINT16(xs)
       Integer(kind = INT16), intent(inout):: xs(:)
       Integer(kind = INT16), allocatable:: xsL(:), xsR(:)
       Integer(kind = INT64):: nXs
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
       select case(nXs)
       case(:1)
         ! Nothing to do.
@@ -603,11 +603,11 @@ contains
       case default
         xsL = xs(1:nXs/2)
         xsR = xs((nXs/2 + 1):nXs)
-        call sorting_merge_substance(xsL)
-        call sorting_merge_substance(xsR)
+        call merge_sorting_substance(xsL)
+        call merge_sorting_substance(xsR)
         call merge_sorted_lists(xsL, xsR, xs)
       end select
-    end subroutine sorting_merge_substanceIntegerDim0KindINT16
+    end subroutine merge_sorting_substanceIntegerDim0KindINT16
 
     ! Merge sorted 1-D array xs and ys into zs.
     subroutine merge_sorted_listsIntegerDim0KindINT16(xs, ys, zs)
@@ -615,19 +615,19 @@ contains
       Integer(kind = INT16), intent(out):: zs(:)
       Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
 
-      nXs = size(xs, dim = 1, kind = INT64)
-      nYs = size(ys, dim = 1, kind = INT64)
-      nZs = size(zs, dim = 1, kind = INT64)
-      debug_assert(nXs >= 1)
-      debug_assert(nYs >= 1)
-      debug_assert(nZs >= 1)
-      debug_assert(nXs + nYs == nZs)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
+      nYs = size(ys, dim = 1, kind = kind(nYs))
+      nZs = size(zs, dim = 1, kind = kind(nZs))
+      DEBUG_ASSERT(nXs >= 1)
+      DEBUG_ASSERT(nYs >= 1)
+      DEBUG_ASSERT(nZs >= 1)
+      DEBUG_ASSERT(nXs + nYs == nZs)
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        debug_assert(iZs <= nZs)
+        DEBUG_ASSERT(iZs <= nZs)
 
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
@@ -671,28 +671,28 @@ contains
       b = a
       a = swap
     end subroutine swappingIntegerDim0KindINT16
-    function sort_quickIntegerDim0KindINT32(xs) result(xsSorted)
+    function quick_sortIntegerDim0KindINT32(xs) result(xsSorted)
       Integer(kind = INT32), allocatable:: xsSorted(:)
       Integer(kind = INT32), intent(in):: xs(:)
 
       xsSorted = xs
-      call sorting_quick(xsSorted)
-    end function sort_quickIntegerDim0KindINT32
+      call quick_sorting(xsSorted)
+    end function quick_sortIntegerDim0KindINT32
 
-    subroutine sorting_quickIntegerDim0KindINT32(xs)
+    subroutine quick_sortingIntegerDim0KindINT32(xs)
       Integer(kind = INT32), intent(inout):: xs(:)
       Integer(kind = INT32):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
 
-      raise_if(any(is_nan(xs)))
+      RAISE_IF(any(is_nan(xs)))
 
       call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = INT64))
+      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
 
       do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        assert(pop(iLs, iL))
+        ASSERT(pop(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -728,11 +728,11 @@ contains
               call swapping(xs(iL), xs(iR))
             end do loop_to_swap
           case default
-            raise('Must not happen.')
+            RAISE('Must not happen.')
           end select
         end do
       end do
-    end subroutine sorting_quickIntegerDim0KindINT32
+    end subroutine quick_sortingIntegerDim0KindINT32
 
     function get_pivotIntegerDim0KindINT32(xs, isUniform) result(pivot)
       Integer(kind = INT32):: pivot
@@ -743,7 +743,7 @@ contains
 
       isUniform = .false.
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
 
       if(xs(1) /= xs(nXs))then
         pivot = min(xs(1), xs(nXs))
@@ -762,27 +762,27 @@ contains
       isUniform = .true.
     end function get_pivotIntegerDim0KindINT32
 
-    function sort_mergeIntegerDim0KindINT32(xs) result(xsSorted)
+    function merge_sortIntegerDim0KindINT32(xs) result(xsSorted)
       Integer(kind = INT32), intent(in):: xs(:)
       Integer(kind = INT32), allocatable:: xsSorted(:)
 
       xsSorted = xs
-      call sorting_mergeIntegerDim0KindINT32(xsSorted)
-    end function sort_mergeIntegerDim0KindINT32
+      call merge_sortingIntegerDim0KindINT32(xsSorted)
+    end function merge_sortIntegerDim0KindINT32
 
-    subroutine sorting_mergeIntegerDim0KindINT32(xs)
+    subroutine merge_sortingIntegerDim0KindINT32(xs)
       Integer(kind = INT32), intent(inout):: xs(:)
 
-      raise_if(any(is_nan(xs)))
-      call sorting_merge_substanceIntegerDim0KindINT32(xs)
-    end subroutine sorting_mergeIntegerDim0KindINT32
+      RAISE_IF(any(is_nan(xs)))
+      call merge_sorting_substanceIntegerDim0KindINT32(xs)
+    end subroutine merge_sortingIntegerDim0KindINT32
 
-    recursive subroutine sorting_merge_substanceIntegerDim0KindINT32(xs)
+    recursive subroutine merge_sorting_substanceIntegerDim0KindINT32(xs)
       Integer(kind = INT32), intent(inout):: xs(:)
       Integer(kind = INT32), allocatable:: xsL(:), xsR(:)
       Integer(kind = INT64):: nXs
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
       select case(nXs)
       case(:1)
         ! Nothing to do.
@@ -793,11 +793,11 @@ contains
       case default
         xsL = xs(1:nXs/2)
         xsR = xs((nXs/2 + 1):nXs)
-        call sorting_merge_substance(xsL)
-        call sorting_merge_substance(xsR)
+        call merge_sorting_substance(xsL)
+        call merge_sorting_substance(xsR)
         call merge_sorted_lists(xsL, xsR, xs)
       end select
-    end subroutine sorting_merge_substanceIntegerDim0KindINT32
+    end subroutine merge_sorting_substanceIntegerDim0KindINT32
 
     ! Merge sorted 1-D array xs and ys into zs.
     subroutine merge_sorted_listsIntegerDim0KindINT32(xs, ys, zs)
@@ -805,19 +805,19 @@ contains
       Integer(kind = INT32), intent(out):: zs(:)
       Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
 
-      nXs = size(xs, dim = 1, kind = INT64)
-      nYs = size(ys, dim = 1, kind = INT64)
-      nZs = size(zs, dim = 1, kind = INT64)
-      debug_assert(nXs >= 1)
-      debug_assert(nYs >= 1)
-      debug_assert(nZs >= 1)
-      debug_assert(nXs + nYs == nZs)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
+      nYs = size(ys, dim = 1, kind = kind(nYs))
+      nZs = size(zs, dim = 1, kind = kind(nZs))
+      DEBUG_ASSERT(nXs >= 1)
+      DEBUG_ASSERT(nYs >= 1)
+      DEBUG_ASSERT(nZs >= 1)
+      DEBUG_ASSERT(nXs + nYs == nZs)
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        debug_assert(iZs <= nZs)
+        DEBUG_ASSERT(iZs <= nZs)
 
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
@@ -861,28 +861,28 @@ contains
       b = a
       a = swap
     end subroutine swappingIntegerDim0KindINT32
-    function sort_quickIntegerDim0KindINT64(xs) result(xsSorted)
+    function quick_sortIntegerDim0KindINT64(xs) result(xsSorted)
       Integer(kind = INT64), allocatable:: xsSorted(:)
       Integer(kind = INT64), intent(in):: xs(:)
 
       xsSorted = xs
-      call sorting_quick(xsSorted)
-    end function sort_quickIntegerDim0KindINT64
+      call quick_sorting(xsSorted)
+    end function quick_sortIntegerDim0KindINT64
 
-    subroutine sorting_quickIntegerDim0KindINT64(xs)
+    subroutine quick_sortingIntegerDim0KindINT64(xs)
       Integer(kind = INT64), intent(inout):: xs(:)
       Integer(kind = INT64):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
 
-      raise_if(any(is_nan(xs)))
+      RAISE_IF(any(is_nan(xs)))
 
       call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = INT64))
+      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
 
       do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        assert(pop(iLs, iL))
+        ASSERT(pop(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -918,11 +918,11 @@ contains
               call swapping(xs(iL), xs(iR))
             end do loop_to_swap
           case default
-            raise('Must not happen.')
+            RAISE('Must not happen.')
           end select
         end do
       end do
-    end subroutine sorting_quickIntegerDim0KindINT64
+    end subroutine quick_sortingIntegerDim0KindINT64
 
     function get_pivotIntegerDim0KindINT64(xs, isUniform) result(pivot)
       Integer(kind = INT64):: pivot
@@ -933,7 +933,7 @@ contains
 
       isUniform = .false.
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
 
       if(xs(1) /= xs(nXs))then
         pivot = min(xs(1), xs(nXs))
@@ -952,27 +952,27 @@ contains
       isUniform = .true.
     end function get_pivotIntegerDim0KindINT64
 
-    function sort_mergeIntegerDim0KindINT64(xs) result(xsSorted)
+    function merge_sortIntegerDim0KindINT64(xs) result(xsSorted)
       Integer(kind = INT64), intent(in):: xs(:)
       Integer(kind = INT64), allocatable:: xsSorted(:)
 
       xsSorted = xs
-      call sorting_mergeIntegerDim0KindINT64(xsSorted)
-    end function sort_mergeIntegerDim0KindINT64
+      call merge_sortingIntegerDim0KindINT64(xsSorted)
+    end function merge_sortIntegerDim0KindINT64
 
-    subroutine sorting_mergeIntegerDim0KindINT64(xs)
+    subroutine merge_sortingIntegerDim0KindINT64(xs)
       Integer(kind = INT64), intent(inout):: xs(:)
 
-      raise_if(any(is_nan(xs)))
-      call sorting_merge_substanceIntegerDim0KindINT64(xs)
-    end subroutine sorting_mergeIntegerDim0KindINT64
+      RAISE_IF(any(is_nan(xs)))
+      call merge_sorting_substanceIntegerDim0KindINT64(xs)
+    end subroutine merge_sortingIntegerDim0KindINT64
 
-    recursive subroutine sorting_merge_substanceIntegerDim0KindINT64(xs)
+    recursive subroutine merge_sorting_substanceIntegerDim0KindINT64(xs)
       Integer(kind = INT64), intent(inout):: xs(:)
       Integer(kind = INT64), allocatable:: xsL(:), xsR(:)
       Integer(kind = INT64):: nXs
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
       select case(nXs)
       case(:1)
         ! Nothing to do.
@@ -983,11 +983,11 @@ contains
       case default
         xsL = xs(1:nXs/2)
         xsR = xs((nXs/2 + 1):nXs)
-        call sorting_merge_substance(xsL)
-        call sorting_merge_substance(xsR)
+        call merge_sorting_substance(xsL)
+        call merge_sorting_substance(xsR)
         call merge_sorted_lists(xsL, xsR, xs)
       end select
-    end subroutine sorting_merge_substanceIntegerDim0KindINT64
+    end subroutine merge_sorting_substanceIntegerDim0KindINT64
 
     ! Merge sorted 1-D array xs and ys into zs.
     subroutine merge_sorted_listsIntegerDim0KindINT64(xs, ys, zs)
@@ -995,19 +995,19 @@ contains
       Integer(kind = INT64), intent(out):: zs(:)
       Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
 
-      nXs = size(xs, dim = 1, kind = INT64)
-      nYs = size(ys, dim = 1, kind = INT64)
-      nZs = size(zs, dim = 1, kind = INT64)
-      debug_assert(nXs >= 1)
-      debug_assert(nYs >= 1)
-      debug_assert(nZs >= 1)
-      debug_assert(nXs + nYs == nZs)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
+      nYs = size(ys, dim = 1, kind = kind(nYs))
+      nZs = size(zs, dim = 1, kind = kind(nZs))
+      DEBUG_ASSERT(nXs >= 1)
+      DEBUG_ASSERT(nYs >= 1)
+      DEBUG_ASSERT(nZs >= 1)
+      DEBUG_ASSERT(nXs + nYs == nZs)
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        debug_assert(iZs <= nZs)
+        DEBUG_ASSERT(iZs <= nZs)
 
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
@@ -1051,28 +1051,28 @@ contains
       b = a
       a = swap
     end subroutine swappingIntegerDim0KindINT64
-    function sort_quickRealDim0KindREAL32(xs) result(xsSorted)
+    function quick_sortRealDim0KindREAL32(xs) result(xsSorted)
       Real(kind = REAL32), allocatable:: xsSorted(:)
       Real(kind = REAL32), intent(in):: xs(:)
 
       xsSorted = xs
-      call sorting_quick(xsSorted)
-    end function sort_quickRealDim0KindREAL32
+      call quick_sorting(xsSorted)
+    end function quick_sortRealDim0KindREAL32
 
-    subroutine sorting_quickRealDim0KindREAL32(xs)
+    subroutine quick_sortingRealDim0KindREAL32(xs)
       Real(kind = REAL32), intent(inout):: xs(:)
       Real(kind = REAL32):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
 
-      raise_if(any(is_nan(xs)))
+      RAISE_IF(any(is_nan(xs)))
 
       call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = INT64))
+      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
 
       do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        assert(pop(iLs, iL))
+        ASSERT(pop(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -1108,11 +1108,11 @@ contains
               call swapping(xs(iL), xs(iR))
             end do loop_to_swap
           case default
-            raise('Must not happen.')
+            RAISE('Must not happen.')
           end select
         end do
       end do
-    end subroutine sorting_quickRealDim0KindREAL32
+    end subroutine quick_sortingRealDim0KindREAL32
 
     function get_pivotRealDim0KindREAL32(xs, isUniform) result(pivot)
       Real(kind = REAL32):: pivot
@@ -1123,7 +1123,7 @@ contains
 
       isUniform = .false.
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
 
       if(xs(1) /= xs(nXs))then
         pivot = min(xs(1), xs(nXs))
@@ -1142,27 +1142,27 @@ contains
       isUniform = .true.
     end function get_pivotRealDim0KindREAL32
 
-    function sort_mergeRealDim0KindREAL32(xs) result(xsSorted)
+    function merge_sortRealDim0KindREAL32(xs) result(xsSorted)
       Real(kind = REAL32), intent(in):: xs(:)
       Real(kind = REAL32), allocatable:: xsSorted(:)
 
       xsSorted = xs
-      call sorting_mergeRealDim0KindREAL32(xsSorted)
-    end function sort_mergeRealDim0KindREAL32
+      call merge_sortingRealDim0KindREAL32(xsSorted)
+    end function merge_sortRealDim0KindREAL32
 
-    subroutine sorting_mergeRealDim0KindREAL32(xs)
+    subroutine merge_sortingRealDim0KindREAL32(xs)
       Real(kind = REAL32), intent(inout):: xs(:)
 
-      raise_if(any(is_nan(xs)))
-      call sorting_merge_substanceRealDim0KindREAL32(xs)
-    end subroutine sorting_mergeRealDim0KindREAL32
+      RAISE_IF(any(is_nan(xs)))
+      call merge_sorting_substanceRealDim0KindREAL32(xs)
+    end subroutine merge_sortingRealDim0KindREAL32
 
-    recursive subroutine sorting_merge_substanceRealDim0KindREAL32(xs)
+    recursive subroutine merge_sorting_substanceRealDim0KindREAL32(xs)
       Real(kind = REAL32), intent(inout):: xs(:)
       Real(kind = REAL32), allocatable:: xsL(:), xsR(:)
       Integer(kind = INT64):: nXs
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
       select case(nXs)
       case(:1)
         ! Nothing to do.
@@ -1173,11 +1173,11 @@ contains
       case default
         xsL = xs(1:nXs/2)
         xsR = xs((nXs/2 + 1):nXs)
-        call sorting_merge_substance(xsL)
-        call sorting_merge_substance(xsR)
+        call merge_sorting_substance(xsL)
+        call merge_sorting_substance(xsR)
         call merge_sorted_lists(xsL, xsR, xs)
       end select
-    end subroutine sorting_merge_substanceRealDim0KindREAL32
+    end subroutine merge_sorting_substanceRealDim0KindREAL32
 
     ! Merge sorted 1-D array xs and ys into zs.
     subroutine merge_sorted_listsRealDim0KindREAL32(xs, ys, zs)
@@ -1185,19 +1185,19 @@ contains
       Real(kind = REAL32), intent(out):: zs(:)
       Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
 
-      nXs = size(xs, dim = 1, kind = INT64)
-      nYs = size(ys, dim = 1, kind = INT64)
-      nZs = size(zs, dim = 1, kind = INT64)
-      debug_assert(nXs >= 1)
-      debug_assert(nYs >= 1)
-      debug_assert(nZs >= 1)
-      debug_assert(nXs + nYs == nZs)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
+      nYs = size(ys, dim = 1, kind = kind(nYs))
+      nZs = size(zs, dim = 1, kind = kind(nZs))
+      DEBUG_ASSERT(nXs >= 1)
+      DEBUG_ASSERT(nYs >= 1)
+      DEBUG_ASSERT(nZs >= 1)
+      DEBUG_ASSERT(nXs + nYs == nZs)
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        debug_assert(iZs <= nZs)
+        DEBUG_ASSERT(iZs <= nZs)
 
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
@@ -1241,28 +1241,28 @@ contains
       b = a
       a = swap
     end subroutine swappingRealDim0KindREAL32
-    function sort_quickRealDim0KindREAL64(xs) result(xsSorted)
+    function quick_sortRealDim0KindREAL64(xs) result(xsSorted)
       Real(kind = REAL64), allocatable:: xsSorted(:)
       Real(kind = REAL64), intent(in):: xs(:)
 
       xsSorted = xs
-      call sorting_quick(xsSorted)
-    end function sort_quickRealDim0KindREAL64
+      call quick_sorting(xsSorted)
+    end function quick_sortRealDim0KindREAL64
 
-    subroutine sorting_quickRealDim0KindREAL64(xs)
+    subroutine quick_sortingRealDim0KindREAL64(xs)
       Real(kind = REAL64), intent(inout):: xs(:)
       Real(kind = REAL64):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
 
-      raise_if(any(is_nan(xs)))
+      RAISE_IF(any(is_nan(xs)))
 
       call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = INT64))
+      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
 
       do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        assert(pop(iLs, iL))
+        ASSERT(pop(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -1298,11 +1298,11 @@ contains
               call swapping(xs(iL), xs(iR))
             end do loop_to_swap
           case default
-            raise('Must not happen.')
+            RAISE('Must not happen.')
           end select
         end do
       end do
-    end subroutine sorting_quickRealDim0KindREAL64
+    end subroutine quick_sortingRealDim0KindREAL64
 
     function get_pivotRealDim0KindREAL64(xs, isUniform) result(pivot)
       Real(kind = REAL64):: pivot
@@ -1313,7 +1313,7 @@ contains
 
       isUniform = .false.
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
 
       if(xs(1) /= xs(nXs))then
         pivot = min(xs(1), xs(nXs))
@@ -1332,27 +1332,27 @@ contains
       isUniform = .true.
     end function get_pivotRealDim0KindREAL64
 
-    function sort_mergeRealDim0KindREAL64(xs) result(xsSorted)
+    function merge_sortRealDim0KindREAL64(xs) result(xsSorted)
       Real(kind = REAL64), intent(in):: xs(:)
       Real(kind = REAL64), allocatable:: xsSorted(:)
 
       xsSorted = xs
-      call sorting_mergeRealDim0KindREAL64(xsSorted)
-    end function sort_mergeRealDim0KindREAL64
+      call merge_sortingRealDim0KindREAL64(xsSorted)
+    end function merge_sortRealDim0KindREAL64
 
-    subroutine sorting_mergeRealDim0KindREAL64(xs)
+    subroutine merge_sortingRealDim0KindREAL64(xs)
       Real(kind = REAL64), intent(inout):: xs(:)
 
-      raise_if(any(is_nan(xs)))
-      call sorting_merge_substanceRealDim0KindREAL64(xs)
-    end subroutine sorting_mergeRealDim0KindREAL64
+      RAISE_IF(any(is_nan(xs)))
+      call merge_sorting_substanceRealDim0KindREAL64(xs)
+    end subroutine merge_sortingRealDim0KindREAL64
 
-    recursive subroutine sorting_merge_substanceRealDim0KindREAL64(xs)
+    recursive subroutine merge_sorting_substanceRealDim0KindREAL64(xs)
       Real(kind = REAL64), intent(inout):: xs(:)
       Real(kind = REAL64), allocatable:: xsL(:), xsR(:)
       Integer(kind = INT64):: nXs
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
       select case(nXs)
       case(:1)
         ! Nothing to do.
@@ -1363,11 +1363,11 @@ contains
       case default
         xsL = xs(1:nXs/2)
         xsR = xs((nXs/2 + 1):nXs)
-        call sorting_merge_substance(xsL)
-        call sorting_merge_substance(xsR)
+        call merge_sorting_substance(xsL)
+        call merge_sorting_substance(xsR)
         call merge_sorted_lists(xsL, xsR, xs)
       end select
-    end subroutine sorting_merge_substanceRealDim0KindREAL64
+    end subroutine merge_sorting_substanceRealDim0KindREAL64
 
     ! Merge sorted 1-D array xs and ys into zs.
     subroutine merge_sorted_listsRealDim0KindREAL64(xs, ys, zs)
@@ -1375,19 +1375,19 @@ contains
       Real(kind = REAL64), intent(out):: zs(:)
       Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
 
-      nXs = size(xs, dim = 1, kind = INT64)
-      nYs = size(ys, dim = 1, kind = INT64)
-      nZs = size(zs, dim = 1, kind = INT64)
-      debug_assert(nXs >= 1)
-      debug_assert(nYs >= 1)
-      debug_assert(nZs >= 1)
-      debug_assert(nXs + nYs == nZs)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
+      nYs = size(ys, dim = 1, kind = kind(nYs))
+      nZs = size(zs, dim = 1, kind = kind(nZs))
+      DEBUG_ASSERT(nXs >= 1)
+      DEBUG_ASSERT(nYs >= 1)
+      DEBUG_ASSERT(nZs >= 1)
+      DEBUG_ASSERT(nXs + nYs == nZs)
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        debug_assert(iZs <= nZs)
+        DEBUG_ASSERT(iZs <= nZs)
 
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
@@ -1431,28 +1431,28 @@ contains
       b = a
       a = swap
     end subroutine swappingRealDim0KindREAL64
-    function sort_quickRealDim0KindREAL128(xs) result(xsSorted)
+    function quick_sortRealDim0KindREAL128(xs) result(xsSorted)
       Real(kind = REAL128), allocatable:: xsSorted(:)
       Real(kind = REAL128), intent(in):: xs(:)
 
       xsSorted = xs
-      call sorting_quick(xsSorted)
-    end function sort_quickRealDim0KindREAL128
+      call quick_sorting(xsSorted)
+    end function quick_sortRealDim0KindREAL128
 
-    subroutine sorting_quickRealDim0KindREAL128(xs)
+    subroutine quick_sortingRealDim0KindREAL128(xs)
       Real(kind = REAL128), intent(inout):: xs(:)
       Real(kind = REAL128):: pivot
       type(IntegerDim0KindINT64Stack):: iLs, iRs
       Integer(kind = INT64):: iL, iR, iLOriginal, iROriginal
       Logical:: isUniform
 
-      raise_if(any(is_nan(xs)))
+      RAISE_IF(any(is_nan(xs)))
 
       call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = INT64))
+      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
 
       do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        assert(pop(iLs, iL))
+        ASSERT(pop(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -1488,11 +1488,11 @@ contains
               call swapping(xs(iL), xs(iR))
             end do loop_to_swap
           case default
-            raise('Must not happen.')
+            RAISE('Must not happen.')
           end select
         end do
       end do
-    end subroutine sorting_quickRealDim0KindREAL128
+    end subroutine quick_sortingRealDim0KindREAL128
 
     function get_pivotRealDim0KindREAL128(xs, isUniform) result(pivot)
       Real(kind = REAL128):: pivot
@@ -1503,7 +1503,7 @@ contains
 
       isUniform = .false.
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
 
       if(xs(1) /= xs(nXs))then
         pivot = min(xs(1), xs(nXs))
@@ -1522,27 +1522,27 @@ contains
       isUniform = .true.
     end function get_pivotRealDim0KindREAL128
 
-    function sort_mergeRealDim0KindREAL128(xs) result(xsSorted)
+    function merge_sortRealDim0KindREAL128(xs) result(xsSorted)
       Real(kind = REAL128), intent(in):: xs(:)
       Real(kind = REAL128), allocatable:: xsSorted(:)
 
       xsSorted = xs
-      call sorting_mergeRealDim0KindREAL128(xsSorted)
-    end function sort_mergeRealDim0KindREAL128
+      call merge_sortingRealDim0KindREAL128(xsSorted)
+    end function merge_sortRealDim0KindREAL128
 
-    subroutine sorting_mergeRealDim0KindREAL128(xs)
+    subroutine merge_sortingRealDim0KindREAL128(xs)
       Real(kind = REAL128), intent(inout):: xs(:)
 
-      raise_if(any(is_nan(xs)))
-      call sorting_merge_substanceRealDim0KindREAL128(xs)
-    end subroutine sorting_mergeRealDim0KindREAL128
+      RAISE_IF(any(is_nan(xs)))
+      call merge_sorting_substanceRealDim0KindREAL128(xs)
+    end subroutine merge_sortingRealDim0KindREAL128
 
-    recursive subroutine sorting_merge_substanceRealDim0KindREAL128(xs)
+    recursive subroutine merge_sorting_substanceRealDim0KindREAL128(xs)
       Real(kind = REAL128), intent(inout):: xs(:)
       Real(kind = REAL128), allocatable:: xsL(:), xsR(:)
       Integer(kind = INT64):: nXs
 
-      nXs = size(xs, dim = 1, kind = INT64)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
       select case(nXs)
       case(:1)
         ! Nothing to do.
@@ -1553,11 +1553,11 @@ contains
       case default
         xsL = xs(1:nXs/2)
         xsR = xs((nXs/2 + 1):nXs)
-        call sorting_merge_substance(xsL)
-        call sorting_merge_substance(xsR)
+        call merge_sorting_substance(xsL)
+        call merge_sorting_substance(xsR)
         call merge_sorted_lists(xsL, xsR, xs)
       end select
-    end subroutine sorting_merge_substanceRealDim0KindREAL128
+    end subroutine merge_sorting_substanceRealDim0KindREAL128
 
     ! Merge sorted 1-D array xs and ys into zs.
     subroutine merge_sorted_listsRealDim0KindREAL128(xs, ys, zs)
@@ -1565,19 +1565,19 @@ contains
       Real(kind = REAL128), intent(out):: zs(:)
       Integer(kind = INT64):: iXs, nXs, iYs, nYs, iZs, nZs
 
-      nXs = size(xs, dim = 1, kind = INT64)
-      nYs = size(ys, dim = 1, kind = INT64)
-      nZs = size(zs, dim = 1, kind = INT64)
-      debug_assert(nXs >= 1)
-      debug_assert(nYs >= 1)
-      debug_assert(nZs >= 1)
-      debug_assert(nXs + nYs == nZs)
+      nXs = size(xs, dim = 1, kind = kind(nXs))
+      nYs = size(ys, dim = 1, kind = kind(nYs))
+      nZs = size(zs, dim = 1, kind = kind(nZs))
+      DEBUG_ASSERT(nXs >= 1)
+      DEBUG_ASSERT(nYs >= 1)
+      DEBUG_ASSERT(nZs >= 1)
+      DEBUG_ASSERT(nXs + nYs == nZs)
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        debug_assert(iZs <= nZs)
+        DEBUG_ASSERT(iZs <= nZs)
 
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)

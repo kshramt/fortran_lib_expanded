@@ -1,6 +1,7 @@
 
 module lib_constant
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
+  use, intrinsic:: iso_fortran_env, only: INT8
 
   implicit none
 
@@ -27,6 +28,7 @@ module lib_constant
     public:: RAD_FROM_DEGRealDim0KindREAL128
   public:: get_nan
   public:: get_infinity
+  public:: ZERO, ONE
 
   character, parameter:: TAB      = char(9)
     Real(kind = REAL32), parameter:: PIRealDim0KindREAL32 = 4*atan(1.0_REAL32)
@@ -47,6 +49,7 @@ module lib_constant
     Real(kind = REAL128), parameter:: PI_REAL128 = PIRealDim0KindREAL128
     Real(kind = REAL128), parameter:: DEG_FROM_RAD_REAL128 = DEG_FROM_RADRealDim0KindREAL128
     Real(kind = REAL128), parameter:: RAD_FROM_DEG_REAL128 = RAD_FROM_DEGRealDim0KindREAL128
+  Integer, parameter:: ZERO = 0_INT8, ONE = 1_INT8
 
 contains
 

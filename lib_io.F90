@@ -6,7 +6,6 @@ module lib_io
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
   use lib_constant, only: TAB
   use lib_character, only: s, str, operator(+)
-  use lib_queue, only: CharacterDim0Len1Queue, push, pull
 
   implicit none
 
@@ -22,7 +21,6 @@ module lib_io
   public:: close_tempfile
   public:: init_shell_interface_file
   public:: read_shell_interface_file
-  public:: read_line
 
   integer, parameter:: VERSION = 1 ! Array file format's compatibility.
   integer, parameter:: NEW_UNIT_MIN = max(ERROR_UNIT, INPUT_UNIT, OUTPUT_UNIT, 0) + 1 ! 0 is decraled to handle a case where *_UNIT <= -1.
@@ -969,44 +967,6 @@ module lib_io
 
 contains
 
-  ! str
-  !   space:              retained
-  !   new line character: removed
-  function read_line(io, str) result(isSuccess)
-    Integer, intent(in):: io
-    Character(len = :), allocatable, intent(out):: str
-    Logical:: isSuccess
-
-    Character:: c
-    type(CharacterDim0Len1Queue):: queue
-    Integer:: nQueue, i
-    Integer:: ios
-
-    isSuccess = .false.
-    nQueue = 0
-    do
-      read(io, '(a1)', advance = 'no', iostat = ios) c
-      if(is_iostat_ok(ios))then
-        call push(queue, c)
-        nQueue = nQueue + 1
-      else if(is_iostat_eor(ios) .or. is_iostat_end(ios))then
-        exit
-      else
-        isSuccess = .false.
-        return
-      end if
-    end do
-
-    allocate(Character(len = nQueue):: str)
-    do i = 1, nQueue
-      isSuccess = shift(queue, c)
-      debug_assert(isSuccess)
-      str(i:i) = c
-    end do
-
-    isSuccess = .true.
-  end function read_line
-
   subroutine init_shell_interface_file()
     call mkdir_p(TMP_DIR)
     call execute_command_line("cat /dev/null > " + SHELL_INTERFACE_FILE)
@@ -1051,7 +1011,7 @@ contains
     if(present(exitStatus))then
       exitStatus = exitStatus_
     elseif(exitStatus_ /= 0)then
-      raise('Failed to execute mkdir -p ' + s(path))
+      RAISE('Failed to execute mkdir -p ' + s(path))
     end if
   end subroutine mkdir_p
 
@@ -1083,7 +1043,7 @@ contains
     do
       read(rU1, *, iostat = ios) dummy
       if(is_iostat_bad(ios)) exit
-      raise_if(this >= huge(this))
+      RAISE_IF(this >= huge(this))
 
       this = this + 1
     end do
@@ -1127,7 +1087,7 @@ contains
         if(has_val(SEPARATORS, c)) mode = SEEK_NORMAL_CHAR
       case(SEEK_NORMAL_CHAR)
         if(.not.has_val(SEPARATORS, c))then
-          raise_if(this >= huge(this))
+          RAISE_IF(this >= huge(this))
 
           this = this + 1
           mode = SEEK_SEPARATOR
@@ -1202,7 +1162,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayLogicalDim1
 
@@ -1222,8 +1182,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1298,7 +1258,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayLogicalDim2
 
@@ -1318,8 +1278,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1394,7 +1354,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayLogicalDim3
 
@@ -1414,8 +1374,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1490,7 +1450,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayLogicalDim4
 
@@ -1510,8 +1470,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1586,7 +1546,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayLogicalDim5
 
@@ -1606,8 +1566,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1682,7 +1642,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayLogicalDim6
 
@@ -1702,8 +1662,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1778,7 +1738,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayLogicalDim7
 
@@ -1798,8 +1758,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1874,7 +1834,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim1KindINT8
 
@@ -1894,8 +1854,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -1970,7 +1930,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim1KindINT16
 
@@ -1990,8 +1950,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2066,7 +2026,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim1KindINT32
 
@@ -2086,8 +2046,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2162,7 +2122,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim1KindINT64
 
@@ -2182,8 +2142,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2258,7 +2218,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim2KindINT8
 
@@ -2278,8 +2238,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2354,7 +2314,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim2KindINT16
 
@@ -2374,8 +2334,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2450,7 +2410,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim2KindINT32
 
@@ -2470,8 +2430,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2546,7 +2506,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim2KindINT64
 
@@ -2566,8 +2526,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2642,7 +2602,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim3KindINT8
 
@@ -2662,8 +2622,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2738,7 +2698,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim3KindINT16
 
@@ -2758,8 +2718,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2834,7 +2794,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim3KindINT32
 
@@ -2854,8 +2814,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -2930,7 +2890,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim3KindINT64
 
@@ -2950,8 +2910,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3026,7 +2986,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim4KindINT8
 
@@ -3046,8 +3006,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3122,7 +3082,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim4KindINT16
 
@@ -3142,8 +3102,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3218,7 +3178,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim4KindINT32
 
@@ -3238,8 +3198,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3314,7 +3274,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim4KindINT64
 
@@ -3334,8 +3294,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3410,7 +3370,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim5KindINT8
 
@@ -3430,8 +3390,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3506,7 +3466,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim5KindINT16
 
@@ -3526,8 +3486,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3602,7 +3562,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim5KindINT32
 
@@ -3622,8 +3582,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3698,7 +3658,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim5KindINT64
 
@@ -3718,8 +3678,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3794,7 +3754,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim6KindINT8
 
@@ -3814,8 +3774,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3890,7 +3850,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim6KindINT16
 
@@ -3910,8 +3870,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -3986,7 +3946,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim6KindINT32
 
@@ -4006,8 +3966,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4082,7 +4042,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim6KindINT64
 
@@ -4102,8 +4062,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4178,7 +4138,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim7KindINT8
 
@@ -4198,8 +4158,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4274,7 +4234,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim7KindINT16
 
@@ -4294,8 +4254,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4370,7 +4330,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim7KindINT32
 
@@ -4390,8 +4350,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4466,7 +4426,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayIntegerDim7KindINT64
 
@@ -4486,8 +4446,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4562,7 +4522,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim1KindREAL32
 
@@ -4582,8 +4542,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4658,7 +4618,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim1KindREAL64
 
@@ -4678,8 +4638,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4754,7 +4714,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim1KindREAL128
 
@@ -4774,8 +4734,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4850,7 +4810,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim2KindREAL32
 
@@ -4870,8 +4830,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -4946,7 +4906,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim2KindREAL64
 
@@ -4966,8 +4926,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5042,7 +5002,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim2KindREAL128
 
@@ -5062,8 +5022,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5138,7 +5098,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim3KindREAL32
 
@@ -5158,8 +5118,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5234,7 +5194,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim3KindREAL64
 
@@ -5254,8 +5214,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5330,7 +5290,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim3KindREAL128
 
@@ -5350,8 +5310,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5426,7 +5386,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim4KindREAL32
 
@@ -5446,8 +5406,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5522,7 +5482,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim4KindREAL64
 
@@ -5542,8 +5502,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5618,7 +5578,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim4KindREAL128
 
@@ -5638,8 +5598,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5714,7 +5674,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim5KindREAL32
 
@@ -5734,8 +5694,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5810,7 +5770,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim5KindREAL64
 
@@ -5830,8 +5790,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -5906,7 +5866,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim5KindREAL128
 
@@ -5926,8 +5886,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6002,7 +5962,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim6KindREAL32
 
@@ -6022,8 +5982,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6098,7 +6058,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim6KindREAL64
 
@@ -6118,8 +6078,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6194,7 +6154,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim6KindREAL128
 
@@ -6214,8 +6174,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6290,7 +6250,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim7KindREAL32
 
@@ -6310,8 +6270,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6386,7 +6346,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim7KindREAL64
 
@@ -6406,8 +6366,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6482,7 +6442,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayRealDim7KindREAL128
 
@@ -6502,8 +6462,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6578,7 +6538,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim1KindREAL32
 
@@ -6598,8 +6558,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6674,7 +6634,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim1KindREAL64
 
@@ -6694,8 +6654,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6770,7 +6730,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim1KindREAL128
 
@@ -6790,8 +6750,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6866,7 +6826,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim2KindREAL32
 
@@ -6886,8 +6846,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -6962,7 +6922,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim2KindREAL64
 
@@ -6982,8 +6942,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7058,7 +7018,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim2KindREAL128
 
@@ -7078,8 +7038,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7154,7 +7114,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim3KindREAL32
 
@@ -7174,8 +7134,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7250,7 +7210,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim3KindREAL64
 
@@ -7270,8 +7230,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7346,7 +7306,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim3KindREAL128
 
@@ -7366,8 +7326,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7442,7 +7402,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim4KindREAL32
 
@@ -7462,8 +7422,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7538,7 +7498,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim4KindREAL64
 
@@ -7558,8 +7518,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7634,7 +7594,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim4KindREAL128
 
@@ -7654,8 +7614,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7730,7 +7690,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim5KindREAL32
 
@@ -7750,8 +7710,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7826,7 +7786,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim5KindREAL64
 
@@ -7846,8 +7806,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -7922,7 +7882,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim5KindREAL128
 
@@ -7942,8 +7902,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8018,7 +7978,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim6KindREAL32
 
@@ -8038,8 +7998,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8114,7 +8074,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim6KindREAL64
 
@@ -8134,8 +8094,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8210,7 +8170,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim6KindREAL128
 
@@ -8230,8 +8190,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8306,7 +8266,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim7KindREAL32
 
@@ -8326,8 +8286,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8402,7 +8362,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim7KindREAL64
 
@@ -8422,8 +8382,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8498,7 +8458,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayComplexDim7KindREAL128
 
@@ -8518,8 +8478,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8594,7 +8554,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim1LenAst
 
@@ -8614,8 +8574,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8690,7 +8650,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim2LenAst
 
@@ -8710,8 +8670,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8786,7 +8746,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim3LenAst
 
@@ -8806,8 +8766,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8882,7 +8842,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim4LenAst
 
@@ -8902,8 +8862,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -8978,7 +8938,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim5LenAst
 
@@ -8998,8 +8958,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -9074,7 +9034,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim6LenAst
 
@@ -9094,8 +9054,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -9170,7 +9130,7 @@ contains
       case(1)
         call read_array_v_1(arrayDir, array)
       case default
-        raise('Unsupported version: ' + str(libIoVersion))
+        RAISE('Unsupported version: ' + str(libIoVersion))
       end select
     end subroutine read_arrayCharacterDim7LenAst
 
@@ -9190,8 +9150,8 @@ contains
       open(unit = rU1, file = s(arrayDir) + '/' + ARRAY_META_FILE, status = 'old', action = 'read', delim = 'quote')
       read(rU1, nml = array_meta)
 
-      raise_if(s(dataType) /= DATA_TYPE_FOR_SELF)
-      raise_if(dim /= DIM_FOR_SELF)
+      RAISE_IF(s(dataType) /= DATA_TYPE_FOR_SELF)
+      RAISE_IF(dim /= DIM_FOR_SELF)
 
       close(rU1)
 
@@ -9216,7 +9176,7 @@ contains
         end if
       end do
 
-      raise('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
+      RAISE('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
     end subroutine new_unitIntegerDim0KindINT8
     subroutine new_unitIntegerDim0KindINT16(n)
       Integer(kind = INT16), intent(out):: n
@@ -9231,7 +9191,7 @@ contains
         end if
       end do
 
-      raise('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
+      RAISE('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
     end subroutine new_unitIntegerDim0KindINT16
     subroutine new_unitIntegerDim0KindINT32(n)
       Integer(kind = INT32), intent(out):: n
@@ -9246,7 +9206,7 @@ contains
         end if
       end do
 
-      raise('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
+      RAISE('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
     end subroutine new_unitIntegerDim0KindINT32
     subroutine new_unitIntegerDim0KindINT64(n)
       Integer(kind = INT64), intent(out):: n
@@ -9261,6 +9221,6 @@ contains
         end if
       end do
 
-      raise('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
+      RAISE('No available unit number exist between: ' + str(NEW_UNIT_MIN) + ' and ' + str(NEW_UNIT_MAX))
     end subroutine new_unitIntegerDim0KindINT64
 end module lib_io

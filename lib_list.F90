@@ -2296,7 +2296,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -2331,7 +2331,7 @@ contains
       type(LogicalDim0List), intent(inout):: list
       Logical, intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -2548,7 +2548,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -2577,7 +2577,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -2612,7 +2612,7 @@ contains
       type(CharacterDim0Len1List), intent(inout):: list
       Character(len = 1), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -2829,7 +2829,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -2858,7 +2858,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -2893,7 +2893,7 @@ contains
       type(CharacterDim0Len2List), intent(inout):: list
       Character(len = 2), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -3110,7 +3110,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -3139,7 +3139,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -3174,7 +3174,7 @@ contains
       type(CharacterDim0Len4List), intent(inout):: list
       Character(len = 4), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -3391,7 +3391,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -3420,7 +3420,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -3455,7 +3455,7 @@ contains
       type(CharacterDim0Len8List), intent(inout):: list
       Character(len = 8), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -3672,7 +3672,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -3701,7 +3701,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -3736,7 +3736,7 @@ contains
       type(CharacterDim0Len16List), intent(inout):: list
       Character(len = 16), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -3953,7 +3953,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -3982,7 +3982,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -4017,7 +4017,7 @@ contains
       type(CharacterDim0Len32List), intent(inout):: list
       Character(len = 32), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -4234,7 +4234,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -4263,7 +4263,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -4298,7 +4298,7 @@ contains
       type(CharacterDim0Len64List), intent(inout):: list
       Character(len = 64), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -4515,7 +4515,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -4544,7 +4544,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -4579,7 +4579,7 @@ contains
       type(CharacterDim0Len128List), intent(inout):: list
       Character(len = 128), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -4796,7 +4796,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -4825,7 +4825,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -4860,7 +4860,7 @@ contains
       type(CharacterDim0Len256List), intent(inout):: list
       Character(len = 256), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -5077,7 +5077,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -5106,7 +5106,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -5141,7 +5141,7 @@ contains
       type(CharacterDim0Len512List), intent(inout):: list
       Character(len = 512), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -5358,7 +5358,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -5387,7 +5387,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -5422,7 +5422,7 @@ contains
       type(CharacterDim0Len1024List), intent(inout):: list
       Character(len = 1024), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -5639,7 +5639,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -5668,7 +5668,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -5703,7 +5703,7 @@ contains
       type(CharacterDim0Len2048List), intent(inout):: list
       Character(len = 2048), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -5920,7 +5920,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -5949,7 +5949,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -5984,7 +5984,7 @@ contains
       type(CharacterDim0Len4096List), intent(inout):: list
       Character(len = 4096), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -6201,7 +6201,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -6230,7 +6230,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -6265,7 +6265,7 @@ contains
       type(CharacterDim0Len8192List), intent(inout):: list
       Character(len = 8192), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -6482,7 +6482,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -6511,7 +6511,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -6546,7 +6546,7 @@ contains
       type(IntegerDim0KindINT8List), intent(inout):: list
       Integer(kind = INT8), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -6763,7 +6763,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -6792,7 +6792,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -6827,7 +6827,7 @@ contains
       type(IntegerDim0KindINT16List), intent(inout):: list
       Integer(kind = INT16), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -7044,7 +7044,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -7073,7 +7073,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -7108,7 +7108,7 @@ contains
       type(IntegerDim0KindINT32List), intent(inout):: list
       Integer(kind = INT32), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -7325,7 +7325,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -7354,7 +7354,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -7389,7 +7389,7 @@ contains
       type(IntegerDim0KindINT64List), intent(inout):: list
       Integer(kind = INT64), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -7606,7 +7606,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -7635,7 +7635,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -7670,7 +7670,7 @@ contains
       type(RealDim0KindREAL32List), intent(inout):: list
       Real(kind = REAL32), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -7887,7 +7887,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -7916,7 +7916,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -7951,7 +7951,7 @@ contains
       type(RealDim0KindREAL64List), intent(inout):: list
       Real(kind = REAL64), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -8168,7 +8168,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -8197,7 +8197,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -8232,7 +8232,7 @@ contains
       type(RealDim0KindREAL128List), intent(inout):: list
       Real(kind = REAL128), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -8449,7 +8449,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -8478,7 +8478,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -8513,7 +8513,7 @@ contains
       type(ComplexDim0KindREAL32List), intent(inout):: list
       Complex(kind = REAL32), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -8730,7 +8730,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -8759,7 +8759,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -8794,7 +8794,7 @@ contains
       type(ComplexDim0KindREAL64List), intent(inout):: list
       Complex(kind = REAL64), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -9011,7 +9011,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)
@@ -9040,7 +9040,7 @@ contains
       posL = min(pos1, pos2)
       posR = max(pos1, pos2)
       nList = size(list)
-      raise_if(posL < 1 .or. nList < posR)
+      RAISE_IF(posL < 1 .or. nList < posR)
       if(posL == posR) return
 
       posLNode => node_at(list, posL)
@@ -9075,7 +9075,7 @@ contains
       type(ComplexDim0KindREAL128List), intent(inout):: list
       Complex(kind = REAL128), intent(in):: array(:)
 
-      integer:: i
+      Integer(kind = INT64):: i
 
       if(.not.is_empty(list)) call clear(list)
 
@@ -9292,7 +9292,7 @@ contains
 
       integer:: posNow
 
-      raise_if(pos < 1 .or. size(list) < pos)
+      RAISE_IF(pos < 1 .or. size(list) < pos)
 
       this => list%entry
       posNow = size(list)

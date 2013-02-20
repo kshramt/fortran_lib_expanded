@@ -8,16 +8,11 @@ module lib_reflectable
   private
 
   public:: str_from_type
-  public:: dim_from_type
   public:: stem_from_type
 
     interface str_from_type
       module procedure str_from_typeLogicalDim0
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeLogicalDim0
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeLogicalDim0
@@ -26,20 +21,12 @@ module lib_reflectable
       module procedure str_from_typeLogicalDim1
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeLogicalDim1
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeLogicalDim1
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeLogicalDim2
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeLogicalDim2
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeLogicalDim2
@@ -48,20 +35,12 @@ module lib_reflectable
       module procedure str_from_typeLogicalDim3
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeLogicalDim3
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeLogicalDim3
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeLogicalDim4
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeLogicalDim4
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeLogicalDim4
@@ -70,20 +49,12 @@ module lib_reflectable
       module procedure str_from_typeLogicalDim5
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeLogicalDim5
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeLogicalDim5
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeLogicalDim6
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeLogicalDim6
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeLogicalDim6
@@ -92,20 +63,12 @@ module lib_reflectable
       module procedure str_from_typeLogicalDim7
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeLogicalDim7
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeLogicalDim7
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeCharacterDim0LenAst
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeCharacterDim0LenAst
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeCharacterDim0LenAst
@@ -114,20 +77,12 @@ module lib_reflectable
       module procedure str_from_typeCharacterDim1LenAst
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeCharacterDim1LenAst
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeCharacterDim1LenAst
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeCharacterDim2LenAst
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeCharacterDim2LenAst
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeCharacterDim2LenAst
@@ -136,20 +91,12 @@ module lib_reflectable
       module procedure str_from_typeCharacterDim3LenAst
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeCharacterDim3LenAst
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeCharacterDim3LenAst
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeCharacterDim4LenAst
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeCharacterDim4LenAst
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeCharacterDim4LenAst
@@ -158,20 +105,12 @@ module lib_reflectable
       module procedure str_from_typeCharacterDim5LenAst
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeCharacterDim5LenAst
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeCharacterDim5LenAst
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeCharacterDim6LenAst
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeCharacterDim6LenAst
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeCharacterDim6LenAst
@@ -180,20 +119,12 @@ module lib_reflectable
       module procedure str_from_typeCharacterDim7LenAst
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeCharacterDim7LenAst
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeCharacterDim7LenAst
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim0KindINT8
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim0KindINT8
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim0KindINT8
@@ -202,20 +133,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim0KindINT16
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim0KindINT16
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim0KindINT16
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim0KindINT32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim0KindINT32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim0KindINT32
@@ -224,20 +147,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim0KindINT64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim0KindINT64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim0KindINT64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim1KindINT8
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim1KindINT8
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim1KindINT8
@@ -246,20 +161,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim1KindINT16
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim1KindINT16
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim1KindINT16
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim1KindINT32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim1KindINT32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim1KindINT32
@@ -268,20 +175,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim1KindINT64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim1KindINT64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim1KindINT64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim2KindINT8
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim2KindINT8
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim2KindINT8
@@ -290,20 +189,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim2KindINT16
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim2KindINT16
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim2KindINT16
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim2KindINT32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim2KindINT32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim2KindINT32
@@ -312,20 +203,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim2KindINT64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim2KindINT64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim2KindINT64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim3KindINT8
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim3KindINT8
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim3KindINT8
@@ -334,20 +217,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim3KindINT16
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim3KindINT16
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim3KindINT16
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim3KindINT32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim3KindINT32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim3KindINT32
@@ -356,20 +231,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim3KindINT64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim3KindINT64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim3KindINT64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim4KindINT8
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim4KindINT8
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim4KindINT8
@@ -378,20 +245,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim4KindINT16
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim4KindINT16
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim4KindINT16
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim4KindINT32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim4KindINT32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim4KindINT32
@@ -400,20 +259,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim4KindINT64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim4KindINT64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim4KindINT64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim5KindINT8
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim5KindINT8
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim5KindINT8
@@ -422,20 +273,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim5KindINT16
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim5KindINT16
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim5KindINT16
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim5KindINT32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim5KindINT32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim5KindINT32
@@ -444,20 +287,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim5KindINT64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim5KindINT64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim5KindINT64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim6KindINT8
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim6KindINT8
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim6KindINT8
@@ -466,20 +301,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim6KindINT16
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim6KindINT16
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim6KindINT16
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim6KindINT32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim6KindINT32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim6KindINT32
@@ -488,20 +315,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim6KindINT64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim6KindINT64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim6KindINT64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim7KindINT8
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim7KindINT8
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim7KindINT8
@@ -510,20 +329,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim7KindINT16
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim7KindINT16
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim7KindINT16
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeIntegerDim7KindINT32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim7KindINT32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeIntegerDim7KindINT32
@@ -532,20 +343,12 @@ module lib_reflectable
       module procedure str_from_typeIntegerDim7KindINT64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeIntegerDim7KindINT64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeIntegerDim7KindINT64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim0KindREAL32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim0KindREAL32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim0KindREAL32
@@ -554,20 +357,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim0KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim0KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim0KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim0KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim0KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim0KindREAL128
@@ -576,20 +371,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim1KindREAL32
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim1KindREAL32
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim1KindREAL32
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim1KindREAL64
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim1KindREAL64
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim1KindREAL64
@@ -598,20 +385,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim1KindREAL128
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim1KindREAL128
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim1KindREAL128
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim2KindREAL32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim2KindREAL32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim2KindREAL32
@@ -620,20 +399,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim2KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim2KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim2KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim2KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim2KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim2KindREAL128
@@ -642,20 +413,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim3KindREAL32
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim3KindREAL32
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim3KindREAL32
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim3KindREAL64
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim3KindREAL64
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim3KindREAL64
@@ -664,20 +427,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim3KindREAL128
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim3KindREAL128
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim3KindREAL128
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim4KindREAL32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim4KindREAL32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim4KindREAL32
@@ -686,20 +441,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim4KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim4KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim4KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim4KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim4KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim4KindREAL128
@@ -708,20 +455,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim5KindREAL32
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim5KindREAL32
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim5KindREAL32
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim5KindREAL64
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim5KindREAL64
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim5KindREAL64
@@ -730,20 +469,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim5KindREAL128
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim5KindREAL128
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim5KindREAL128
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim6KindREAL32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim6KindREAL32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim6KindREAL32
@@ -752,20 +483,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim6KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim6KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim6KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim6KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim6KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim6KindREAL128
@@ -774,20 +497,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim7KindREAL32
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim7KindREAL32
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim7KindREAL32
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeRealDim7KindREAL64
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeRealDim7KindREAL64
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeRealDim7KindREAL64
@@ -796,20 +511,12 @@ module lib_reflectable
       module procedure str_from_typeRealDim7KindREAL128
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeRealDim7KindREAL128
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeRealDim7KindREAL128
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim0KindREAL32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim0KindREAL32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim0KindREAL32
@@ -818,20 +525,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim0KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim0KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim0KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim0KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim0KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim0KindREAL128
@@ -840,20 +539,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim1KindREAL32
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim1KindREAL32
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim1KindREAL32
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim1KindREAL64
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim1KindREAL64
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim1KindREAL64
@@ -862,20 +553,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim1KindREAL128
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim1KindREAL128
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim1KindREAL128
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim2KindREAL32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim2KindREAL32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim2KindREAL32
@@ -884,20 +567,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim2KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim2KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim2KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim2KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim2KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim2KindREAL128
@@ -906,20 +581,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim3KindREAL32
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim3KindREAL32
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim3KindREAL32
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim3KindREAL64
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim3KindREAL64
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim3KindREAL64
@@ -928,20 +595,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim3KindREAL128
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim3KindREAL128
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim3KindREAL128
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim4KindREAL32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim4KindREAL32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim4KindREAL32
@@ -950,20 +609,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim4KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim4KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim4KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim4KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim4KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim4KindREAL128
@@ -972,20 +623,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim5KindREAL32
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim5KindREAL32
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim5KindREAL32
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim5KindREAL64
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim5KindREAL64
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim5KindREAL64
@@ -994,20 +637,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim5KindREAL128
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim5KindREAL128
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim5KindREAL128
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim6KindREAL32
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim6KindREAL32
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim6KindREAL32
@@ -1016,20 +651,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim6KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim6KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim6KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim6KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim6KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim6KindREAL128
@@ -1038,10 +665,6 @@ module lib_reflectable
       module procedure str_from_typeComplexDim7KindREAL32
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim7KindREAL32
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim7KindREAL32
     end interface stem_from_type
@@ -1049,20 +672,12 @@ module lib_reflectable
       module procedure str_from_typeComplexDim7KindREAL64
     end interface str_from_type
 
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim7KindREAL64
-    end interface dim_from_type
-
     interface stem_from_type
       module procedure stem_from_typeComplexDim7KindREAL64
     end interface stem_from_type
     interface str_from_type
       module procedure str_from_typeComplexDim7KindREAL128
     end interface str_from_type
-
-    interface dim_from_type
-      module procedure dim_from_typeComplexDim7KindREAL128
-    end interface dim_from_type
 
     interface stem_from_type
       module procedure stem_from_typeComplexDim7KindREAL128
@@ -1077,13 +692,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeLogicalDim0
-
-    pure function dim_from_typeLogicalDim0(v) result(this)
-      integer:: this
-      Logical, intent(in):: v
-
-      this = 0
-    end function dim_from_typeLogicalDim0
 
     pure function stem_from_typeLogicalDim0(v) result(this)
       character(len = *), parameter:: STEM = "Logical"
@@ -1100,13 +708,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeLogicalDim1
 
-    pure function dim_from_typeLogicalDim1(v) result(this)
-      integer:: this
-      Logical, dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeLogicalDim1
-
     pure function stem_from_typeLogicalDim1(v) result(this)
       character(len = *), parameter:: STEM = "Logical"
       character(len = len(STEM)):: this
@@ -1121,13 +722,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeLogicalDim2
-
-    pure function dim_from_typeLogicalDim2(v) result(this)
-      integer:: this
-      Logical, dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeLogicalDim2
 
     pure function stem_from_typeLogicalDim2(v) result(this)
       character(len = *), parameter:: STEM = "Logical"
@@ -1144,13 +738,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeLogicalDim3
 
-    pure function dim_from_typeLogicalDim3(v) result(this)
-      integer:: this
-      Logical, dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeLogicalDim3
-
     pure function stem_from_typeLogicalDim3(v) result(this)
       character(len = *), parameter:: STEM = "Logical"
       character(len = len(STEM)):: this
@@ -1165,13 +752,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeLogicalDim4
-
-    pure function dim_from_typeLogicalDim4(v) result(this)
-      integer:: this
-      Logical, dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeLogicalDim4
 
     pure function stem_from_typeLogicalDim4(v) result(this)
       character(len = *), parameter:: STEM = "Logical"
@@ -1188,13 +768,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeLogicalDim5
 
-    pure function dim_from_typeLogicalDim5(v) result(this)
-      integer:: this
-      Logical, dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeLogicalDim5
-
     pure function stem_from_typeLogicalDim5(v) result(this)
       character(len = *), parameter:: STEM = "Logical"
       character(len = len(STEM)):: this
@@ -1209,13 +782,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeLogicalDim6
-
-    pure function dim_from_typeLogicalDim6(v) result(this)
-      integer:: this
-      Logical, dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeLogicalDim6
 
     pure function stem_from_typeLogicalDim6(v) result(this)
       character(len = *), parameter:: STEM = "Logical"
@@ -1232,13 +798,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeLogicalDim7
 
-    pure function dim_from_typeLogicalDim7(v) result(this)
-      integer:: this
-      Logical, dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeLogicalDim7
-
     pure function stem_from_typeLogicalDim7(v) result(this)
       character(len = *), parameter:: STEM = "Logical"
       character(len = len(STEM)):: this
@@ -1253,13 +812,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeCharacterDim0LenAst
-
-    pure function dim_from_typeCharacterDim0LenAst(v) result(this)
-      integer:: this
-      Character(len = *), intent(in):: v
-
-      this = 0
-    end function dim_from_typeCharacterDim0LenAst
 
     pure function stem_from_typeCharacterDim0LenAst(v) result(this)
       character(len = *), parameter:: STEM = "Character"
@@ -1276,13 +828,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeCharacterDim1LenAst
 
-    pure function dim_from_typeCharacterDim1LenAst(v) result(this)
-      integer:: this
-      Character(len = *), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeCharacterDim1LenAst
-
     pure function stem_from_typeCharacterDim1LenAst(v) result(this)
       character(len = *), parameter:: STEM = "Character"
       character(len = len(STEM)):: this
@@ -1297,13 +842,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeCharacterDim2LenAst
-
-    pure function dim_from_typeCharacterDim2LenAst(v) result(this)
-      integer:: this
-      Character(len = *), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeCharacterDim2LenAst
 
     pure function stem_from_typeCharacterDim2LenAst(v) result(this)
       character(len = *), parameter:: STEM = "Character"
@@ -1320,13 +858,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeCharacterDim3LenAst
 
-    pure function dim_from_typeCharacterDim3LenAst(v) result(this)
-      integer:: this
-      Character(len = *), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeCharacterDim3LenAst
-
     pure function stem_from_typeCharacterDim3LenAst(v) result(this)
       character(len = *), parameter:: STEM = "Character"
       character(len = len(STEM)):: this
@@ -1341,13 +872,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeCharacterDim4LenAst
-
-    pure function dim_from_typeCharacterDim4LenAst(v) result(this)
-      integer:: this
-      Character(len = *), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeCharacterDim4LenAst
 
     pure function stem_from_typeCharacterDim4LenAst(v) result(this)
       character(len = *), parameter:: STEM = "Character"
@@ -1364,13 +888,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeCharacterDim5LenAst
 
-    pure function dim_from_typeCharacterDim5LenAst(v) result(this)
-      integer:: this
-      Character(len = *), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeCharacterDim5LenAst
-
     pure function stem_from_typeCharacterDim5LenAst(v) result(this)
       character(len = *), parameter:: STEM = "Character"
       character(len = len(STEM)):: this
@@ -1385,13 +902,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeCharacterDim6LenAst
-
-    pure function dim_from_typeCharacterDim6LenAst(v) result(this)
-      integer:: this
-      Character(len = *), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeCharacterDim6LenAst
 
     pure function stem_from_typeCharacterDim6LenAst(v) result(this)
       character(len = *), parameter:: STEM = "Character"
@@ -1408,13 +918,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeCharacterDim7LenAst
 
-    pure function dim_from_typeCharacterDim7LenAst(v) result(this)
-      integer:: this
-      Character(len = *), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeCharacterDim7LenAst
-
     pure function stem_from_typeCharacterDim7LenAst(v) result(this)
       character(len = *), parameter:: STEM = "Character"
       character(len = len(STEM)):: this
@@ -1429,13 +932,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim0KindINT8
-
-    pure function dim_from_typeIntegerDim0KindINT8(v) result(this)
-      integer:: this
-      Integer(kind = INT8), intent(in):: v
-
-      this = 0
-    end function dim_from_typeIntegerDim0KindINT8
 
     pure function stem_from_typeIntegerDim0KindINT8(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1452,13 +948,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim0KindINT16
 
-    pure function dim_from_typeIntegerDim0KindINT16(v) result(this)
-      integer:: this
-      Integer(kind = INT16), intent(in):: v
-
-      this = 0
-    end function dim_from_typeIntegerDim0KindINT16
-
     pure function stem_from_typeIntegerDim0KindINT16(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1473,13 +962,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim0KindINT32
-
-    pure function dim_from_typeIntegerDim0KindINT32(v) result(this)
-      integer:: this
-      Integer(kind = INT32), intent(in):: v
-
-      this = 0
-    end function dim_from_typeIntegerDim0KindINT32
 
     pure function stem_from_typeIntegerDim0KindINT32(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1496,13 +978,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim0KindINT64
 
-    pure function dim_from_typeIntegerDim0KindINT64(v) result(this)
-      integer:: this
-      Integer(kind = INT64), intent(in):: v
-
-      this = 0
-    end function dim_from_typeIntegerDim0KindINT64
-
     pure function stem_from_typeIntegerDim0KindINT64(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1517,13 +992,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim1KindINT8
-
-    pure function dim_from_typeIntegerDim1KindINT8(v) result(this)
-      integer:: this
-      Integer(kind = INT8), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeIntegerDim1KindINT8
 
     pure function stem_from_typeIntegerDim1KindINT8(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1540,13 +1008,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim1KindINT16
 
-    pure function dim_from_typeIntegerDim1KindINT16(v) result(this)
-      integer:: this
-      Integer(kind = INT16), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeIntegerDim1KindINT16
-
     pure function stem_from_typeIntegerDim1KindINT16(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1561,13 +1022,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim1KindINT32
-
-    pure function dim_from_typeIntegerDim1KindINT32(v) result(this)
-      integer:: this
-      Integer(kind = INT32), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeIntegerDim1KindINT32
 
     pure function stem_from_typeIntegerDim1KindINT32(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1584,13 +1038,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim1KindINT64
 
-    pure function dim_from_typeIntegerDim1KindINT64(v) result(this)
-      integer:: this
-      Integer(kind = INT64), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeIntegerDim1KindINT64
-
     pure function stem_from_typeIntegerDim1KindINT64(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1605,13 +1052,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim2KindINT8
-
-    pure function dim_from_typeIntegerDim2KindINT8(v) result(this)
-      integer:: this
-      Integer(kind = INT8), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeIntegerDim2KindINT8
 
     pure function stem_from_typeIntegerDim2KindINT8(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1628,13 +1068,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim2KindINT16
 
-    pure function dim_from_typeIntegerDim2KindINT16(v) result(this)
-      integer:: this
-      Integer(kind = INT16), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeIntegerDim2KindINT16
-
     pure function stem_from_typeIntegerDim2KindINT16(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1649,13 +1082,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim2KindINT32
-
-    pure function dim_from_typeIntegerDim2KindINT32(v) result(this)
-      integer:: this
-      Integer(kind = INT32), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeIntegerDim2KindINT32
 
     pure function stem_from_typeIntegerDim2KindINT32(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1672,13 +1098,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim2KindINT64
 
-    pure function dim_from_typeIntegerDim2KindINT64(v) result(this)
-      integer:: this
-      Integer(kind = INT64), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeIntegerDim2KindINT64
-
     pure function stem_from_typeIntegerDim2KindINT64(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1693,13 +1112,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim3KindINT8
-
-    pure function dim_from_typeIntegerDim3KindINT8(v) result(this)
-      integer:: this
-      Integer(kind = INT8), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeIntegerDim3KindINT8
 
     pure function stem_from_typeIntegerDim3KindINT8(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1716,13 +1128,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim3KindINT16
 
-    pure function dim_from_typeIntegerDim3KindINT16(v) result(this)
-      integer:: this
-      Integer(kind = INT16), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeIntegerDim3KindINT16
-
     pure function stem_from_typeIntegerDim3KindINT16(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1737,13 +1142,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim3KindINT32
-
-    pure function dim_from_typeIntegerDim3KindINT32(v) result(this)
-      integer:: this
-      Integer(kind = INT32), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeIntegerDim3KindINT32
 
     pure function stem_from_typeIntegerDim3KindINT32(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1760,13 +1158,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim3KindINT64
 
-    pure function dim_from_typeIntegerDim3KindINT64(v) result(this)
-      integer:: this
-      Integer(kind = INT64), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeIntegerDim3KindINT64
-
     pure function stem_from_typeIntegerDim3KindINT64(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1781,13 +1172,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim4KindINT8
-
-    pure function dim_from_typeIntegerDim4KindINT8(v) result(this)
-      integer:: this
-      Integer(kind = INT8), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeIntegerDim4KindINT8
 
     pure function stem_from_typeIntegerDim4KindINT8(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1804,13 +1188,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim4KindINT16
 
-    pure function dim_from_typeIntegerDim4KindINT16(v) result(this)
-      integer:: this
-      Integer(kind = INT16), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeIntegerDim4KindINT16
-
     pure function stem_from_typeIntegerDim4KindINT16(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1825,13 +1202,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim4KindINT32
-
-    pure function dim_from_typeIntegerDim4KindINT32(v) result(this)
-      integer:: this
-      Integer(kind = INT32), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeIntegerDim4KindINT32
 
     pure function stem_from_typeIntegerDim4KindINT32(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1848,13 +1218,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim4KindINT64
 
-    pure function dim_from_typeIntegerDim4KindINT64(v) result(this)
-      integer:: this
-      Integer(kind = INT64), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeIntegerDim4KindINT64
-
     pure function stem_from_typeIntegerDim4KindINT64(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1869,13 +1232,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim5KindINT8
-
-    pure function dim_from_typeIntegerDim5KindINT8(v) result(this)
-      integer:: this
-      Integer(kind = INT8), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeIntegerDim5KindINT8
 
     pure function stem_from_typeIntegerDim5KindINT8(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1892,13 +1248,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim5KindINT16
 
-    pure function dim_from_typeIntegerDim5KindINT16(v) result(this)
-      integer:: this
-      Integer(kind = INT16), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeIntegerDim5KindINT16
-
     pure function stem_from_typeIntegerDim5KindINT16(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1913,13 +1262,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim5KindINT32
-
-    pure function dim_from_typeIntegerDim5KindINT32(v) result(this)
-      integer:: this
-      Integer(kind = INT32), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeIntegerDim5KindINT32
 
     pure function stem_from_typeIntegerDim5KindINT32(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1936,13 +1278,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim5KindINT64
 
-    pure function dim_from_typeIntegerDim5KindINT64(v) result(this)
-      integer:: this
-      Integer(kind = INT64), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeIntegerDim5KindINT64
-
     pure function stem_from_typeIntegerDim5KindINT64(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -1957,13 +1292,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim6KindINT8
-
-    pure function dim_from_typeIntegerDim6KindINT8(v) result(this)
-      integer:: this
-      Integer(kind = INT8), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeIntegerDim6KindINT8
 
     pure function stem_from_typeIntegerDim6KindINT8(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -1980,13 +1308,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim6KindINT16
 
-    pure function dim_from_typeIntegerDim6KindINT16(v) result(this)
-      integer:: this
-      Integer(kind = INT16), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeIntegerDim6KindINT16
-
     pure function stem_from_typeIntegerDim6KindINT16(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -2001,13 +1322,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim6KindINT32
-
-    pure function dim_from_typeIntegerDim6KindINT32(v) result(this)
-      integer:: this
-      Integer(kind = INT32), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeIntegerDim6KindINT32
 
     pure function stem_from_typeIntegerDim6KindINT32(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -2024,13 +1338,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim6KindINT64
 
-    pure function dim_from_typeIntegerDim6KindINT64(v) result(this)
-      integer:: this
-      Integer(kind = INT64), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeIntegerDim6KindINT64
-
     pure function stem_from_typeIntegerDim6KindINT64(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -2045,13 +1352,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim7KindINT8
-
-    pure function dim_from_typeIntegerDim7KindINT8(v) result(this)
-      integer:: this
-      Integer(kind = INT8), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeIntegerDim7KindINT8
 
     pure function stem_from_typeIntegerDim7KindINT8(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -2068,13 +1368,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim7KindINT16
 
-    pure function dim_from_typeIntegerDim7KindINT16(v) result(this)
-      integer:: this
-      Integer(kind = INT16), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeIntegerDim7KindINT16
-
     pure function stem_from_typeIntegerDim7KindINT16(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -2089,13 +1382,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim7KindINT32
-
-    pure function dim_from_typeIntegerDim7KindINT32(v) result(this)
-      integer:: this
-      Integer(kind = INT32), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeIntegerDim7KindINT32
 
     pure function stem_from_typeIntegerDim7KindINT32(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
@@ -2112,13 +1398,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeIntegerDim7KindINT64
 
-    pure function dim_from_typeIntegerDim7KindINT64(v) result(this)
-      integer:: this
-      Integer(kind = INT64), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeIntegerDim7KindINT64
-
     pure function stem_from_typeIntegerDim7KindINT64(v) result(this)
       character(len = *), parameter:: STEM = "Integer"
       character(len = len(STEM)):: this
@@ -2133,13 +1412,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim0KindREAL32
-
-    pure function dim_from_typeRealDim0KindREAL32(v) result(this)
-      integer:: this
-      Real(kind = REAL32), intent(in):: v
-
-      this = 0
-    end function dim_from_typeRealDim0KindREAL32
 
     pure function stem_from_typeRealDim0KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2156,13 +1428,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim0KindREAL64
 
-    pure function dim_from_typeRealDim0KindREAL64(v) result(this)
-      integer:: this
-      Real(kind = REAL64), intent(in):: v
-
-      this = 0
-    end function dim_from_typeRealDim0KindREAL64
-
     pure function stem_from_typeRealDim0KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2177,13 +1442,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim0KindREAL128
-
-    pure function dim_from_typeRealDim0KindREAL128(v) result(this)
-      integer:: this
-      Real(kind = REAL128), intent(in):: v
-
-      this = 0
-    end function dim_from_typeRealDim0KindREAL128
 
     pure function stem_from_typeRealDim0KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2200,13 +1458,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim1KindREAL32
 
-    pure function dim_from_typeRealDim1KindREAL32(v) result(this)
-      integer:: this
-      Real(kind = REAL32), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeRealDim1KindREAL32
-
     pure function stem_from_typeRealDim1KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2221,13 +1472,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim1KindREAL64
-
-    pure function dim_from_typeRealDim1KindREAL64(v) result(this)
-      integer:: this
-      Real(kind = REAL64), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeRealDim1KindREAL64
 
     pure function stem_from_typeRealDim1KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2244,13 +1488,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim1KindREAL128
 
-    pure function dim_from_typeRealDim1KindREAL128(v) result(this)
-      integer:: this
-      Real(kind = REAL128), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeRealDim1KindREAL128
-
     pure function stem_from_typeRealDim1KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2265,13 +1502,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim2KindREAL32
-
-    pure function dim_from_typeRealDim2KindREAL32(v) result(this)
-      integer:: this
-      Real(kind = REAL32), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeRealDim2KindREAL32
 
     pure function stem_from_typeRealDim2KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2288,13 +1518,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim2KindREAL64
 
-    pure function dim_from_typeRealDim2KindREAL64(v) result(this)
-      integer:: this
-      Real(kind = REAL64), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeRealDim2KindREAL64
-
     pure function stem_from_typeRealDim2KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2309,13 +1532,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim2KindREAL128
-
-    pure function dim_from_typeRealDim2KindREAL128(v) result(this)
-      integer:: this
-      Real(kind = REAL128), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeRealDim2KindREAL128
 
     pure function stem_from_typeRealDim2KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2332,13 +1548,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim3KindREAL32
 
-    pure function dim_from_typeRealDim3KindREAL32(v) result(this)
-      integer:: this
-      Real(kind = REAL32), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeRealDim3KindREAL32
-
     pure function stem_from_typeRealDim3KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2353,13 +1562,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim3KindREAL64
-
-    pure function dim_from_typeRealDim3KindREAL64(v) result(this)
-      integer:: this
-      Real(kind = REAL64), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeRealDim3KindREAL64
 
     pure function stem_from_typeRealDim3KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2376,13 +1578,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim3KindREAL128
 
-    pure function dim_from_typeRealDim3KindREAL128(v) result(this)
-      integer:: this
-      Real(kind = REAL128), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeRealDim3KindREAL128
-
     pure function stem_from_typeRealDim3KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2397,13 +1592,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim4KindREAL32
-
-    pure function dim_from_typeRealDim4KindREAL32(v) result(this)
-      integer:: this
-      Real(kind = REAL32), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeRealDim4KindREAL32
 
     pure function stem_from_typeRealDim4KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2420,13 +1608,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim4KindREAL64
 
-    pure function dim_from_typeRealDim4KindREAL64(v) result(this)
-      integer:: this
-      Real(kind = REAL64), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeRealDim4KindREAL64
-
     pure function stem_from_typeRealDim4KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2441,13 +1622,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim4KindREAL128
-
-    pure function dim_from_typeRealDim4KindREAL128(v) result(this)
-      integer:: this
-      Real(kind = REAL128), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeRealDim4KindREAL128
 
     pure function stem_from_typeRealDim4KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2464,13 +1638,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim5KindREAL32
 
-    pure function dim_from_typeRealDim5KindREAL32(v) result(this)
-      integer:: this
-      Real(kind = REAL32), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeRealDim5KindREAL32
-
     pure function stem_from_typeRealDim5KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2485,13 +1652,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim5KindREAL64
-
-    pure function dim_from_typeRealDim5KindREAL64(v) result(this)
-      integer:: this
-      Real(kind = REAL64), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeRealDim5KindREAL64
 
     pure function stem_from_typeRealDim5KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2508,13 +1668,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim5KindREAL128
 
-    pure function dim_from_typeRealDim5KindREAL128(v) result(this)
-      integer:: this
-      Real(kind = REAL128), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeRealDim5KindREAL128
-
     pure function stem_from_typeRealDim5KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2529,13 +1682,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim6KindREAL32
-
-    pure function dim_from_typeRealDim6KindREAL32(v) result(this)
-      integer:: this
-      Real(kind = REAL32), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeRealDim6KindREAL32
 
     pure function stem_from_typeRealDim6KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2552,13 +1698,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim6KindREAL64
 
-    pure function dim_from_typeRealDim6KindREAL64(v) result(this)
-      integer:: this
-      Real(kind = REAL64), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeRealDim6KindREAL64
-
     pure function stem_from_typeRealDim6KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2573,13 +1712,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim6KindREAL128
-
-    pure function dim_from_typeRealDim6KindREAL128(v) result(this)
-      integer:: this
-      Real(kind = REAL128), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeRealDim6KindREAL128
 
     pure function stem_from_typeRealDim6KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2596,13 +1728,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim7KindREAL32
 
-    pure function dim_from_typeRealDim7KindREAL32(v) result(this)
-      integer:: this
-      Real(kind = REAL32), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeRealDim7KindREAL32
-
     pure function stem_from_typeRealDim7KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2617,13 +1742,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeRealDim7KindREAL64
-
-    pure function dim_from_typeRealDim7KindREAL64(v) result(this)
-      integer:: this
-      Real(kind = REAL64), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeRealDim7KindREAL64
 
     pure function stem_from_typeRealDim7KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Real"
@@ -2640,13 +1758,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeRealDim7KindREAL128
 
-    pure function dim_from_typeRealDim7KindREAL128(v) result(this)
-      integer:: this
-      Real(kind = REAL128), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeRealDim7KindREAL128
-
     pure function stem_from_typeRealDim7KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Real"
       character(len = len(STEM)):: this
@@ -2661,13 +1772,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim0KindREAL32
-
-    pure function dim_from_typeComplexDim0KindREAL32(v) result(this)
-      integer:: this
-      Complex(kind = REAL32), intent(in):: v
-
-      this = 0
-    end function dim_from_typeComplexDim0KindREAL32
 
     pure function stem_from_typeComplexDim0KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -2684,13 +1788,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim0KindREAL64
 
-    pure function dim_from_typeComplexDim0KindREAL64(v) result(this)
-      integer:: this
-      Complex(kind = REAL64), intent(in):: v
-
-      this = 0
-    end function dim_from_typeComplexDim0KindREAL64
-
     pure function stem_from_typeComplexDim0KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -2705,13 +1802,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim0KindREAL128
-
-    pure function dim_from_typeComplexDim0KindREAL128(v) result(this)
-      integer:: this
-      Complex(kind = REAL128), intent(in):: v
-
-      this = 0
-    end function dim_from_typeComplexDim0KindREAL128
 
     pure function stem_from_typeComplexDim0KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -2728,13 +1818,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim1KindREAL32
 
-    pure function dim_from_typeComplexDim1KindREAL32(v) result(this)
-      integer:: this
-      Complex(kind = REAL32), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeComplexDim1KindREAL32
-
     pure function stem_from_typeComplexDim1KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -2749,13 +1832,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim1KindREAL64
-
-    pure function dim_from_typeComplexDim1KindREAL64(v) result(this)
-      integer:: this
-      Complex(kind = REAL64), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeComplexDim1KindREAL64
 
     pure function stem_from_typeComplexDim1KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -2772,13 +1848,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim1KindREAL128
 
-    pure function dim_from_typeComplexDim1KindREAL128(v) result(this)
-      integer:: this
-      Complex(kind = REAL128), dimension(:), intent(in):: v
-
-      this = 1
-    end function dim_from_typeComplexDim1KindREAL128
-
     pure function stem_from_typeComplexDim1KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -2793,13 +1862,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim2KindREAL32
-
-    pure function dim_from_typeComplexDim2KindREAL32(v) result(this)
-      integer:: this
-      Complex(kind = REAL32), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeComplexDim2KindREAL32
 
     pure function stem_from_typeComplexDim2KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -2816,13 +1878,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim2KindREAL64
 
-    pure function dim_from_typeComplexDim2KindREAL64(v) result(this)
-      integer:: this
-      Complex(kind = REAL64), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeComplexDim2KindREAL64
-
     pure function stem_from_typeComplexDim2KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -2837,13 +1892,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim2KindREAL128
-
-    pure function dim_from_typeComplexDim2KindREAL128(v) result(this)
-      integer:: this
-      Complex(kind = REAL128), dimension(:, :), intent(in):: v
-
-      this = 2
-    end function dim_from_typeComplexDim2KindREAL128
 
     pure function stem_from_typeComplexDim2KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -2860,13 +1908,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim3KindREAL32
 
-    pure function dim_from_typeComplexDim3KindREAL32(v) result(this)
-      integer:: this
-      Complex(kind = REAL32), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeComplexDim3KindREAL32
-
     pure function stem_from_typeComplexDim3KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -2881,13 +1922,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim3KindREAL64
-
-    pure function dim_from_typeComplexDim3KindREAL64(v) result(this)
-      integer:: this
-      Complex(kind = REAL64), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeComplexDim3KindREAL64
 
     pure function stem_from_typeComplexDim3KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -2904,13 +1938,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim3KindREAL128
 
-    pure function dim_from_typeComplexDim3KindREAL128(v) result(this)
-      integer:: this
-      Complex(kind = REAL128), dimension(:, :, :), intent(in):: v
-
-      this = 3
-    end function dim_from_typeComplexDim3KindREAL128
-
     pure function stem_from_typeComplexDim3KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -2925,13 +1952,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim4KindREAL32
-
-    pure function dim_from_typeComplexDim4KindREAL32(v) result(this)
-      integer:: this
-      Complex(kind = REAL32), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeComplexDim4KindREAL32
 
     pure function stem_from_typeComplexDim4KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -2948,13 +1968,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim4KindREAL64
 
-    pure function dim_from_typeComplexDim4KindREAL64(v) result(this)
-      integer:: this
-      Complex(kind = REAL64), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeComplexDim4KindREAL64
-
     pure function stem_from_typeComplexDim4KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -2969,13 +1982,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim4KindREAL128
-
-    pure function dim_from_typeComplexDim4KindREAL128(v) result(this)
-      integer:: this
-      Complex(kind = REAL128), dimension(:, :, :, :), intent(in):: v
-
-      this = 4
-    end function dim_from_typeComplexDim4KindREAL128
 
     pure function stem_from_typeComplexDim4KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -2992,13 +1998,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim5KindREAL32
 
-    pure function dim_from_typeComplexDim5KindREAL32(v) result(this)
-      integer:: this
-      Complex(kind = REAL32), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeComplexDim5KindREAL32
-
     pure function stem_from_typeComplexDim5KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -3013,13 +2012,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim5KindREAL64
-
-    pure function dim_from_typeComplexDim5KindREAL64(v) result(this)
-      integer:: this
-      Complex(kind = REAL64), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeComplexDim5KindREAL64
 
     pure function stem_from_typeComplexDim5KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -3036,13 +2028,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim5KindREAL128
 
-    pure function dim_from_typeComplexDim5KindREAL128(v) result(this)
-      integer:: this
-      Complex(kind = REAL128), dimension(:, :, :, :, :), intent(in):: v
-
-      this = 5
-    end function dim_from_typeComplexDim5KindREAL128
-
     pure function stem_from_typeComplexDim5KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -3057,13 +2042,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim6KindREAL32
-
-    pure function dim_from_typeComplexDim6KindREAL32(v) result(this)
-      integer:: this
-      Complex(kind = REAL32), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeComplexDim6KindREAL32
 
     pure function stem_from_typeComplexDim6KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -3080,13 +2058,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim6KindREAL64
 
-    pure function dim_from_typeComplexDim6KindREAL64(v) result(this)
-      integer:: this
-      Complex(kind = REAL64), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeComplexDim6KindREAL64
-
     pure function stem_from_typeComplexDim6KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -3101,13 +2072,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim6KindREAL128
-
-    pure function dim_from_typeComplexDim6KindREAL128(v) result(this)
-      integer:: this
-      Complex(kind = REAL128), dimension(:, :, :, :, :, :), intent(in):: v
-
-      this = 6
-    end function dim_from_typeComplexDim6KindREAL128
 
     pure function stem_from_typeComplexDim6KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
@@ -3124,13 +2088,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim7KindREAL32
 
-    pure function dim_from_typeComplexDim7KindREAL32(v) result(this)
-      integer:: this
-      Complex(kind = REAL32), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeComplexDim7KindREAL32
-
     pure function stem_from_typeComplexDim7KindREAL32(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -3146,13 +2103,6 @@ contains
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim7KindREAL64
 
-    pure function dim_from_typeComplexDim7KindREAL64(v) result(this)
-      integer:: this
-      Complex(kind = REAL64), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeComplexDim7KindREAL64
-
     pure function stem_from_typeComplexDim7KindREAL64(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
       character(len = len(STEM)):: this
@@ -3167,13 +2117,6 @@ contains
 
       this = STRING_EXPRESSION
     end function str_from_typeComplexDim7KindREAL128
-
-    pure function dim_from_typeComplexDim7KindREAL128(v) result(this)
-      integer:: this
-      Complex(kind = REAL128), dimension(:, :, :, :, :, :, :), intent(in):: v
-
-      this = 7
-    end function dim_from_typeComplexDim7KindREAL128
 
     pure function stem_from_typeComplexDim7KindREAL128(v) result(this)
       character(len = *), parameter:: STEM = "Complex"
