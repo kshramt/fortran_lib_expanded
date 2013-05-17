@@ -3,10 +3,10 @@
 module lib_sort
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
   USE_UTILS_H
-  use lib_comparable, only: is_nan, is_infinity
+  use, non_intrinsic:: lib_comparable, only: is_nan, is_infinity
 
-  use lib_stack, only: push, pop
-  use lib_stack, only: IntegerDim0KindINT64Stack
+  use, non_intrinsic:: stack_lib, only: push_stack, pop_stack
+  use, non_intrinsic:: stack_lib, only: IntegerDim0KindINT64Stack
 
   implicit none
 
@@ -308,11 +308,11 @@ contains
 
       RAISE_IF(any(is_nan(xs)))
 
-      call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
+      call push_stack(iLs, 1_INT64)
+      call push_stack(iRs, size(xs, dim = 1, kind = kind(iR)))
 
-      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        ASSERT(pop(iLs, iL))
+      do while(pop_stack(iRs, iR))    ! Loop for all segments on the stacks.
+        ASSERT(pop_stack(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -336,8 +336,8 @@ contains
               end do
               do while(xs(iL) <= pivot)
                 if(iL >= iR)then
-                  call push(iLs, iR + 1)
-                  call push(iRs, iROriginal)
+                  call push_stack(iLs, iR + 1)
+                  call push_stack(iRs, iROriginal)
                   iL = iLOriginal
                   exit loop_to_swap
                 end if
@@ -428,17 +428,21 @@ contains
       nXs = size(xs, dim = 1, kind = kind(nXs))
       nYs = size(ys, dim = 1, kind = kind(nYs))
       nZs = size(zs, dim = 1, kind = kind(nZs))
-      DEBUG_ASSERT(nXs >= 1)
-      DEBUG_ASSERT(nYs >= 1)
-      DEBUG_ASSERT(nZs >= 1)
-      DEBUG_ASSERT(nXs + nYs == nZs)
+
+      ASSERT(nXs + nYs == nZs)
+      if(nXs < 1)then
+         zs = ys
+         return
+      end if
+      if(nYs < 1)then
+         zs = xs
+         return
+      end if
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        DEBUG_ASSERT(iZs <= nZs)
-
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
           iXs = iXs + 1
@@ -498,11 +502,11 @@ contains
 
       RAISE_IF(any(is_nan(xs)))
 
-      call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
+      call push_stack(iLs, 1_INT64)
+      call push_stack(iRs, size(xs, dim = 1, kind = kind(iR)))
 
-      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        ASSERT(pop(iLs, iL))
+      do while(pop_stack(iRs, iR))    ! Loop for all segments on the stacks.
+        ASSERT(pop_stack(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -526,8 +530,8 @@ contains
               end do
               do while(xs(iL) <= pivot)
                 if(iL >= iR)then
-                  call push(iLs, iR + 1)
-                  call push(iRs, iROriginal)
+                  call push_stack(iLs, iR + 1)
+                  call push_stack(iRs, iROriginal)
                   iL = iLOriginal
                   exit loop_to_swap
                 end if
@@ -618,17 +622,21 @@ contains
       nXs = size(xs, dim = 1, kind = kind(nXs))
       nYs = size(ys, dim = 1, kind = kind(nYs))
       nZs = size(zs, dim = 1, kind = kind(nZs))
-      DEBUG_ASSERT(nXs >= 1)
-      DEBUG_ASSERT(nYs >= 1)
-      DEBUG_ASSERT(nZs >= 1)
-      DEBUG_ASSERT(nXs + nYs == nZs)
+
+      ASSERT(nXs + nYs == nZs)
+      if(nXs < 1)then
+         zs = ys
+         return
+      end if
+      if(nYs < 1)then
+         zs = xs
+         return
+      end if
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        DEBUG_ASSERT(iZs <= nZs)
-
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
           iXs = iXs + 1
@@ -688,11 +696,11 @@ contains
 
       RAISE_IF(any(is_nan(xs)))
 
-      call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
+      call push_stack(iLs, 1_INT64)
+      call push_stack(iRs, size(xs, dim = 1, kind = kind(iR)))
 
-      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        ASSERT(pop(iLs, iL))
+      do while(pop_stack(iRs, iR))    ! Loop for all segments on the stacks.
+        ASSERT(pop_stack(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -716,8 +724,8 @@ contains
               end do
               do while(xs(iL) <= pivot)
                 if(iL >= iR)then
-                  call push(iLs, iR + 1)
-                  call push(iRs, iROriginal)
+                  call push_stack(iLs, iR + 1)
+                  call push_stack(iRs, iROriginal)
                   iL = iLOriginal
                   exit loop_to_swap
                 end if
@@ -808,17 +816,21 @@ contains
       nXs = size(xs, dim = 1, kind = kind(nXs))
       nYs = size(ys, dim = 1, kind = kind(nYs))
       nZs = size(zs, dim = 1, kind = kind(nZs))
-      DEBUG_ASSERT(nXs >= 1)
-      DEBUG_ASSERT(nYs >= 1)
-      DEBUG_ASSERT(nZs >= 1)
-      DEBUG_ASSERT(nXs + nYs == nZs)
+
+      ASSERT(nXs + nYs == nZs)
+      if(nXs < 1)then
+         zs = ys
+         return
+      end if
+      if(nYs < 1)then
+         zs = xs
+         return
+      end if
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        DEBUG_ASSERT(iZs <= nZs)
-
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
           iXs = iXs + 1
@@ -878,11 +890,11 @@ contains
 
       RAISE_IF(any(is_nan(xs)))
 
-      call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
+      call push_stack(iLs, 1_INT64)
+      call push_stack(iRs, size(xs, dim = 1, kind = kind(iR)))
 
-      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        ASSERT(pop(iLs, iL))
+      do while(pop_stack(iRs, iR))    ! Loop for all segments on the stacks.
+        ASSERT(pop_stack(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -906,8 +918,8 @@ contains
               end do
               do while(xs(iL) <= pivot)
                 if(iL >= iR)then
-                  call push(iLs, iR + 1)
-                  call push(iRs, iROriginal)
+                  call push_stack(iLs, iR + 1)
+                  call push_stack(iRs, iROriginal)
                   iL = iLOriginal
                   exit loop_to_swap
                 end if
@@ -998,17 +1010,21 @@ contains
       nXs = size(xs, dim = 1, kind = kind(nXs))
       nYs = size(ys, dim = 1, kind = kind(nYs))
       nZs = size(zs, dim = 1, kind = kind(nZs))
-      DEBUG_ASSERT(nXs >= 1)
-      DEBUG_ASSERT(nYs >= 1)
-      DEBUG_ASSERT(nZs >= 1)
-      DEBUG_ASSERT(nXs + nYs == nZs)
+
+      ASSERT(nXs + nYs == nZs)
+      if(nXs < 1)then
+         zs = ys
+         return
+      end if
+      if(nYs < 1)then
+         zs = xs
+         return
+      end if
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        DEBUG_ASSERT(iZs <= nZs)
-
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
           iXs = iXs + 1
@@ -1068,11 +1084,11 @@ contains
 
       RAISE_IF(any(is_nan(xs)))
 
-      call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
+      call push_stack(iLs, 1_INT64)
+      call push_stack(iRs, size(xs, dim = 1, kind = kind(iR)))
 
-      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        ASSERT(pop(iLs, iL))
+      do while(pop_stack(iRs, iR))    ! Loop for all segments on the stacks.
+        ASSERT(pop_stack(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -1096,8 +1112,8 @@ contains
               end do
               do while(xs(iL) <= pivot)
                 if(iL >= iR)then
-                  call push(iLs, iR + 1)
-                  call push(iRs, iROriginal)
+                  call push_stack(iLs, iR + 1)
+                  call push_stack(iRs, iROriginal)
                   iL = iLOriginal
                   exit loop_to_swap
                 end if
@@ -1188,17 +1204,21 @@ contains
       nXs = size(xs, dim = 1, kind = kind(nXs))
       nYs = size(ys, dim = 1, kind = kind(nYs))
       nZs = size(zs, dim = 1, kind = kind(nZs))
-      DEBUG_ASSERT(nXs >= 1)
-      DEBUG_ASSERT(nYs >= 1)
-      DEBUG_ASSERT(nZs >= 1)
-      DEBUG_ASSERT(nXs + nYs == nZs)
+
+      ASSERT(nXs + nYs == nZs)
+      if(nXs < 1)then
+         zs = ys
+         return
+      end if
+      if(nYs < 1)then
+         zs = xs
+         return
+      end if
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        DEBUG_ASSERT(iZs <= nZs)
-
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
           iXs = iXs + 1
@@ -1258,11 +1278,11 @@ contains
 
       RAISE_IF(any(is_nan(xs)))
 
-      call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
+      call push_stack(iLs, 1_INT64)
+      call push_stack(iRs, size(xs, dim = 1, kind = kind(iR)))
 
-      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        ASSERT(pop(iLs, iL))
+      do while(pop_stack(iRs, iR))    ! Loop for all segments on the stacks.
+        ASSERT(pop_stack(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -1286,8 +1306,8 @@ contains
               end do
               do while(xs(iL) <= pivot)
                 if(iL >= iR)then
-                  call push(iLs, iR + 1)
-                  call push(iRs, iROriginal)
+                  call push_stack(iLs, iR + 1)
+                  call push_stack(iRs, iROriginal)
                   iL = iLOriginal
                   exit loop_to_swap
                 end if
@@ -1378,17 +1398,21 @@ contains
       nXs = size(xs, dim = 1, kind = kind(nXs))
       nYs = size(ys, dim = 1, kind = kind(nYs))
       nZs = size(zs, dim = 1, kind = kind(nZs))
-      DEBUG_ASSERT(nXs >= 1)
-      DEBUG_ASSERT(nYs >= 1)
-      DEBUG_ASSERT(nZs >= 1)
-      DEBUG_ASSERT(nXs + nYs == nZs)
+
+      ASSERT(nXs + nYs == nZs)
+      if(nXs < 1)then
+         zs = ys
+         return
+      end if
+      if(nYs < 1)then
+         zs = xs
+         return
+      end if
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        DEBUG_ASSERT(iZs <= nZs)
-
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
           iXs = iXs + 1
@@ -1448,11 +1472,11 @@ contains
 
       RAISE_IF(any(is_nan(xs)))
 
-      call push(iLs, 1_INT64)
-      call push(iRs, size(xs, dim = 1, kind = kind(iR)))
+      call push_stack(iLs, 1_INT64)
+      call push_stack(iRs, size(xs, dim = 1, kind = kind(iR)))
 
-      do while(pop(iRs, iR))    ! Loop for all segments on the stacks.
-        ASSERT(pop(iLs, iL))
+      do while(pop_stack(iRs, iR))    ! Loop for all segments on the stacks.
+        ASSERT(pop_stack(iLs, iL))
 
         iLOriginal = iL      ! Left most index of the current segment.
         do while(iLOriginal < iR) ! While current segment remains
@@ -1476,8 +1500,8 @@ contains
               end do
               do while(xs(iL) <= pivot)
                 if(iL >= iR)then
-                  call push(iLs, iR + 1)
-                  call push(iRs, iROriginal)
+                  call push_stack(iLs, iR + 1)
+                  call push_stack(iRs, iROriginal)
                   iL = iLOriginal
                   exit loop_to_swap
                 end if
@@ -1568,17 +1592,21 @@ contains
       nXs = size(xs, dim = 1, kind = kind(nXs))
       nYs = size(ys, dim = 1, kind = kind(nYs))
       nZs = size(zs, dim = 1, kind = kind(nZs))
-      DEBUG_ASSERT(nXs >= 1)
-      DEBUG_ASSERT(nYs >= 1)
-      DEBUG_ASSERT(nZs >= 1)
-      DEBUG_ASSERT(nXs + nYs == nZs)
+
+      ASSERT(nXs + nYs == nZs)
+      if(nXs < 1)then
+         zs = ys
+         return
+      end if
+      if(nYs < 1)then
+         zs = xs
+         return
+      end if
 
       iXs = 1
       iYs = 1
       iZs = 1
       do while(iXs <= nXs .and. iYs <= nYs)
-        DEBUG_ASSERT(iZs <= nZs)
-
         if(xs(iXs) <= ys(iYs))then
           zs(iZs) = xs(iXs)
           iXs = iXs + 1

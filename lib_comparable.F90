@@ -96,7 +96,7 @@ module lib_comparable
       module procedure equivalentComplexDim0KindREAL128ComplexDim0KindREAL64
       module procedure equivalentComplexDim0KindREAL128ComplexDim0KindREAL128
       module procedure equivalentLogicalDim0LogicalDim0
-      module procedure equivalentCharacterDim0LenAstCharacterDim0LenAst
+      module procedure equivalentCharacterDim0LenAsteriskCharacterDim0LenAsterisk
   end interface equivalent
 
 contains
@@ -194,6 +194,8 @@ contains
       answer = .false.
     end function is_infinityIntegerDim0KindINT64
 
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL32RealDim0KindREAL32(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL32), intent(in):: a
@@ -234,6 +236,8 @@ contains
 
       this = (abs(a - b) <= 2*delta_)
     end function equivalentRealDim0KindREAL32RealDim0KindREAL32
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL32RealDim0KindREAL64(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL32), intent(in):: a
@@ -274,6 +278,8 @@ contains
 
       this = (abs(a - b) <= 2*delta_)
     end function equivalentRealDim0KindREAL32RealDim0KindREAL64
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL32RealDim0KindREAL128(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL32), intent(in):: a
@@ -314,6 +320,8 @@ contains
 
       this = (abs(a - b) <= 2*delta_)
     end function equivalentRealDim0KindREAL32RealDim0KindREAL128
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL64RealDim0KindREAL32(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL64), intent(in):: a
@@ -354,6 +362,8 @@ contains
 
       this = (abs(a - b) <= 2*delta_)
     end function equivalentRealDim0KindREAL64RealDim0KindREAL32
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL64RealDim0KindREAL64(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL64), intent(in):: a
@@ -394,6 +404,8 @@ contains
 
       this = (abs(a - b) <= 2*delta_)
     end function equivalentRealDim0KindREAL64RealDim0KindREAL64
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL64RealDim0KindREAL128(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL64), intent(in):: a
@@ -434,6 +446,8 @@ contains
 
       this = (abs(a - b) <= 2*delta_)
     end function equivalentRealDim0KindREAL64RealDim0KindREAL128
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL128RealDim0KindREAL32(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL128), intent(in):: a
@@ -474,6 +488,8 @@ contains
 
       this = (abs(a - b) <= 2*delta_)
     end function equivalentRealDim0KindREAL128RealDim0KindREAL32
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL128RealDim0KindREAL64(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL128), intent(in):: a
@@ -514,6 +530,8 @@ contains
 
       this = (abs(a - b) <= 2*delta_)
     end function equivalentRealDim0KindREAL128RealDim0KindREAL64
+    ! This function assumes gradual underflow is not flushed to zero.
+    ! For example, -no-ftz option should be added when you compile this module by ifort.
     elemental function equivalentRealDim0KindREAL128RealDim0KindREAL128(a, b, delta) result(this)
       logical:: this
       Real(kind = REAL128), intent(in):: a
@@ -785,11 +803,11 @@ contains
       this = a .eqv. b
     end function equivalentLogicalDim0LogicalDim0
 
-    elemental function equivalentCharacterDim0LenAstCharacterDim0LenAst(a, b) result(this)
+    elemental function equivalentCharacterDim0LenAsteriskCharacterDim0LenAsterisk(a, b) result(this)
       logical:: this
       Character(len = *), intent(in):: a
       Character(len = *), intent(in):: b
 
       this = (a == b)
-    end function equivalentCharacterDim0LenAstCharacterDim0LenAst
+    end function equivalentCharacterDim0LenAsteriskCharacterDim0LenAsterisk
 end module lib_comparable

@@ -4,7 +4,7 @@
 module lib_list
   USE_UTILS_H
   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
-  use lib_comparable, only: equivalent
+  use, non_intrinsic:: lib_comparable, only: equivalent
 
   implicit none
 
@@ -2335,7 +2335,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionLogicalDim0
@@ -2485,7 +2485,17 @@ contains
       logical:: this
       type(LogicalDim0List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneLogicalDim0
 
     function sizeLogicalDim0(list) result(this)
@@ -2616,7 +2626,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len1
@@ -2766,7 +2776,17 @@ contains
       logical:: this
       type(CharacterDim0Len1List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len1
 
     function sizeCharacterDim0Len1(list) result(this)
@@ -2897,7 +2917,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len2
@@ -3047,7 +3067,17 @@ contains
       logical:: this
       type(CharacterDim0Len2List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len2
 
     function sizeCharacterDim0Len2(list) result(this)
@@ -3178,7 +3208,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len4
@@ -3328,7 +3358,17 @@ contains
       logical:: this
       type(CharacterDim0Len4List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len4
 
     function sizeCharacterDim0Len4(list) result(this)
@@ -3459,7 +3499,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len8
@@ -3609,7 +3649,17 @@ contains
       logical:: this
       type(CharacterDim0Len8List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len8
 
     function sizeCharacterDim0Len8(list) result(this)
@@ -3740,7 +3790,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len16
@@ -3890,7 +3940,17 @@ contains
       logical:: this
       type(CharacterDim0Len16List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len16
 
     function sizeCharacterDim0Len16(list) result(this)
@@ -4021,7 +4081,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len32
@@ -4171,7 +4231,17 @@ contains
       logical:: this
       type(CharacterDim0Len32List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len32
 
     function sizeCharacterDim0Len32(list) result(this)
@@ -4302,7 +4372,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len64
@@ -4452,7 +4522,17 @@ contains
       logical:: this
       type(CharacterDim0Len64List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len64
 
     function sizeCharacterDim0Len64(list) result(this)
@@ -4583,7 +4663,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len128
@@ -4733,7 +4813,17 @@ contains
       logical:: this
       type(CharacterDim0Len128List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len128
 
     function sizeCharacterDim0Len128(list) result(this)
@@ -4864,7 +4954,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len256
@@ -5014,7 +5104,17 @@ contains
       logical:: this
       type(CharacterDim0Len256List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len256
 
     function sizeCharacterDim0Len256(list) result(this)
@@ -5145,7 +5245,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len512
@@ -5295,7 +5395,17 @@ contains
       logical:: this
       type(CharacterDim0Len512List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len512
 
     function sizeCharacterDim0Len512(list) result(this)
@@ -5426,7 +5536,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len1024
@@ -5576,7 +5686,17 @@ contains
       logical:: this
       type(CharacterDim0Len1024List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len1024
 
     function sizeCharacterDim0Len1024(list) result(this)
@@ -5707,7 +5827,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len2048
@@ -5857,7 +5977,17 @@ contains
       logical:: this
       type(CharacterDim0Len2048List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len2048
 
     function sizeCharacterDim0Len2048(list) result(this)
@@ -5988,7 +6118,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len4096
@@ -6138,7 +6268,17 @@ contains
       logical:: this
       type(CharacterDim0Len4096List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len4096
 
     function sizeCharacterDim0Len4096(list) result(this)
@@ -6269,7 +6409,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionCharacterDim0Len8192
@@ -6419,7 +6559,17 @@ contains
       logical:: this
       type(CharacterDim0Len8192List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneCharacterDim0Len8192
 
     function sizeCharacterDim0Len8192(list) result(this)
@@ -6550,7 +6700,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionIntegerDim0KindINT8
@@ -6700,7 +6850,17 @@ contains
       logical:: this
       type(IntegerDim0KindINT8List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneIntegerDim0KindINT8
 
     function sizeIntegerDim0KindINT8(list) result(this)
@@ -6831,7 +6991,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionIntegerDim0KindINT16
@@ -6981,7 +7141,17 @@ contains
       logical:: this
       type(IntegerDim0KindINT16List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneIntegerDim0KindINT16
 
     function sizeIntegerDim0KindINT16(list) result(this)
@@ -7112,7 +7282,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionIntegerDim0KindINT32
@@ -7262,7 +7432,17 @@ contains
       logical:: this
       type(IntegerDim0KindINT32List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneIntegerDim0KindINT32
 
     function sizeIntegerDim0KindINT32(list) result(this)
@@ -7393,7 +7573,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionIntegerDim0KindINT64
@@ -7543,7 +7723,17 @@ contains
       logical:: this
       type(IntegerDim0KindINT64List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneIntegerDim0KindINT64
 
     function sizeIntegerDim0KindINT64(list) result(this)
@@ -7674,7 +7864,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionRealDim0KindREAL32
@@ -7824,7 +8014,17 @@ contains
       logical:: this
       type(RealDim0KindREAL32List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneRealDim0KindREAL32
 
     function sizeRealDim0KindREAL32(list) result(this)
@@ -7955,7 +8155,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionRealDim0KindREAL64
@@ -8105,7 +8305,17 @@ contains
       logical:: this
       type(RealDim0KindREAL64List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneRealDim0KindREAL64
 
     function sizeRealDim0KindREAL64(list) result(this)
@@ -8236,7 +8446,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionRealDim0KindREAL128
@@ -8386,7 +8596,17 @@ contains
       logical:: this
       type(RealDim0KindREAL128List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneRealDim0KindREAL128
 
     function sizeRealDim0KindREAL128(list) result(this)
@@ -8517,7 +8737,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionComplexDim0KindREAL32
@@ -8667,7 +8887,17 @@ contains
       logical:: this
       type(ComplexDim0KindREAL32List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneComplexDim0KindREAL32
 
     function sizeComplexDim0KindREAL32(list) result(this)
@@ -8798,7 +9028,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionComplexDim0KindREAL64
@@ -8948,7 +9178,17 @@ contains
       logical:: this
       type(ComplexDim0KindREAL64List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneComplexDim0KindREAL64
 
     function sizeComplexDim0KindREAL64(list) result(this)
@@ -9079,7 +9319,7 @@ contains
 
       if(.not.is_empty(list)) call clear(list)
 
-      do ALL_OF(array, 1, i)
+      do ALL_OF(i, array, 1)
         call push(list, array(i))
       end do
     end subroutine list_from_array_coercionComplexDim0KindREAL128
@@ -9229,7 +9469,17 @@ contains
       logical:: this
       type(ComplexDim0KindREAL128List), intent(in):: list
 
-      this = (.not.is_empty(list)) .and. (.not.associated(list%entry%prev))
+      this = .true.
+
+      if(is_empty(list))then
+         this = .false.
+         return
+      end if
+
+      if(associated(list%entry%prev))then
+         this = .false.
+         return
+      end if
     end function is_size_oneComplexDim0KindREAL128
 
     function sizeComplexDim0KindREAL128(list) result(this)
