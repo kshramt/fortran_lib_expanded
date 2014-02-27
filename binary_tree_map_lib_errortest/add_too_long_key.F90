@@ -7,7 +7,7 @@ program runner
 
   type(CharacterDim0Len1IntegerDim0KindINT32BinaryTreeMap):: treeMap
 
-  call add_binary_tree_map(treeMap, '||', -1)
+  call append(treeMap, '||', -1)
   stop
 end program runner
 

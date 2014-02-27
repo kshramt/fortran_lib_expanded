@@ -6,7 +6,7 @@ module comparable_lib
    implicit none
 
    private
-   public:: equivalent
+   public:: almost_equal
    public:: is_nan
    public:: is_infinity
 
@@ -60,154 +60,155 @@ module comparable_lib
          module procedure is_infinityIntegerDim0KindINT64
       end interface is_infinity
 
-   interface equivalent
-         module procedure equivalentIntegerDim0KindINT8IntegerDim0KindINT8
-         module procedure equivalentIntegerDim0KindINT8IntegerDim0KindINT16
-         module procedure equivalentIntegerDim0KindINT8IntegerDim0KindINT32
-         module procedure equivalentIntegerDim0KindINT8IntegerDim0KindINT64
-         module procedure equivalentIntegerDim0KindINT16IntegerDim0KindINT8
-         module procedure equivalentIntegerDim0KindINT16IntegerDim0KindINT16
-         module procedure equivalentIntegerDim0KindINT16IntegerDim0KindINT32
-         module procedure equivalentIntegerDim0KindINT16IntegerDim0KindINT64
-         module procedure equivalentIntegerDim0KindINT32IntegerDim0KindINT8
-         module procedure equivalentIntegerDim0KindINT32IntegerDim0KindINT16
-         module procedure equivalentIntegerDim0KindINT32IntegerDim0KindINT32
-         module procedure equivalentIntegerDim0KindINT32IntegerDim0KindINT64
-         module procedure equivalentIntegerDim0KindINT64IntegerDim0KindINT8
-         module procedure equivalentIntegerDim0KindINT64IntegerDim0KindINT16
-         module procedure equivalentIntegerDim0KindINT64IntegerDim0KindINT32
-         module procedure equivalentIntegerDim0KindINT64IntegerDim0KindINT64
-         module procedure equivalentRealDim0KindREAL32RealDim0KindREAL32
-         module procedure equivalentRealDim0KindREAL32RealDim0KindREAL64
-         module procedure equivalentRealDim0KindREAL32RealDim0KindREAL128
-         module procedure equivalentRealDim0KindREAL64RealDim0KindREAL32
-         module procedure equivalentRealDim0KindREAL64RealDim0KindREAL64
-         module procedure equivalentRealDim0KindREAL64RealDim0KindREAL128
-         module procedure equivalentRealDim0KindREAL128RealDim0KindREAL32
-         module procedure equivalentRealDim0KindREAL128RealDim0KindREAL64
-         module procedure equivalentRealDim0KindREAL128RealDim0KindREAL128
-         module procedure equivalentComplexDim0KindREAL32ComplexDim0KindREAL32
-         module procedure equivalentComplexDim0KindREAL32ComplexDim0KindREAL64
-         module procedure equivalentComplexDim0KindREAL32ComplexDim0KindREAL128
-         module procedure equivalentComplexDim0KindREAL64ComplexDim0KindREAL32
-         module procedure equivalentComplexDim0KindREAL64ComplexDim0KindREAL64
-         module procedure equivalentComplexDim0KindREAL64ComplexDim0KindREAL128
-         module procedure equivalentComplexDim0KindREAL128ComplexDim0KindREAL32
-         module procedure equivalentComplexDim0KindREAL128ComplexDim0KindREAL64
-         module procedure equivalentComplexDim0KindREAL128ComplexDim0KindREAL128
-         module procedure equivalentLogicalDim0LogicalDim0
-         module procedure equivalentCharacterDim0LenAsteriskCharacterDim0LenAsterisk
-   end interface equivalent
+   interface almost_equal
+         module procedure almost_equalIntegerDim0KindINT8IntegerDim0KindINT8
+         module procedure almost_equalIntegerDim0KindINT8IntegerDim0KindINT16
+         module procedure almost_equalIntegerDim0KindINT8IntegerDim0KindINT32
+         module procedure almost_equalIntegerDim0KindINT8IntegerDim0KindINT64
+         module procedure almost_equalIntegerDim0KindINT16IntegerDim0KindINT8
+         module procedure almost_equalIntegerDim0KindINT16IntegerDim0KindINT16
+         module procedure almost_equalIntegerDim0KindINT16IntegerDim0KindINT32
+         module procedure almost_equalIntegerDim0KindINT16IntegerDim0KindINT64
+         module procedure almost_equalIntegerDim0KindINT32IntegerDim0KindINT8
+         module procedure almost_equalIntegerDim0KindINT32IntegerDim0KindINT16
+         module procedure almost_equalIntegerDim0KindINT32IntegerDim0KindINT32
+         module procedure almost_equalIntegerDim0KindINT32IntegerDim0KindINT64
+         module procedure almost_equalIntegerDim0KindINT64IntegerDim0KindINT8
+         module procedure almost_equalIntegerDim0KindINT64IntegerDim0KindINT16
+         module procedure almost_equalIntegerDim0KindINT64IntegerDim0KindINT32
+         module procedure almost_equalIntegerDim0KindINT64IntegerDim0KindINT64
+         module procedure almost_equalRealDim0KindREAL32RealDim0KindREAL32
+         module procedure almost_equalRealDim0KindREAL32RealDim0KindREAL64
+         module procedure almost_equalRealDim0KindREAL32RealDim0KindREAL128
+         module procedure almost_equalRealDim0KindREAL64RealDim0KindREAL32
+         module procedure almost_equalRealDim0KindREAL64RealDim0KindREAL64
+         module procedure almost_equalRealDim0KindREAL64RealDim0KindREAL128
+         module procedure almost_equalRealDim0KindREAL128RealDim0KindREAL32
+         module procedure almost_equalRealDim0KindREAL128RealDim0KindREAL64
+         module procedure almost_equalRealDim0KindREAL128RealDim0KindREAL128
+         module procedure almost_equalComplexDim0KindREAL32ComplexDim0KindREAL32
+         module procedure almost_equalComplexDim0KindREAL32ComplexDim0KindREAL64
+         module procedure almost_equalComplexDim0KindREAL32ComplexDim0KindREAL128
+         module procedure almost_equalComplexDim0KindREAL64ComplexDim0KindREAL32
+         module procedure almost_equalComplexDim0KindREAL64ComplexDim0KindREAL64
+         module procedure almost_equalComplexDim0KindREAL64ComplexDim0KindREAL128
+         module procedure almost_equalComplexDim0KindREAL128ComplexDim0KindREAL32
+         module procedure almost_equalComplexDim0KindREAL128ComplexDim0KindREAL64
+         module procedure almost_equalComplexDim0KindREAL128ComplexDim0KindREAL128
+         module procedure almost_equalLogicalDim0LogicalDim0
+         module procedure almost_equalCharacterDim0LenAsteriskCharacterDim0LenAsterisk
+   end interface almost_equal
 
 contains
 
-      elemental function is_nanRealDim0KindREAL32(x) result(this)
-         logical:: this
-         Real(kind = REAL32), intent(in):: x
+      elemental function is_nanRealDim0KindREAL32(x) result(answer)
+         logical:: answer
+         Real(kind=REAL32), intent(in):: x
 
-         this = (x /= x)
+         answer = (x /= x)
       end function is_nanRealDim0KindREAL32
 
       elemental function is_infinityRealDim0KindREAL32(x) result(answer)
          Logical:: answer
-         Real(kind = REAL32), intent(in):: x
+         Real(kind=REAL32), intent(in):: x
 
          answer = x > huge(x)
       end function is_infinityRealDim0KindREAL32
-      elemental function is_nanRealDim0KindREAL64(x) result(this)
-         logical:: this
-         Real(kind = REAL64), intent(in):: x
+      elemental function is_nanRealDim0KindREAL64(x) result(answer)
+         logical:: answer
+         Real(kind=REAL64), intent(in):: x
 
-         this = (x /= x)
+         answer = (x /= x)
       end function is_nanRealDim0KindREAL64
 
       elemental function is_infinityRealDim0KindREAL64(x) result(answer)
          Logical:: answer
-         Real(kind = REAL64), intent(in):: x
+         Real(kind=REAL64), intent(in):: x
 
          answer = x > huge(x)
       end function is_infinityRealDim0KindREAL64
-      elemental function is_nanRealDim0KindREAL128(x) result(this)
-         logical:: this
-         Real(kind = REAL128), intent(in):: x
+      elemental function is_nanRealDim0KindREAL128(x) result(answer)
+         logical:: answer
+         Real(kind=REAL128), intent(in):: x
 
-         this = (x /= x)
+         answer = (x /= x)
       end function is_nanRealDim0KindREAL128
 
       elemental function is_infinityRealDim0KindREAL128(x) result(answer)
          Logical:: answer
-         Real(kind = REAL128), intent(in):: x
+         Real(kind=REAL128), intent(in):: x
 
          answer = x > huge(x)
       end function is_infinityRealDim0KindREAL128
 
-      elemental function is_nanIntegerDim0KindINT8(n) result(this)
-         logical:: this
-         Integer(kind = INT8), intent(in):: n
+      elemental function is_nanIntegerDim0KindINT8(n) result(answer)
+         logical:: answer
+         Integer(kind=INT8), intent(in):: n
 
-         this = .false.
+         answer = .false.
       end function is_nanIntegerDim0KindINT8
 
       elemental function is_infinityIntegerDim0KindINT8(x) result(answer)
          Logical:: answer
-         Integer(kind = INT8), intent(in):: x
+         Integer(kind=INT8), intent(in):: x
 
          answer = .false.
       end function is_infinityIntegerDim0KindINT8
-      elemental function is_nanIntegerDim0KindINT16(n) result(this)
-         logical:: this
-         Integer(kind = INT16), intent(in):: n
+      elemental function is_nanIntegerDim0KindINT16(n) result(answer)
+         logical:: answer
+         Integer(kind=INT16), intent(in):: n
 
-         this = .false.
+         answer = .false.
       end function is_nanIntegerDim0KindINT16
 
       elemental function is_infinityIntegerDim0KindINT16(x) result(answer)
          Logical:: answer
-         Integer(kind = INT16), intent(in):: x
+         Integer(kind=INT16), intent(in):: x
 
          answer = .false.
       end function is_infinityIntegerDim0KindINT16
-      elemental function is_nanIntegerDim0KindINT32(n) result(this)
-         logical:: this
-         Integer(kind = INT32), intent(in):: n
+      elemental function is_nanIntegerDim0KindINT32(n) result(answer)
+         logical:: answer
+         Integer(kind=INT32), intent(in):: n
 
-         this = .false.
+         answer = .false.
       end function is_nanIntegerDim0KindINT32
 
       elemental function is_infinityIntegerDim0KindINT32(x) result(answer)
          Logical:: answer
-         Integer(kind = INT32), intent(in):: x
+         Integer(kind=INT32), intent(in):: x
 
          answer = .false.
       end function is_infinityIntegerDim0KindINT32
-      elemental function is_nanIntegerDim0KindINT64(n) result(this)
-         logical:: this
-         Integer(kind = INT64), intent(in):: n
+      elemental function is_nanIntegerDim0KindINT64(n) result(answer)
+         logical:: answer
+         Integer(kind=INT64), intent(in):: n
 
-         this = .false.
+         answer = .false.
       end function is_nanIntegerDim0KindINT64
 
       elemental function is_infinityIntegerDim0KindINT64(x) result(answer)
          Logical:: answer
-         Integer(kind = INT64), intent(in):: x
+         Integer(kind=INT64), intent(in):: x
 
          answer = .false.
       end function is_infinityIntegerDim0KindINT64
 
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL32RealDim0KindREAL32(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL32), intent(in):: a
-         Real(kind = REAL32), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL32RealDim0KindREAL32(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL32), intent(in):: a
+         Real(kind=REAL32), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -217,39 +218,45 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL32RealDim0KindREAL32
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
+
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL32RealDim0KindREAL32
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL32RealDim0KindREAL64(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL32), intent(in):: a
-         Real(kind = REAL64), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL32RealDim0KindREAL64(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL32), intent(in):: a
+         Real(kind=REAL64), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -259,39 +266,45 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL32RealDim0KindREAL64
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
+
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL32RealDim0KindREAL64
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL32RealDim0KindREAL128(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL32), intent(in):: a
-         Real(kind = REAL128), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL32RealDim0KindREAL128(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL32), intent(in):: a
+         Real(kind=REAL128), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -301,39 +314,45 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL32RealDim0KindREAL128
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
+
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL32RealDim0KindREAL128
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL64RealDim0KindREAL32(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL64), intent(in):: a
-         Real(kind = REAL32), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL64RealDim0KindREAL32(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL64), intent(in):: a
+         Real(kind=REAL32), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -343,39 +362,45 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL64RealDim0KindREAL32
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
+
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL64RealDim0KindREAL32
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL64RealDim0KindREAL64(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL64), intent(in):: a
-         Real(kind = REAL64), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL64RealDim0KindREAL64(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL64), intent(in):: a
+         Real(kind=REAL64), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -385,39 +410,45 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL64RealDim0KindREAL64
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
+
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL64RealDim0KindREAL64
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL64RealDim0KindREAL128(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL64), intent(in):: a
-         Real(kind = REAL128), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL64RealDim0KindREAL128(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL64), intent(in):: a
+         Real(kind=REAL128), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -427,39 +458,45 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL64RealDim0KindREAL128
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
+
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL64RealDim0KindREAL128
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL128RealDim0KindREAL32(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL128), intent(in):: a
-         Real(kind = REAL32), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL128RealDim0KindREAL32(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL128), intent(in):: a
+         Real(kind=REAL32), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -469,39 +506,45 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL128RealDim0KindREAL32
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
+
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL128RealDim0KindREAL32
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL128RealDim0KindREAL64(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL128), intent(in):: a
-         Real(kind = REAL64), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL128RealDim0KindREAL64(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL128), intent(in):: a
+         Real(kind=REAL64), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -511,39 +554,45 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL128RealDim0KindREAL64
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
+
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL128RealDim0KindREAL64
       ! This function assumes gradual underflow is not flushed to zero.
       ! For example, -no-ftz option should be added when you compile this module by ifort.
-      elemental function equivalentRealDim0KindREAL128RealDim0KindREAL128(a, b, delta) result(this)
-         logical:: this
-         Real(kind = REAL128), intent(in):: a
-         Real(kind = REAL128), intent(in):: b
-         real(max(kind(a), kind(b))), intent(in), optional:: delta
+      elemental function almost_equalRealDim0KindREAL128RealDim0KindREAL128(a, b, relative, absolute) result(answer)
+         logical:: answer
+         Real(kind=REAL128), intent(in):: a
+         Real(kind=REAL128), intent(in):: b
+         real(max(kind(a), kind(b))), intent(in), optional:: relative
+         real(max(kind(a), kind(b))), intent(in), optional:: absolute
 
-         real(kind(delta)):: delta_, deltaRelative, deltaAbsolute
+         real(max(kind(a), kind(b))):: delta, deltaRelative, deltaAbsolute
          real(min(kind(a), kind(b))):: lowerPrecision
          Logical:: isAInfinity, isBInfinity, isAMinusInfinity, isBMinusInfinity
 
          if(is_nan(a) .and. is_nan(b))then
-            this = .true.
+            answer = .true.
             return
          end if
 
@@ -553,261 +602,266 @@ contains
          isBMinusInfinity = is_infinity(-b)
 
          if((isAInfinity .and. isBInfinity) .or. (isAMinusInfinity .and. isBMinusInfinity))then
-            this = .true.
+            answer = .true.
             return
          end if
 
          if(isAInfinity .or. isBInfinity .or. isAMinusInfinity .or. isBMinusInfinity)then
-            this = .false.
+            answer = .false.
             return
          end if
 
-         if(present(delta))then
-            delta_ = delta*max(abs(a), abs(b))
+         if(present(relative))then
+            deltaRelative = max(abs(a)*relative, abs(b)*relative)
          else
-            deltaRelative = max(epsilon(a)*abs(a), epsilon(b)*abs(b))
-            deltaAbsolute = epsilon(lowerPrecision)*tiny(lowerPrecision)
-            delta_ = max(deltaRelative, deltaAbsolute)
+            deltaRelative = 2*max(epsilon(a)*abs(a), epsilon(b)*abs(b))
          end if
 
-         this = (abs(a - b) <= 2*delta_)
-      end function equivalentRealDim0KindREAL128RealDim0KindREAL128
+         if(present(absolute))then
+            deltaAbsolute = absolute
+         else
+            deltaAbsolute = 2*epsilon(lowerPrecision)*tiny(lowerPrecision)
+         end if
 
-      elemental function equivalentComplexDim0KindREAL32ComplexDim0KindREAL32(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL32), intent(in):: a
-         Complex(kind = REAL32), intent(in):: b
+         delta = max(deltaRelative, deltaAbsolute)
+         answer = (abs(a - b) < delta)
+      end function almost_equalRealDim0KindREAL128RealDim0KindREAL128
+
+      elemental function almost_equalComplexDim0KindREAL32ComplexDim0KindREAL32(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL32), intent(in):: a
+         Complex(kind=REAL32), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL32ComplexDim0KindREAL32
-      elemental function equivalentComplexDim0KindREAL32ComplexDim0KindREAL64(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL32), intent(in):: a
-         Complex(kind = REAL64), intent(in):: b
+      end function almost_equalComplexDim0KindREAL32ComplexDim0KindREAL32
+      elemental function almost_equalComplexDim0KindREAL32ComplexDim0KindREAL64(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL32), intent(in):: a
+         Complex(kind=REAL64), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL32ComplexDim0KindREAL64
-      elemental function equivalentComplexDim0KindREAL32ComplexDim0KindREAL128(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL32), intent(in):: a
-         Complex(kind = REAL128), intent(in):: b
+      end function almost_equalComplexDim0KindREAL32ComplexDim0KindREAL64
+      elemental function almost_equalComplexDim0KindREAL32ComplexDim0KindREAL128(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL32), intent(in):: a
+         Complex(kind=REAL128), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL32ComplexDim0KindREAL128
-      elemental function equivalentComplexDim0KindREAL64ComplexDim0KindREAL32(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL64), intent(in):: a
-         Complex(kind = REAL32), intent(in):: b
+      end function almost_equalComplexDim0KindREAL32ComplexDim0KindREAL128
+      elemental function almost_equalComplexDim0KindREAL64ComplexDim0KindREAL32(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL64), intent(in):: a
+         Complex(kind=REAL32), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL64ComplexDim0KindREAL32
-      elemental function equivalentComplexDim0KindREAL64ComplexDim0KindREAL64(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL64), intent(in):: a
-         Complex(kind = REAL64), intent(in):: b
+      end function almost_equalComplexDim0KindREAL64ComplexDim0KindREAL32
+      elemental function almost_equalComplexDim0KindREAL64ComplexDim0KindREAL64(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL64), intent(in):: a
+         Complex(kind=REAL64), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL64ComplexDim0KindREAL64
-      elemental function equivalentComplexDim0KindREAL64ComplexDim0KindREAL128(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL64), intent(in):: a
-         Complex(kind = REAL128), intent(in):: b
+      end function almost_equalComplexDim0KindREAL64ComplexDim0KindREAL64
+      elemental function almost_equalComplexDim0KindREAL64ComplexDim0KindREAL128(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL64), intent(in):: a
+         Complex(kind=REAL128), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL64ComplexDim0KindREAL128
-      elemental function equivalentComplexDim0KindREAL128ComplexDim0KindREAL32(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL128), intent(in):: a
-         Complex(kind = REAL32), intent(in):: b
+      end function almost_equalComplexDim0KindREAL64ComplexDim0KindREAL128
+      elemental function almost_equalComplexDim0KindREAL128ComplexDim0KindREAL32(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL128), intent(in):: a
+         Complex(kind=REAL32), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL128ComplexDim0KindREAL32
-      elemental function equivalentComplexDim0KindREAL128ComplexDim0KindREAL64(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL128), intent(in):: a
-         Complex(kind = REAL64), intent(in):: b
+      end function almost_equalComplexDim0KindREAL128ComplexDim0KindREAL32
+      elemental function almost_equalComplexDim0KindREAL128ComplexDim0KindREAL64(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL128), intent(in):: a
+         Complex(kind=REAL64), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL128ComplexDim0KindREAL64
-      elemental function equivalentComplexDim0KindREAL128ComplexDim0KindREAL128(a, b, delta) result(this)
-         logical:: this
-         Complex(kind = REAL128), intent(in):: a
-         Complex(kind = REAL128), intent(in):: b
+      end function almost_equalComplexDim0KindREAL128ComplexDim0KindREAL64
+      elemental function almost_equalComplexDim0KindREAL128ComplexDim0KindREAL128(a, b, delta) result(answer)
+         logical:: answer
+         Complex(kind=REAL128), intent(in):: a
+         Complex(kind=REAL128), intent(in):: b
          real(max(kind(a), kind(b))), intent(in), optional:: delta
 
          if(present(delta))then
-            this = equivalent(real(a), real(b), delta) .and. equivalent(aimag(a), aimag(b), delta)
+            answer = almost_equal(real(a), real(b), delta) .and. almost_equal(aimag(a), aimag(b), delta)
          else
-            this = equivalent(real(a), real(b)) .and. equivalent(aimag(a), aimag(b))
+            answer = almost_equal(real(a), real(b)) .and. almost_equal(aimag(a), aimag(b))
          end if
-      end function equivalentComplexDim0KindREAL128ComplexDim0KindREAL128
+      end function almost_equalComplexDim0KindREAL128ComplexDim0KindREAL128
 
-      elemental function equivalentIntegerDim0KindINT8IntegerDim0KindINT8(a, b) result(this)
-         logical:: this
-         Integer(kind = INT8), intent(in):: a
-         Integer(kind = INT8), intent(in):: b
+      elemental function almost_equalIntegerDim0KindINT8IntegerDim0KindINT8(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT8), intent(in):: a
+         Integer(kind=INT8), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT8IntegerDim0KindINT8
-      elemental function equivalentIntegerDim0KindINT8IntegerDim0KindINT16(a, b) result(this)
-         logical:: this
-         Integer(kind = INT8), intent(in):: a
-         Integer(kind = INT16), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT8IntegerDim0KindINT8
+      elemental function almost_equalIntegerDim0KindINT8IntegerDim0KindINT16(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT8), intent(in):: a
+         Integer(kind=INT16), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT8IntegerDim0KindINT16
-      elemental function equivalentIntegerDim0KindINT8IntegerDim0KindINT32(a, b) result(this)
-         logical:: this
-         Integer(kind = INT8), intent(in):: a
-         Integer(kind = INT32), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT8IntegerDim0KindINT16
+      elemental function almost_equalIntegerDim0KindINT8IntegerDim0KindINT32(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT8), intent(in):: a
+         Integer(kind=INT32), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT8IntegerDim0KindINT32
-      elemental function equivalentIntegerDim0KindINT8IntegerDim0KindINT64(a, b) result(this)
-         logical:: this
-         Integer(kind = INT8), intent(in):: a
-         Integer(kind = INT64), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT8IntegerDim0KindINT32
+      elemental function almost_equalIntegerDim0KindINT8IntegerDim0KindINT64(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT8), intent(in):: a
+         Integer(kind=INT64), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT8IntegerDim0KindINT64
-      elemental function equivalentIntegerDim0KindINT16IntegerDim0KindINT8(a, b) result(this)
-         logical:: this
-         Integer(kind = INT16), intent(in):: a
-         Integer(kind = INT8), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT8IntegerDim0KindINT64
+      elemental function almost_equalIntegerDim0KindINT16IntegerDim0KindINT8(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT16), intent(in):: a
+         Integer(kind=INT8), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT16IntegerDim0KindINT8
-      elemental function equivalentIntegerDim0KindINT16IntegerDim0KindINT16(a, b) result(this)
-         logical:: this
-         Integer(kind = INT16), intent(in):: a
-         Integer(kind = INT16), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT16IntegerDim0KindINT8
+      elemental function almost_equalIntegerDim0KindINT16IntegerDim0KindINT16(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT16), intent(in):: a
+         Integer(kind=INT16), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT16IntegerDim0KindINT16
-      elemental function equivalentIntegerDim0KindINT16IntegerDim0KindINT32(a, b) result(this)
-         logical:: this
-         Integer(kind = INT16), intent(in):: a
-         Integer(kind = INT32), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT16IntegerDim0KindINT16
+      elemental function almost_equalIntegerDim0KindINT16IntegerDim0KindINT32(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT16), intent(in):: a
+         Integer(kind=INT32), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT16IntegerDim0KindINT32
-      elemental function equivalentIntegerDim0KindINT16IntegerDim0KindINT64(a, b) result(this)
-         logical:: this
-         Integer(kind = INT16), intent(in):: a
-         Integer(kind = INT64), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT16IntegerDim0KindINT32
+      elemental function almost_equalIntegerDim0KindINT16IntegerDim0KindINT64(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT16), intent(in):: a
+         Integer(kind=INT64), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT16IntegerDim0KindINT64
-      elemental function equivalentIntegerDim0KindINT32IntegerDim0KindINT8(a, b) result(this)
-         logical:: this
-         Integer(kind = INT32), intent(in):: a
-         Integer(kind = INT8), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT16IntegerDim0KindINT64
+      elemental function almost_equalIntegerDim0KindINT32IntegerDim0KindINT8(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT32), intent(in):: a
+         Integer(kind=INT8), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT32IntegerDim0KindINT8
-      elemental function equivalentIntegerDim0KindINT32IntegerDim0KindINT16(a, b) result(this)
-         logical:: this
-         Integer(kind = INT32), intent(in):: a
-         Integer(kind = INT16), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT32IntegerDim0KindINT8
+      elemental function almost_equalIntegerDim0KindINT32IntegerDim0KindINT16(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT32), intent(in):: a
+         Integer(kind=INT16), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT32IntegerDim0KindINT16
-      elemental function equivalentIntegerDim0KindINT32IntegerDim0KindINT32(a, b) result(this)
-         logical:: this
-         Integer(kind = INT32), intent(in):: a
-         Integer(kind = INT32), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT32IntegerDim0KindINT16
+      elemental function almost_equalIntegerDim0KindINT32IntegerDim0KindINT32(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT32), intent(in):: a
+         Integer(kind=INT32), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT32IntegerDim0KindINT32
-      elemental function equivalentIntegerDim0KindINT32IntegerDim0KindINT64(a, b) result(this)
-         logical:: this
-         Integer(kind = INT32), intent(in):: a
-         Integer(kind = INT64), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT32IntegerDim0KindINT32
+      elemental function almost_equalIntegerDim0KindINT32IntegerDim0KindINT64(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT32), intent(in):: a
+         Integer(kind=INT64), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT32IntegerDim0KindINT64
-      elemental function equivalentIntegerDim0KindINT64IntegerDim0KindINT8(a, b) result(this)
-         logical:: this
-         Integer(kind = INT64), intent(in):: a
-         Integer(kind = INT8), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT32IntegerDim0KindINT64
+      elemental function almost_equalIntegerDim0KindINT64IntegerDim0KindINT8(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT64), intent(in):: a
+         Integer(kind=INT8), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT64IntegerDim0KindINT8
-      elemental function equivalentIntegerDim0KindINT64IntegerDim0KindINT16(a, b) result(this)
-         logical:: this
-         Integer(kind = INT64), intent(in):: a
-         Integer(kind = INT16), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT64IntegerDim0KindINT8
+      elemental function almost_equalIntegerDim0KindINT64IntegerDim0KindINT16(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT64), intent(in):: a
+         Integer(kind=INT16), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT64IntegerDim0KindINT16
-      elemental function equivalentIntegerDim0KindINT64IntegerDim0KindINT32(a, b) result(this)
-         logical:: this
-         Integer(kind = INT64), intent(in):: a
-         Integer(kind = INT32), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT64IntegerDim0KindINT16
+      elemental function almost_equalIntegerDim0KindINT64IntegerDim0KindINT32(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT64), intent(in):: a
+         Integer(kind=INT32), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT64IntegerDim0KindINT32
-      elemental function equivalentIntegerDim0KindINT64IntegerDim0KindINT64(a, b) result(this)
-         logical:: this
-         Integer(kind = INT64), intent(in):: a
-         Integer(kind = INT64), intent(in):: b
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT64IntegerDim0KindINT32
+      elemental function almost_equalIntegerDim0KindINT64IntegerDim0KindINT64(a, b) result(answer)
+         logical:: answer
+         Integer(kind=INT64), intent(in):: a
+         Integer(kind=INT64), intent(in):: b
 
-         this = (a == b)
-      end function equivalentIntegerDim0KindINT64IntegerDim0KindINT64
+         answer = (a == b)
+      end function almost_equalIntegerDim0KindINT64IntegerDim0KindINT64
 
-      elemental function equivalentLogicalDim0LogicalDim0(a, b) result(this)
-         logical:: this
+      elemental function almost_equalLogicalDim0LogicalDim0(a, b) result(answer)
+         logical:: answer
          Logical, intent(in):: a
          Logical, intent(in):: b
 
-         this = a .eqv. b
-      end function equivalentLogicalDim0LogicalDim0
+         answer = a .eqv. b
+      end function almost_equalLogicalDim0LogicalDim0
 
-      elemental function equivalentCharacterDim0LenAsteriskCharacterDim0LenAsterisk(a, b) result(this)
-         logical:: this
-         Character(len = *), intent(in):: a
-         Character(len = *), intent(in):: b
+      elemental function almost_equalCharacterDim0LenAsteriskCharacterDim0LenAsterisk(a, b) result(answer)
+         logical:: answer
+         Character(len=*), intent(in):: a
+         Character(len=*), intent(in):: b
 
-         this = (a == b)
-      end function equivalentCharacterDim0LenAsteriskCharacterDim0LenAsterisk
+         answer = (a == b)
+      end function almost_equalCharacterDim0LenAsteriskCharacterDim0LenAsterisk
 end module comparable_lib
