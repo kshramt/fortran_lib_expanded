@@ -24,7 +24,6 @@ module io_lib
 
    integer, parameter:: VERSION = 2 ! Array file format's compatibility.
    Integer, parameter:: LEN_DATA_TYPE_STR_MAX = 24
-   Integer, parameter, public:: LEN_FORMAT_STRING_MAX = 2**10
    character(len = *), parameter:: ARRAY_DATA_FILE = 'data.bin'
    character(len=*), parameter:: ARRAY_META_FILE_V_1 = 'meta.nml'
    character(len=*), parameter:: ARRAY_META_FILE_V_2 = 'meta.kv'
@@ -1347,7 +1346,7 @@ contains
       function get_column_format_stringLogicalDim0(x, n) result(ret)
          Logical, intent(in):: x
          Integer, intent(in):: n
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          ASSERT(n >= 1)
          ret = '(' + str(n) + '(1x, l1))'
@@ -1357,7 +1356,7 @@ contains
       function get_column_format_stringIntegerDim0KindINT8(x, n) result(ret)
          Integer(kind=INT8), intent(in):: x
          Integer, intent(in):: n
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          ASSERT(n >= 1)
          ret = '(' + str(n) + '(1x, i' + str(len(str(huge(x))) + 1) + '))'
@@ -1366,7 +1365,7 @@ contains
       function get_column_format_stringIntegerDim0KindINT16(x, n) result(ret)
          Integer(kind=INT16), intent(in):: x
          Integer, intent(in):: n
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          ASSERT(n >= 1)
          ret = '(' + str(n) + '(1x, i' + str(len(str(huge(x))) + 1) + '))'
@@ -1375,7 +1374,7 @@ contains
       function get_column_format_stringIntegerDim0KindINT32(x, n) result(ret)
          Integer(kind=INT32), intent(in):: x
          Integer, intent(in):: n
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          ASSERT(n >= 1)
          ret = '(' + str(n) + '(1x, i' + str(len(str(huge(x))) + 1) + '))'
@@ -1384,7 +1383,7 @@ contains
       function get_column_format_stringIntegerDim0KindINT64(x, n) result(ret)
          Integer(kind=INT64), intent(in):: x
          Integer, intent(in):: n
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          ASSERT(n >= 1)
          ret = '(' + str(n) + '(1x, i' + str(len(str(huge(x))) + 1) + '))'
@@ -1398,7 +1397,7 @@ contains
          Real(kind=REAL32), intent(in):: x
          Integer, intent(in):: n
 
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          Integer:: prec
 
@@ -1415,7 +1414,7 @@ contains
          Real(kind=REAL64), intent(in):: x
          Integer, intent(in):: n
 
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          Integer:: prec
 
@@ -1432,7 +1431,7 @@ contains
          Real(kind=REAL128), intent(in):: x
          Integer, intent(in):: n
 
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          Integer:: prec
 
@@ -1450,7 +1449,7 @@ contains
          Complex(kind=REAL32), intent(in):: x
          Integer, intent(in):: n
 
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          Integer:: prec
 
@@ -1467,7 +1466,7 @@ contains
          Complex(kind=REAL64), intent(in):: x
          Integer, intent(in):: n
 
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          Integer:: prec
 
@@ -1484,7 +1483,7 @@ contains
          Complex(kind=REAL128), intent(in):: x
          Integer, intent(in):: n
 
-         Character(len=LEN_FORMAT_STRING_MAX):: ret
+         Character(len=:), allocatable:: ret
 
          Integer:: prec
 

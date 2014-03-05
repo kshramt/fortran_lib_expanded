@@ -1,5 +1,8 @@
 
+
+#include "utils.h"
 module character_lib
+   USE_UTILS_H
    use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
 
    implicit none
@@ -138,7 +141,7 @@ contains
       answer = trim(adjustl(str))
    end function s
 
-   elemental function add(str1, str2) result(answer)
+   function add(str1, str2) result(answer)
       character(len=*), intent(in):: str1, str2
       character(len=len(str1) + len(str2)):: answer
 
@@ -147,268 +150,382 @@ contains
 
       pure function strLogicalDim0(x) result(ret)
          Logical, intent(in):: x
-         character(len=len_trim(adjustl(str_fixedLogicalDim0(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedLogicalDim0(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strLogicalDim0
-
-      pure function str_fixedLogicalDim0(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Logical, intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedLogicalDim0
       pure function strRealDim0KindREAL32(x) result(ret)
          Real(kind=REAL32), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedRealDim0KindREAL32(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedRealDim0KindREAL32(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strRealDim0KindREAL32
-
-      pure function str_fixedRealDim0KindREAL32(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Real(kind=REAL32), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedRealDim0KindREAL32
       pure function strRealDim0KindREAL64(x) result(ret)
          Real(kind=REAL64), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedRealDim0KindREAL64(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedRealDim0KindREAL64(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strRealDim0KindREAL64
-
-      pure function str_fixedRealDim0KindREAL64(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Real(kind=REAL64), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedRealDim0KindREAL64
       pure function strRealDim0KindREAL128(x) result(ret)
          Real(kind=REAL128), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedRealDim0KindREAL128(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedRealDim0KindREAL128(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strRealDim0KindREAL128
-
-      pure function str_fixedRealDim0KindREAL128(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Real(kind=REAL128), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedRealDim0KindREAL128
       pure function strComplexDim0KindREAL32(x) result(ret)
          Complex(kind=REAL32), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedComplexDim0KindREAL32(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedComplexDim0KindREAL32(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strComplexDim0KindREAL32
-
-      pure function str_fixedComplexDim0KindREAL32(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Complex(kind=REAL32), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedComplexDim0KindREAL32
       pure function strComplexDim0KindREAL64(x) result(ret)
          Complex(kind=REAL64), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedComplexDim0KindREAL64(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedComplexDim0KindREAL64(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strComplexDim0KindREAL64
-
-      pure function str_fixedComplexDim0KindREAL64(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Complex(kind=REAL64), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedComplexDim0KindREAL64
       pure function strComplexDim0KindREAL128(x) result(ret)
          Complex(kind=REAL128), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedComplexDim0KindREAL128(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedComplexDim0KindREAL128(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strComplexDim0KindREAL128
-
-      pure function str_fixedComplexDim0KindREAL128(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Complex(kind=REAL128), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedComplexDim0KindREAL128
       pure function strCharacterDim0LenAsterisk(x) result(ret)
          Character(len=*), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedCharacterDim0LenAsterisk(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedCharacterDim0LenAsterisk(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strCharacterDim0LenAsterisk
-
-      pure function str_fixedCharacterDim0LenAsterisk(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Character(len=*), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedCharacterDim0LenAsterisk
       pure function strCharacterDim1LenAsterisk(x) result(ret)
          Character(len=*), dimension(:), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedCharacterDim1LenAsterisk(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedCharacterDim1LenAsterisk(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strCharacterDim1LenAsterisk
-
-      pure function str_fixedCharacterDim1LenAsterisk(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Character(len=*), dimension(:), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedCharacterDim1LenAsterisk
       pure function strCharacterDim2LenAsterisk(x) result(ret)
          Character(len=*), dimension(:, :), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedCharacterDim2LenAsterisk(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedCharacterDim2LenAsterisk(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strCharacterDim2LenAsterisk
-
-      pure function str_fixedCharacterDim2LenAsterisk(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Character(len=*), dimension(:, :), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedCharacterDim2LenAsterisk
       pure function strCharacterDim3LenAsterisk(x) result(ret)
          Character(len=*), dimension(:, :, :), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedCharacterDim3LenAsterisk(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedCharacterDim3LenAsterisk(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strCharacterDim3LenAsterisk
-
-      pure function str_fixedCharacterDim3LenAsterisk(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Character(len=*), dimension(:, :, :), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedCharacterDim3LenAsterisk
       pure function strCharacterDim4LenAsterisk(x) result(ret)
          Character(len=*), dimension(:, :, :, :), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedCharacterDim4LenAsterisk(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedCharacterDim4LenAsterisk(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strCharacterDim4LenAsterisk
-
-      pure function str_fixedCharacterDim4LenAsterisk(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Character(len=*), dimension(:, :, :, :), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedCharacterDim4LenAsterisk
       pure function strCharacterDim5LenAsterisk(x) result(ret)
          Character(len=*), dimension(:, :, :, :, :), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedCharacterDim5LenAsterisk(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedCharacterDim5LenAsterisk(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strCharacterDim5LenAsterisk
-
-      pure function str_fixedCharacterDim5LenAsterisk(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Character(len=*), dimension(:, :, :, :, :), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedCharacterDim5LenAsterisk
       pure function strCharacterDim6LenAsterisk(x) result(ret)
          Character(len=*), dimension(:, :, :, :, :, :), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedCharacterDim6LenAsterisk(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedCharacterDim6LenAsterisk(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strCharacterDim6LenAsterisk
-
-      pure function str_fixedCharacterDim6LenAsterisk(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Character(len=*), dimension(:, :, :, :, :, :), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedCharacterDim6LenAsterisk
       pure function strCharacterDim7LenAsterisk(x) result(ret)
          Character(len=*), dimension(:, :, :, :, :, :, :), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedCharacterDim7LenAsterisk(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedCharacterDim7LenAsterisk(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strCharacterDim7LenAsterisk
-
-      pure function str_fixedCharacterDim7LenAsterisk(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Character(len=*), dimension(:, :, :, :, :, :, :), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedCharacterDim7LenAsterisk
       pure function strIntegerDim0KindINT8(x) result(ret)
          Integer(kind=INT8), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedIntegerDim0KindINT8(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedIntegerDim0KindINT8(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strIntegerDim0KindINT8
-
-      pure function str_fixedIntegerDim0KindINT8(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Integer(kind=INT8), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedIntegerDim0KindINT8
       pure function strIntegerDim0KindINT16(x) result(ret)
          Integer(kind=INT16), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedIntegerDim0KindINT16(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedIntegerDim0KindINT16(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strIntegerDim0KindINT16
-
-      pure function str_fixedIntegerDim0KindINT16(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Integer(kind=INT16), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedIntegerDim0KindINT16
       pure function strIntegerDim0KindINT32(x) result(ret)
          Integer(kind=INT32), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedIntegerDim0KindINT32(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedIntegerDim0KindINT32(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strIntegerDim0KindINT32
-
-      pure function str_fixedIntegerDim0KindINT32(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Integer(kind=INT32), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedIntegerDim0KindINT32
       pure function strIntegerDim0KindINT64(x) result(ret)
          Integer(kind=INT64), intent(in):: x
-         character(len=len_trim(adjustl(str_fixedIntegerDim0KindINT64(x)))):: ret
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
 
-         ret = s(str_fixedIntegerDim0KindINT64(x))
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            ENSURE_DEALLOCATED(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if(is_iostat_ok(ios))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
       end function strIntegerDim0KindINT64
-
-      pure function str_fixedIntegerDim0KindINT64(x) result(ret)
-         character(len=MAX_STR_LEN):: ret
-         Integer(kind=INT64), intent(in):: x
-
-         write(ret, *) x
-         ret = s(ret)
-      end function str_fixedIntegerDim0KindINT64
 end module character_lib

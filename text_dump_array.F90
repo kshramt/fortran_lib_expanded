@@ -8,7 +8,7 @@ program main
    use, intrinsic:: iso_fortran_env, only: INPUT_UNIT, OUTPUT_UNIT, ERROR_UNIT
    use, non_intrinsic:: character_lib, only: operator(+)
    use, non_intrinsic:: io_lib, only: ArrayMeta
-   use, non_intrinsic:: io_lib, only: load, load_meta, get_column_format_string, LEN_FORMAT_STRING_MAX
+   use, non_intrinsic:: io_lib, only: load, load_meta, get_column_format_string
 
    implicit none
 
@@ -38,7 +38,7 @@ program main
    type(ArrayMeta):: meta
    Integer:: i
    Integer:: status
-   Character(len=LEN_FORMAT_STRING_MAX):: format
+   Character(len=:), allocatable:: form
 
    if(command_argument_count() /= 1) call usage_and_exit()
    call get_command_argument(1, value=arrayDir, status=status)
@@ -105,69 +105,69 @@ program main
         end do
      case('LogicalDim2')
         call load(arrayLogicalDim2, trim(arrayDir))
-        format = get_column_format_string(arrayLogicalDim2(1, 1), size(arrayLogicalDim2, 2))
+        form = get_column_format_string(arrayLogicalDim2(1, 1), size(arrayLogicalDim2, 2))
         do ALL_OF(i, arrayLogicalDim2, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayLogicalDim2(i, :)
+           write(OUTPUT_UNIT, form) arrayLogicalDim2(i, :)
         end do
      case('IntegerDim2KindINT8')
         call load(arrayIntegerDim2KindINT8, trim(arrayDir))
-        format = get_column_format_string(arrayIntegerDim2KindINT8(1, 1), size(arrayIntegerDim2KindINT8, 2))
+        form = get_column_format_string(arrayIntegerDim2KindINT8(1, 1), size(arrayIntegerDim2KindINT8, 2))
         do ALL_OF(i, arrayIntegerDim2KindINT8, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayIntegerDim2KindINT8(i, :)
+           write(OUTPUT_UNIT, form) arrayIntegerDim2KindINT8(i, :)
         end do
      case('IntegerDim2KindINT16')
         call load(arrayIntegerDim2KindINT16, trim(arrayDir))
-        format = get_column_format_string(arrayIntegerDim2KindINT16(1, 1), size(arrayIntegerDim2KindINT16, 2))
+        form = get_column_format_string(arrayIntegerDim2KindINT16(1, 1), size(arrayIntegerDim2KindINT16, 2))
         do ALL_OF(i, arrayIntegerDim2KindINT16, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayIntegerDim2KindINT16(i, :)
+           write(OUTPUT_UNIT, form) arrayIntegerDim2KindINT16(i, :)
         end do
      case('IntegerDim2KindINT32')
         call load(arrayIntegerDim2KindINT32, trim(arrayDir))
-        format = get_column_format_string(arrayIntegerDim2KindINT32(1, 1), size(arrayIntegerDim2KindINT32, 2))
+        form = get_column_format_string(arrayIntegerDim2KindINT32(1, 1), size(arrayIntegerDim2KindINT32, 2))
         do ALL_OF(i, arrayIntegerDim2KindINT32, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayIntegerDim2KindINT32(i, :)
+           write(OUTPUT_UNIT, form) arrayIntegerDim2KindINT32(i, :)
         end do
      case('IntegerDim2KindINT64')
         call load(arrayIntegerDim2KindINT64, trim(arrayDir))
-        format = get_column_format_string(arrayIntegerDim2KindINT64(1, 1), size(arrayIntegerDim2KindINT64, 2))
+        form = get_column_format_string(arrayIntegerDim2KindINT64(1, 1), size(arrayIntegerDim2KindINT64, 2))
         do ALL_OF(i, arrayIntegerDim2KindINT64, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayIntegerDim2KindINT64(i, :)
+           write(OUTPUT_UNIT, form) arrayIntegerDim2KindINT64(i, :)
         end do
      case('RealDim2KindREAL32')
         call load(arrayRealDim2KindREAL32, trim(arrayDir))
-        format = get_column_format_string(arrayRealDim2KindREAL32(1, 1), size(arrayRealDim2KindREAL32, 2))
+        form = get_column_format_string(arrayRealDim2KindREAL32(1, 1), size(arrayRealDim2KindREAL32, 2))
         do ALL_OF(i, arrayRealDim2KindREAL32, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayRealDim2KindREAL32(i, :)
+           write(OUTPUT_UNIT, form) arrayRealDim2KindREAL32(i, :)
         end do
      case('RealDim2KindREAL64')
         call load(arrayRealDim2KindREAL64, trim(arrayDir))
-        format = get_column_format_string(arrayRealDim2KindREAL64(1, 1), size(arrayRealDim2KindREAL64, 2))
+        form = get_column_format_string(arrayRealDim2KindREAL64(1, 1), size(arrayRealDim2KindREAL64, 2))
         do ALL_OF(i, arrayRealDim2KindREAL64, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayRealDim2KindREAL64(i, :)
+           write(OUTPUT_UNIT, form) arrayRealDim2KindREAL64(i, :)
         end do
      case('RealDim2KindREAL128')
         call load(arrayRealDim2KindREAL128, trim(arrayDir))
-        format = get_column_format_string(arrayRealDim2KindREAL128(1, 1), size(arrayRealDim2KindREAL128, 2))
+        form = get_column_format_string(arrayRealDim2KindREAL128(1, 1), size(arrayRealDim2KindREAL128, 2))
         do ALL_OF(i, arrayRealDim2KindREAL128, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayRealDim2KindREAL128(i, :)
+           write(OUTPUT_UNIT, form) arrayRealDim2KindREAL128(i, :)
         end do
      case('ComplexDim2KindREAL32')
         call load(arrayComplexDim2KindREAL32, trim(arrayDir))
-        format = get_column_format_string(arrayComplexDim2KindREAL32(1, 1), size(arrayComplexDim2KindREAL32, 2))
+        form = get_column_format_string(arrayComplexDim2KindREAL32(1, 1), size(arrayComplexDim2KindREAL32, 2))
         do ALL_OF(i, arrayComplexDim2KindREAL32, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayComplexDim2KindREAL32(i, :)
+           write(OUTPUT_UNIT, form) arrayComplexDim2KindREAL32(i, :)
         end do
      case('ComplexDim2KindREAL64')
         call load(arrayComplexDim2KindREAL64, trim(arrayDir))
-        format = get_column_format_string(arrayComplexDim2KindREAL64(1, 1), size(arrayComplexDim2KindREAL64, 2))
+        form = get_column_format_string(arrayComplexDim2KindREAL64(1, 1), size(arrayComplexDim2KindREAL64, 2))
         do ALL_OF(i, arrayComplexDim2KindREAL64, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayComplexDim2KindREAL64(i, :)
+           write(OUTPUT_UNIT, form) arrayComplexDim2KindREAL64(i, :)
         end do
      case('ComplexDim2KindREAL128')
         call load(arrayComplexDim2KindREAL128, trim(arrayDir))
-        format = get_column_format_string(arrayComplexDim2KindREAL128(1, 1), size(arrayComplexDim2KindREAL128, 2))
+        form = get_column_format_string(arrayComplexDim2KindREAL128(1, 1), size(arrayComplexDim2KindREAL128, 2))
         do ALL_OF(i, arrayComplexDim2KindREAL128, 1)
-           write(OUTPUT_UNIT, trim(format)) arrayComplexDim2KindREAL128(i, :)
+           write(OUTPUT_UNIT, form) arrayComplexDim2KindREAL128(i, :)
         end do
    case default
       RAISE('Unsupported data type: ' + trim(meta%dataType))
