@@ -4,12 +4,36 @@ module math_lib
    implicit none
    private
    public:: linear_transform
+   public:: rosenbrock
+   public:: rosenbrock_fgh
    public:: convolution ! time domain
-   interface linear_transform
+      interface linear_transform
          module procedure linear_transformRealDim0KindREAL32
+      end interface linear_transform
+      interface rosenbrock
+         module procedure rosenbrockRealDim0KindREAL32
+      end interface rosenbrock
+      interface rosenbrock_fgh
+         module procedure rosenbrock_fghRealDim0KindREAL32
+      end interface rosenbrock_fgh
+      interface linear_transform
          module procedure linear_transformRealDim0KindREAL64
+      end interface linear_transform
+      interface rosenbrock
+         module procedure rosenbrockRealDim0KindREAL64
+      end interface rosenbrock
+      interface rosenbrock_fgh
+         module procedure rosenbrock_fghRealDim0KindREAL64
+      end interface rosenbrock_fgh
+      interface linear_transform
          module procedure linear_transformRealDim0KindREAL128
-   end interface linear_transform
+      end interface linear_transform
+      interface rosenbrock
+         module procedure rosenbrockRealDim0KindREAL128
+      end interface rosenbrock
+      interface rosenbrock_fgh
+         module procedure rosenbrock_fghRealDim0KindREAL128
+      end interface rosenbrock_fgh
       interface convolution
          module procedure convolutionRealDim1KindREAL32
       end interface convolution
@@ -65,7 +89,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 78, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 108, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -114,7 +138,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 134, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 164, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -163,7 +187,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 190, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 220, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -212,7 +236,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 246, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 276, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -261,7 +285,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 302, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 332, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -310,7 +334,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 358, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 388, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -359,7 +383,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 414, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 444, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -408,7 +432,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 470, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 500, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -457,7 +481,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 526, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 556, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -506,7 +530,7 @@ contains
          nXs = size(xs, 1)
          nYs = size(ys, 1)
          nZs = size(zs, 1)
-         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 582, (".not.(nXs <= nYs)"); error stop; end if
+         if(.not.(nXs <= nYs))then; write(ERROR_UNIT, *) "RAISE: ", "math_lib.f90", " ", 612, (".not.(nXs <= nYs)"); error stop; end if
          if(nZs <= 0) return
          zs = 0
          if(nXs <= 0) return ! this condition includes nYs <= 0 since nXs <= nYs
@@ -531,18 +555,75 @@ contains
             zs(i) = dot_product(ys(i-nXs+1:nYs), xs(nXs:i-nYs+1:-1))
          end do
       end subroutine convolution_short_with_longComplexDim1KindREAL128
+      elemental function rosenbrockRealDim0KindREAL32(x, y) result(ret)
+         Real(kind=REAL32), intent(in):: x, y
+         Real(kind=REAL32):: ret
+         ret = (1 - x)**2 + 100*(y - x**2)**2
+      end function rosenbrockRealDim0KindREAL32
+      pure subroutine rosenbrock_fghRealDim0KindREAL32(xy, f, g, h)
+         Real(kind=REAL32), intent(in):: xy(2)
+         Real(kind=REAL32), intent(out):: f, g(2), h(2, 2)
+         Real(kind=REAL32):: x, y
+         x = xy(1)
+         y = xy(2)
+         f = rosenbrock(x, y)
+         g(1) = -2*(1 - x) - 400*x*(y - x**2)
+         g(2) = 200*(y - x**2)
+         h(1, 1) = 2 - 400*(y - x**2) + 800*x**2
+         h(1, 2) = -400*x
+         h(2, 1) = h(1, 2)
+         h(2, 2) = 200
+      end subroutine rosenbrock_fghRealDim0KindREAL32
       elemental function linear_transformRealDim0KindREAL32(x, x0, x1, y0, y1) result(y)
          Real(kind=REAL32), intent(in):: x
          Real(kind = kind(x)), intent(in):: x0, x1, y0, y1
          Real(kind = kind(x)):: y
          y = (x - x0)/(x1 - x0)*(y1 - y0) + y0
       end function linear_transformRealDim0KindREAL32
+      elemental function rosenbrockRealDim0KindREAL64(x, y) result(ret)
+         Real(kind=REAL64), intent(in):: x, y
+         Real(kind=REAL64):: ret
+         ret = (1 - x)**2 + 100*(y - x**2)**2
+      end function rosenbrockRealDim0KindREAL64
+      pure subroutine rosenbrock_fghRealDim0KindREAL64(xy, f, g, h)
+         Real(kind=REAL64), intent(in):: xy(2)
+         Real(kind=REAL64), intent(out):: f, g(2), h(2, 2)
+         Real(kind=REAL64):: x, y
+         x = xy(1)
+         y = xy(2)
+         f = rosenbrock(x, y)
+         g(1) = -2*(1 - x) - 400*x*(y - x**2)
+         g(2) = 200*(y - x**2)
+         h(1, 1) = 2 - 400*(y - x**2) + 800*x**2
+         h(1, 2) = -400*x
+         h(2, 1) = h(1, 2)
+         h(2, 2) = 200
+      end subroutine rosenbrock_fghRealDim0KindREAL64
       elemental function linear_transformRealDim0KindREAL64(x, x0, x1, y0, y1) result(y)
          Real(kind=REAL64), intent(in):: x
          Real(kind = kind(x)), intent(in):: x0, x1, y0, y1
          Real(kind = kind(x)):: y
          y = (x - x0)/(x1 - x0)*(y1 - y0) + y0
       end function linear_transformRealDim0KindREAL64
+      elemental function rosenbrockRealDim0KindREAL128(x, y) result(ret)
+         Real(kind=REAL128), intent(in):: x, y
+         Real(kind=REAL128):: ret
+         ret = (1 - x)**2 + 100*(y - x**2)**2
+      end function rosenbrockRealDim0KindREAL128
+      pure subroutine rosenbrock_fghRealDim0KindREAL128(xy, f, g, h)
+         Real(kind=REAL128), intent(in):: xy(2)
+         Real(kind=REAL128), intent(out):: f, g(2), h(2, 2)
+         Real(kind=REAL128):: x, y
+         x = xy(1)
+         y = xy(2)
+         f = rosenbrock(x, y)
+         g(1) = -2*(1 - x) - 400*x*(y - x**2)
+         g(2) = 200*(y - x**2)
+         h(1, 1) = 2 - 400*(y - x**2) + 800*x**2
+         h(1, 2) = -400*x
+         h(2, 1) = h(1, 2)
+         h(2, 2) = 200
+      end subroutine rosenbrock_fghRealDim0KindREAL128
       elemental function linear_transformRealDim0KindREAL128(x, x0, x1, y0, y1) result(y)
          Real(kind=REAL128), intent(in):: x
          Real(kind = kind(x)), intent(in):: x0, x1, y0, y1

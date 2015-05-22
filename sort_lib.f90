@@ -16,6 +16,12 @@ module sort_lib
       interface median
          module procedure medianIntegerDim0KindINT8
       end interface median
+      interface medianing
+         module procedure medianingIntegerDim0KindINT8
+      end interface medianing
+      interface median_of_medianing
+         module procedure median_of_medianingIntegerDim0KindINT8
+      end interface median_of_medianing
          interface select
             module procedure selectIntegerDim0KindINT8IntegerDim0KindINT8
          end interface select
@@ -82,6 +88,12 @@ module sort_lib
       interface median
          module procedure medianIntegerDim0KindINT16
       end interface median
+      interface medianing
+         module procedure medianingIntegerDim0KindINT16
+      end interface medianing
+      interface median_of_medianing
+         module procedure median_of_medianingIntegerDim0KindINT16
+      end interface median_of_medianing
          interface select
             module procedure selectIntegerDim0KindINT16IntegerDim0KindINT8
          end interface select
@@ -148,6 +160,12 @@ module sort_lib
       interface median
          module procedure medianIntegerDim0KindINT32
       end interface median
+      interface medianing
+         module procedure medianingIntegerDim0KindINT32
+      end interface medianing
+      interface median_of_medianing
+         module procedure median_of_medianingIntegerDim0KindINT32
+      end interface median_of_medianing
          interface select
             module procedure selectIntegerDim0KindINT32IntegerDim0KindINT8
          end interface select
@@ -214,6 +232,12 @@ module sort_lib
       interface median
          module procedure medianIntegerDim0KindINT64
       end interface median
+      interface medianing
+         module procedure medianingIntegerDim0KindINT64
+      end interface medianing
+      interface median_of_medianing
+         module procedure median_of_medianingIntegerDim0KindINT64
+      end interface median_of_medianing
          interface select
             module procedure selectIntegerDim0KindINT64IntegerDim0KindINT8
          end interface select
@@ -280,6 +304,12 @@ module sort_lib
       interface median
          module procedure medianRealDim0KindREAL32
       end interface median
+      interface medianing
+         module procedure medianingRealDim0KindREAL32
+      end interface medianing
+      interface median_of_medianing
+         module procedure median_of_medianingRealDim0KindREAL32
+      end interface median_of_medianing
          interface select
             module procedure selectRealDim0KindREAL32IntegerDim0KindINT8
          end interface select
@@ -346,6 +376,12 @@ module sort_lib
       interface median
          module procedure medianRealDim0KindREAL64
       end interface median
+      interface medianing
+         module procedure medianingRealDim0KindREAL64
+      end interface medianing
+      interface median_of_medianing
+         module procedure median_of_medianingRealDim0KindREAL64
+      end interface median_of_medianing
          interface select
             module procedure selectRealDim0KindREAL64IntegerDim0KindINT8
          end interface select
@@ -412,6 +448,12 @@ module sort_lib
       interface median
          module procedure medianRealDim0KindREAL128
       end interface median
+      interface medianing
+         module procedure medianingRealDim0KindREAL128
+      end interface medianing
+      interface median_of_medianing
+         module procedure median_of_medianingRealDim0KindREAL128
+      end interface median_of_medianing
          interface select
             module procedure selectRealDim0KindREAL128IntegerDim0KindINT8
          end interface select
@@ -478,16 +520,31 @@ module sort_lib
 contains
       function medianIntegerDim0KindINT8(xs) result(ret)
          Integer(kind=INT8), intent(in):: xs(:)
+         Integer(kind=INT8):: xsCopy(size(xs, dim=1, kind=INT64))
+         Real(kind=REAL32):: ret
+         xsCopy = xs
+         ret = medianing(xsCopy)
+      end function medianIntegerDim0KindINT8
+      function medianingIntegerDim0KindINT8(xs) result(ret)
+         Integer(kind=INT8), intent(inout):: xs(:)
          Real(kind=REAL32):: ret
          Integer(kind=INT64):: nXs
          nXS = size(xs, dim=1, kind=kind(nXs))
-         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 620, (".not.(nXs > 0)"); error stop; end if
+         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 685, (".not.(nXs > 0)"); error stop; end if
          if(mod(nXs, 2) == 1)then
-            ret = select(xs, nXs/2 + 1)
+            ret = selecting(xs, nXs/2 + 1)
          else
-            ret = real(select(xs, nXs/2), kind=kind(ret))/2 + real(select(xs, nXs/2 + 1), kind=kind(ret))/2
+            ret = (real(selecting(xs, nXs/2), kind=kind(ret))/2) + (real(selecting(xs, nXs/2 + 1), kind=kind(ret))/2)
          end if
-      end function medianIntegerDim0KindINT8
+      end function medianingIntegerDim0KindINT8
+      recursive function median_of_medianingIntegerDim0KindINT8(xs) result(ret)
+         Integer(kind=INT8), intent(inout):: xs(:)
+         Integer(kind=INT8):: ret
+         Integer(kind=INT64):: nXs
+         Integer(kind=kind(nXs)):: i
+         nXS = size(xs, dim=1, kind=kind(nXs))
+         ret = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+      end function median_of_medianingIntegerDim0KindINT8
          recursive function selectIntegerDim0KindINT8IntegerDim0KindINT8(xs, k) result(ret)
             Integer(kind=INT8), intent(in):: xs(:)
             Integer(kind=INT8), intent(in):: k
@@ -501,12 +558,9 @@ contains
             Integer(kind=INT8), intent(in):: k
             Integer(kind=INT8):: ret
             Integer(kind=INT8):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -530,12 +584,9 @@ contains
             Integer(kind=INT16), intent(in):: k
             Integer(kind=INT8):: ret
             Integer(kind=INT8):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -559,12 +610,9 @@ contains
             Integer(kind=INT32), intent(in):: k
             Integer(kind=INT8):: ret
             Integer(kind=INT8):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -588,12 +636,9 @@ contains
             Integer(kind=INT64), intent(in):: k
             Integer(kind=INT8):: ret
             Integer(kind=INT8):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -608,7 +653,7 @@ contains
          Integer(kind=INT8), intent(inout):: xs(:)
          Integer(kind=INT8), intent(in):: pivot
          Integer(kind=INT64), intent(out):: iPivot
-         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 762, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
+         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 825, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
          call partitioning_impl(xs, pivot, iPivot)
       end subroutine partitioningIntegerDim0KindINT8
       ! Assume `min(xs) <= pivot <= max(xs)`
@@ -643,7 +688,7 @@ contains
       end function insertion_sortIntegerDim0KindINT8
       subroutine insertion_sortingIntegerDim0KindINT8(xs)
          Integer(kind=INT8), intent(inout):: xs(:)
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 803, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 866, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call insertion_sorting_impl(xs)
       end subroutine insertion_sortingIntegerDim0KindINT8
       subroutine insertion_sorting_implIntegerDim0KindINT8(xs)
@@ -675,11 +720,11 @@ contains
          type(IntegerDim0KindINT64Stack):: iLs, iRs
          Integer(kind = INT64):: iL, iR, iPivot
          Logical:: isUniform
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 841, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 904, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call push(iLs, 1_INT64)
          call push(iRs, size(xs, dim = 1, kind = kind(iR)))
          do while(pop(iRs, iR)) ! Loop for all segments on the stacks.
-            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 847, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
+            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 910, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
             do while(iL < iR) ! While current segment remains
                if(iR - iL > 7)then
                   pivot = get_pivot(xs(iL:iR), isUniform)
@@ -727,7 +772,7 @@ contains
          Integer(kind=INT8), intent(inout):: xs(:)
          Integer(kind=INT8):: buf(size(xs, dim=1, kind=INT64))
          Logical(kind=INT8):: isRetInBuf
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 907, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 970, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call merge_sorting_implIntegerDim0KindINT8(xs, buf, isRetInBuf)
          if(isRetInBuf)then
             xs = buf
@@ -802,16 +847,31 @@ contains
       end subroutine swappingIntegerDim0KindINT8
       function medianIntegerDim0KindINT16(xs) result(ret)
          Integer(kind=INT16), intent(in):: xs(:)
+         Integer(kind=INT16):: xsCopy(size(xs, dim=1, kind=INT64))
+         Real(kind=REAL32):: ret
+         xsCopy = xs
+         ret = medianing(xsCopy)
+      end function medianIntegerDim0KindINT16
+      function medianingIntegerDim0KindINT16(xs) result(ret)
+         Integer(kind=INT16), intent(inout):: xs(:)
          Real(kind=REAL32):: ret
          Integer(kind=INT64):: nXs
          nXS = size(xs, dim=1, kind=kind(nXs))
-         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 994, (".not.(nXs > 0)"); error stop; end if
+         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1066, (".not.(nXs > 0)"); error stop; end if
          if(mod(nXs, 2) == 1)then
-            ret = select(xs, nXs/2 + 1)
+            ret = selecting(xs, nXs/2 + 1)
          else
-            ret = real(select(xs, nXs/2), kind=kind(ret))/2 + real(select(xs, nXs/2 + 1), kind=kind(ret))/2
+            ret = (real(selecting(xs, nXs/2), kind=kind(ret))/2) + (real(selecting(xs, nXs/2 + 1), kind=kind(ret))/2)
          end if
-      end function medianIntegerDim0KindINT16
+      end function medianingIntegerDim0KindINT16
+      recursive function median_of_medianingIntegerDim0KindINT16(xs) result(ret)
+         Integer(kind=INT16), intent(inout):: xs(:)
+         Integer(kind=INT16):: ret
+         Integer(kind=INT64):: nXs
+         Integer(kind=kind(nXs)):: i
+         nXS = size(xs, dim=1, kind=kind(nXs))
+         ret = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+      end function median_of_medianingIntegerDim0KindINT16
          recursive function selectIntegerDim0KindINT16IntegerDim0KindINT8(xs, k) result(ret)
             Integer(kind=INT16), intent(in):: xs(:)
             Integer(kind=INT8), intent(in):: k
@@ -825,12 +885,9 @@ contains
             Integer(kind=INT8), intent(in):: k
             Integer(kind=INT16):: ret
             Integer(kind=INT16):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -854,12 +911,9 @@ contains
             Integer(kind=INT16), intent(in):: k
             Integer(kind=INT16):: ret
             Integer(kind=INT16):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -883,12 +937,9 @@ contains
             Integer(kind=INT32), intent(in):: k
             Integer(kind=INT16):: ret
             Integer(kind=INT16):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -912,12 +963,9 @@ contains
             Integer(kind=INT64), intent(in):: k
             Integer(kind=INT16):: ret
             Integer(kind=INT16):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -932,7 +980,7 @@ contains
          Integer(kind=INT16), intent(inout):: xs(:)
          Integer(kind=INT16), intent(in):: pivot
          Integer(kind=INT64), intent(out):: iPivot
-         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1136, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
+         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1206, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
          call partitioning_impl(xs, pivot, iPivot)
       end subroutine partitioningIntegerDim0KindINT16
       ! Assume `min(xs) <= pivot <= max(xs)`
@@ -967,7 +1015,7 @@ contains
       end function insertion_sortIntegerDim0KindINT16
       subroutine insertion_sortingIntegerDim0KindINT16(xs)
          Integer(kind=INT16), intent(inout):: xs(:)
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1177, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1247, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call insertion_sorting_impl(xs)
       end subroutine insertion_sortingIntegerDim0KindINT16
       subroutine insertion_sorting_implIntegerDim0KindINT16(xs)
@@ -999,11 +1047,11 @@ contains
          type(IntegerDim0KindINT64Stack):: iLs, iRs
          Integer(kind = INT64):: iL, iR, iPivot
          Logical:: isUniform
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1215, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1285, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call push(iLs, 1_INT64)
          call push(iRs, size(xs, dim = 1, kind = kind(iR)))
          do while(pop(iRs, iR)) ! Loop for all segments on the stacks.
-            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1221, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
+            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1291, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
             do while(iL < iR) ! While current segment remains
                if(iR - iL > 7)then
                   pivot = get_pivot(xs(iL:iR), isUniform)
@@ -1051,7 +1099,7 @@ contains
          Integer(kind=INT16), intent(inout):: xs(:)
          Integer(kind=INT16):: buf(size(xs, dim=1, kind=INT64))
          Logical(kind=INT8):: isRetInBuf
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1281, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1351, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call merge_sorting_implIntegerDim0KindINT16(xs, buf, isRetInBuf)
          if(isRetInBuf)then
             xs = buf
@@ -1126,16 +1174,31 @@ contains
       end subroutine swappingIntegerDim0KindINT16
       function medianIntegerDim0KindINT32(xs) result(ret)
          Integer(kind=INT32), intent(in):: xs(:)
+         Integer(kind=INT32):: xsCopy(size(xs, dim=1, kind=INT64))
+         Real(kind=REAL32):: ret
+         xsCopy = xs
+         ret = medianing(xsCopy)
+      end function medianIntegerDim0KindINT32
+      function medianingIntegerDim0KindINT32(xs) result(ret)
+         Integer(kind=INT32), intent(inout):: xs(:)
          Real(kind=REAL32):: ret
          Integer(kind=INT64):: nXs
          nXS = size(xs, dim=1, kind=kind(nXs))
-         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1368, (".not.(nXs > 0)"); error stop; end if
+         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1447, (".not.(nXs > 0)"); error stop; end if
          if(mod(nXs, 2) == 1)then
-            ret = select(xs, nXs/2 + 1)
+            ret = selecting(xs, nXs/2 + 1)
          else
-            ret = real(select(xs, nXs/2), kind=kind(ret))/2 + real(select(xs, nXs/2 + 1), kind=kind(ret))/2
+            ret = (real(selecting(xs, nXs/2), kind=kind(ret))/2) + (real(selecting(xs, nXs/2 + 1), kind=kind(ret))/2)
          end if
-      end function medianIntegerDim0KindINT32
+      end function medianingIntegerDim0KindINT32
+      recursive function median_of_medianingIntegerDim0KindINT32(xs) result(ret)
+         Integer(kind=INT32), intent(inout):: xs(:)
+         Integer(kind=INT32):: ret
+         Integer(kind=INT64):: nXs
+         Integer(kind=kind(nXs)):: i
+         nXS = size(xs, dim=1, kind=kind(nXs))
+         ret = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+      end function median_of_medianingIntegerDim0KindINT32
          recursive function selectIntegerDim0KindINT32IntegerDim0KindINT8(xs, k) result(ret)
             Integer(kind=INT32), intent(in):: xs(:)
             Integer(kind=INT8), intent(in):: k
@@ -1149,12 +1212,9 @@ contains
             Integer(kind=INT8), intent(in):: k
             Integer(kind=INT32):: ret
             Integer(kind=INT32):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1178,12 +1238,9 @@ contains
             Integer(kind=INT16), intent(in):: k
             Integer(kind=INT32):: ret
             Integer(kind=INT32):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1207,12 +1264,9 @@ contains
             Integer(kind=INT32), intent(in):: k
             Integer(kind=INT32):: ret
             Integer(kind=INT32):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1236,12 +1290,9 @@ contains
             Integer(kind=INT64), intent(in):: k
             Integer(kind=INT32):: ret
             Integer(kind=INT32):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1256,7 +1307,7 @@ contains
          Integer(kind=INT32), intent(inout):: xs(:)
          Integer(kind=INT32), intent(in):: pivot
          Integer(kind=INT64), intent(out):: iPivot
-         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1510, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
+         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1587, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
          call partitioning_impl(xs, pivot, iPivot)
       end subroutine partitioningIntegerDim0KindINT32
       ! Assume `min(xs) <= pivot <= max(xs)`
@@ -1291,7 +1342,7 @@ contains
       end function insertion_sortIntegerDim0KindINT32
       subroutine insertion_sortingIntegerDim0KindINT32(xs)
          Integer(kind=INT32), intent(inout):: xs(:)
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1551, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1628, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call insertion_sorting_impl(xs)
       end subroutine insertion_sortingIntegerDim0KindINT32
       subroutine insertion_sorting_implIntegerDim0KindINT32(xs)
@@ -1323,11 +1374,11 @@ contains
          type(IntegerDim0KindINT64Stack):: iLs, iRs
          Integer(kind = INT64):: iL, iR, iPivot
          Logical:: isUniform
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1589, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1666, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call push(iLs, 1_INT64)
          call push(iRs, size(xs, dim = 1, kind = kind(iR)))
          do while(pop(iRs, iR)) ! Loop for all segments on the stacks.
-            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1595, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
+            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1672, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
             do while(iL < iR) ! While current segment remains
                if(iR - iL > 7)then
                   pivot = get_pivot(xs(iL:iR), isUniform)
@@ -1375,7 +1426,7 @@ contains
          Integer(kind=INT32), intent(inout):: xs(:)
          Integer(kind=INT32):: buf(size(xs, dim=1, kind=INT64))
          Logical(kind=INT8):: isRetInBuf
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1655, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1732, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call merge_sorting_implIntegerDim0KindINT32(xs, buf, isRetInBuf)
          if(isRetInBuf)then
             xs = buf
@@ -1450,16 +1501,31 @@ contains
       end subroutine swappingIntegerDim0KindINT32
       function medianIntegerDim0KindINT64(xs) result(ret)
          Integer(kind=INT64), intent(in):: xs(:)
+         Integer(kind=INT64):: xsCopy(size(xs, dim=1, kind=INT64))
+         Real(kind=REAL32):: ret
+         xsCopy = xs
+         ret = medianing(xsCopy)
+      end function medianIntegerDim0KindINT64
+      function medianingIntegerDim0KindINT64(xs) result(ret)
+         Integer(kind=INT64), intent(inout):: xs(:)
          Real(kind=REAL32):: ret
          Integer(kind=INT64):: nXs
          nXS = size(xs, dim=1, kind=kind(nXs))
-         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1742, (".not.(nXs > 0)"); error stop; end if
+         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1828, (".not.(nXs > 0)"); error stop; end if
          if(mod(nXs, 2) == 1)then
-            ret = select(xs, nXs/2 + 1)
+            ret = selecting(xs, nXs/2 + 1)
          else
-            ret = real(select(xs, nXs/2), kind=kind(ret))/2 + real(select(xs, nXs/2 + 1), kind=kind(ret))/2
+            ret = (real(selecting(xs, nXs/2), kind=kind(ret))/2) + (real(selecting(xs, nXs/2 + 1), kind=kind(ret))/2)
          end if
-      end function medianIntegerDim0KindINT64
+      end function medianingIntegerDim0KindINT64
+      recursive function median_of_medianingIntegerDim0KindINT64(xs) result(ret)
+         Integer(kind=INT64), intent(inout):: xs(:)
+         Integer(kind=INT64):: ret
+         Integer(kind=INT64):: nXs
+         Integer(kind=kind(nXs)):: i
+         nXS = size(xs, dim=1, kind=kind(nXs))
+         ret = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+      end function median_of_medianingIntegerDim0KindINT64
          recursive function selectIntegerDim0KindINT64IntegerDim0KindINT8(xs, k) result(ret)
             Integer(kind=INT64), intent(in):: xs(:)
             Integer(kind=INT8), intent(in):: k
@@ -1473,12 +1539,9 @@ contains
             Integer(kind=INT8), intent(in):: k
             Integer(kind=INT64):: ret
             Integer(kind=INT64):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1502,12 +1565,9 @@ contains
             Integer(kind=INT16), intent(in):: k
             Integer(kind=INT64):: ret
             Integer(kind=INT64):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1531,12 +1591,9 @@ contains
             Integer(kind=INT32), intent(in):: k
             Integer(kind=INT64):: ret
             Integer(kind=INT64):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1560,12 +1617,9 @@ contains
             Integer(kind=INT64), intent(in):: k
             Integer(kind=INT64):: ret
             Integer(kind=INT64):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1580,7 +1634,7 @@ contains
          Integer(kind=INT64), intent(inout):: xs(:)
          Integer(kind=INT64), intent(in):: pivot
          Integer(kind=INT64), intent(out):: iPivot
-         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1884, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
+         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1968, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
          call partitioning_impl(xs, pivot, iPivot)
       end subroutine partitioningIntegerDim0KindINT64
       ! Assume `min(xs) <= pivot <= max(xs)`
@@ -1615,7 +1669,7 @@ contains
       end function insertion_sortIntegerDim0KindINT64
       subroutine insertion_sortingIntegerDim0KindINT64(xs)
          Integer(kind=INT64), intent(inout):: xs(:)
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1925, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2009, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call insertion_sorting_impl(xs)
       end subroutine insertion_sortingIntegerDim0KindINT64
       subroutine insertion_sorting_implIntegerDim0KindINT64(xs)
@@ -1647,11 +1701,11 @@ contains
          type(IntegerDim0KindINT64Stack):: iLs, iRs
          Integer(kind = INT64):: iL, iR, iPivot
          Logical:: isUniform
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1963, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2047, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call push(iLs, 1_INT64)
          call push(iRs, size(xs, dim = 1, kind = kind(iR)))
          do while(pop(iRs, iR)) ! Loop for all segments on the stacks.
-            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 1969, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
+            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2053, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
             do while(iL < iR) ! While current segment remains
                if(iR - iL > 7)then
                   pivot = get_pivot(xs(iL:iR), isUniform)
@@ -1699,7 +1753,7 @@ contains
          Integer(kind=INT64), intent(inout):: xs(:)
          Integer(kind=INT64):: buf(size(xs, dim=1, kind=INT64))
          Logical(kind=INT8):: isRetInBuf
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2029, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2113, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call merge_sorting_implIntegerDim0KindINT64(xs, buf, isRetInBuf)
          if(isRetInBuf)then
             xs = buf
@@ -1774,16 +1828,31 @@ contains
       end subroutine swappingIntegerDim0KindINT64
       function medianRealDim0KindREAL32(xs) result(ret)
          Real(kind=REAL32), intent(in):: xs(:)
+         Real(kind=REAL32):: xsCopy(size(xs, dim=1, kind=INT64))
+         Real(kind=REAL32):: ret
+         xsCopy = xs
+         ret = medianing(xsCopy)
+      end function medianRealDim0KindREAL32
+      function medianingRealDim0KindREAL32(xs) result(ret)
+         Real(kind=REAL32), intent(inout):: xs(:)
          Real(kind=REAL32):: ret
          Integer(kind=INT64):: nXs
          nXS = size(xs, dim=1, kind=kind(nXs))
-         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2116, (".not.(nXs > 0)"); error stop; end if
+         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2209, (".not.(nXs > 0)"); error stop; end if
          if(mod(nXs, 2) == 1)then
-            ret = select(xs, nXs/2 + 1)
+            ret = selecting(xs, nXs/2 + 1)
          else
-            ret = real(select(xs, nXs/2), kind=kind(ret))/2 + real(select(xs, nXs/2 + 1), kind=kind(ret))/2
+            ret = (real(selecting(xs, nXs/2), kind=kind(ret))/2) + (real(selecting(xs, nXs/2 + 1), kind=kind(ret))/2)
          end if
-      end function medianRealDim0KindREAL32
+      end function medianingRealDim0KindREAL32
+      recursive function median_of_medianingRealDim0KindREAL32(xs) result(ret)
+         Real(kind=REAL32), intent(inout):: xs(:)
+         Real(kind=REAL32):: ret
+         Integer(kind=INT64):: nXs
+         Integer(kind=kind(nXs)):: i
+         nXS = size(xs, dim=1, kind=kind(nXs))
+         ret = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+      end function median_of_medianingRealDim0KindREAL32
          recursive function selectRealDim0KindREAL32IntegerDim0KindINT8(xs, k) result(ret)
             Real(kind=REAL32), intent(in):: xs(:)
             Integer(kind=INT8), intent(in):: k
@@ -1797,12 +1866,9 @@ contains
             Integer(kind=INT8), intent(in):: k
             Real(kind=REAL32):: ret
             Real(kind=REAL32):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1826,12 +1892,9 @@ contains
             Integer(kind=INT16), intent(in):: k
             Real(kind=REAL32):: ret
             Real(kind=REAL32):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1855,12 +1918,9 @@ contains
             Integer(kind=INT32), intent(in):: k
             Real(kind=REAL32):: ret
             Real(kind=REAL32):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1884,12 +1944,9 @@ contains
             Integer(kind=INT64), intent(in):: k
             Real(kind=REAL32):: ret
             Real(kind=REAL32):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -1904,7 +1961,7 @@ contains
          Real(kind=REAL32), intent(inout):: xs(:)
          Real(kind=REAL32), intent(in):: pivot
          Integer(kind=INT64), intent(out):: iPivot
-         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2258, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
+         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2349, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
          call partitioning_impl(xs, pivot, iPivot)
       end subroutine partitioningRealDim0KindREAL32
       ! Assume `min(xs) <= pivot <= max(xs)`
@@ -1939,7 +1996,7 @@ contains
       end function insertion_sortRealDim0KindREAL32
       subroutine insertion_sortingRealDim0KindREAL32(xs)
          Real(kind=REAL32), intent(inout):: xs(:)
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2299, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2390, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call insertion_sorting_impl(xs)
       end subroutine insertion_sortingRealDim0KindREAL32
       subroutine insertion_sorting_implRealDim0KindREAL32(xs)
@@ -1971,11 +2028,11 @@ contains
          type(IntegerDim0KindINT64Stack):: iLs, iRs
          Integer(kind = INT64):: iL, iR, iPivot
          Logical:: isUniform
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2337, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2428, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call push(iLs, 1_INT64)
          call push(iRs, size(xs, dim = 1, kind = kind(iR)))
          do while(pop(iRs, iR)) ! Loop for all segments on the stacks.
-            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2343, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
+            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2434, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
             do while(iL < iR) ! While current segment remains
                if(iR - iL > 7)then
                   pivot = get_pivot(xs(iL:iR), isUniform)
@@ -2023,7 +2080,7 @@ contains
          Real(kind=REAL32), intent(inout):: xs(:)
          Real(kind=REAL32):: buf(size(xs, dim=1, kind=INT64))
          Logical(kind=INT8):: isRetInBuf
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2403, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2494, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call merge_sorting_implRealDim0KindREAL32(xs, buf, isRetInBuf)
          if(isRetInBuf)then
             xs = buf
@@ -2098,16 +2155,31 @@ contains
       end subroutine swappingRealDim0KindREAL32
       function medianRealDim0KindREAL64(xs) result(ret)
          Real(kind=REAL64), intent(in):: xs(:)
+         Real(kind=REAL64):: xsCopy(size(xs, dim=1, kind=INT64))
+         Real(kind=REAL64):: ret
+         xsCopy = xs
+         ret = medianing(xsCopy)
+      end function medianRealDim0KindREAL64
+      function medianingRealDim0KindREAL64(xs) result(ret)
+         Real(kind=REAL64), intent(inout):: xs(:)
          Real(kind=REAL64):: ret
          Integer(kind=INT64):: nXs
          nXS = size(xs, dim=1, kind=kind(nXs))
-         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2490, (".not.(nXs > 0)"); error stop; end if
+         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2590, (".not.(nXs > 0)"); error stop; end if
          if(mod(nXs, 2) == 1)then
-            ret = select(xs, nXs/2 + 1)
+            ret = selecting(xs, nXs/2 + 1)
          else
-            ret = real(select(xs, nXs/2), kind=kind(ret))/2 + real(select(xs, nXs/2 + 1), kind=kind(ret))/2
+            ret = (real(selecting(xs, nXs/2), kind=kind(ret))/2) + (real(selecting(xs, nXs/2 + 1), kind=kind(ret))/2)
          end if
-      end function medianRealDim0KindREAL64
+      end function medianingRealDim0KindREAL64
+      recursive function median_of_medianingRealDim0KindREAL64(xs) result(ret)
+         Real(kind=REAL64), intent(inout):: xs(:)
+         Real(kind=REAL64):: ret
+         Integer(kind=INT64):: nXs
+         Integer(kind=kind(nXs)):: i
+         nXS = size(xs, dim=1, kind=kind(nXs))
+         ret = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+      end function median_of_medianingRealDim0KindREAL64
          recursive function selectRealDim0KindREAL64IntegerDim0KindINT8(xs, k) result(ret)
             Real(kind=REAL64), intent(in):: xs(:)
             Integer(kind=INT8), intent(in):: k
@@ -2121,12 +2193,9 @@ contains
             Integer(kind=INT8), intent(in):: k
             Real(kind=REAL64):: ret
             Real(kind=REAL64):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -2150,12 +2219,9 @@ contains
             Integer(kind=INT16), intent(in):: k
             Real(kind=REAL64):: ret
             Real(kind=REAL64):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -2179,12 +2245,9 @@ contains
             Integer(kind=INT32), intent(in):: k
             Real(kind=REAL64):: ret
             Real(kind=REAL64):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -2208,12 +2271,9 @@ contains
             Integer(kind=INT64), intent(in):: k
             Real(kind=REAL64):: ret
             Real(kind=REAL64):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -2228,7 +2288,7 @@ contains
          Real(kind=REAL64), intent(inout):: xs(:)
          Real(kind=REAL64), intent(in):: pivot
          Integer(kind=INT64), intent(out):: iPivot
-         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2632, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
+         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2730, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
          call partitioning_impl(xs, pivot, iPivot)
       end subroutine partitioningRealDim0KindREAL64
       ! Assume `min(xs) <= pivot <= max(xs)`
@@ -2263,7 +2323,7 @@ contains
       end function insertion_sortRealDim0KindREAL64
       subroutine insertion_sortingRealDim0KindREAL64(xs)
          Real(kind=REAL64), intent(inout):: xs(:)
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2673, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2771, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call insertion_sorting_impl(xs)
       end subroutine insertion_sortingRealDim0KindREAL64
       subroutine insertion_sorting_implRealDim0KindREAL64(xs)
@@ -2295,11 +2355,11 @@ contains
          type(IntegerDim0KindINT64Stack):: iLs, iRs
          Integer(kind = INT64):: iL, iR, iPivot
          Logical:: isUniform
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2711, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2809, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call push(iLs, 1_INT64)
          call push(iRs, size(xs, dim = 1, kind = kind(iR)))
          do while(pop(iRs, iR)) ! Loop for all segments on the stacks.
-            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2717, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
+            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2815, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
             do while(iL < iR) ! While current segment remains
                if(iR - iL > 7)then
                   pivot = get_pivot(xs(iL:iR), isUniform)
@@ -2347,7 +2407,7 @@ contains
          Real(kind=REAL64), intent(inout):: xs(:)
          Real(kind=REAL64):: buf(size(xs, dim=1, kind=INT64))
          Logical(kind=INT8):: isRetInBuf
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2777, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2875, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call merge_sorting_implRealDim0KindREAL64(xs, buf, isRetInBuf)
          if(isRetInBuf)then
             xs = buf
@@ -2422,16 +2482,31 @@ contains
       end subroutine swappingRealDim0KindREAL64
       function medianRealDim0KindREAL128(xs) result(ret)
          Real(kind=REAL128), intent(in):: xs(:)
+         Real(kind=REAL128):: xsCopy(size(xs, dim=1, kind=INT64))
+         Real(kind=REAL128):: ret
+         xsCopy = xs
+         ret = medianing(xsCopy)
+      end function medianRealDim0KindREAL128
+      function medianingRealDim0KindREAL128(xs) result(ret)
+         Real(kind=REAL128), intent(inout):: xs(:)
          Real(kind=REAL128):: ret
          Integer(kind=INT64):: nXs
          nXS = size(xs, dim=1, kind=kind(nXs))
-         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2864, (".not.(nXs > 0)"); error stop; end if
+         if(.not.(nXs > 0))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 2971, (".not.(nXs > 0)"); error stop; end if
          if(mod(nXs, 2) == 1)then
-            ret = select(xs, nXs/2 + 1)
+            ret = selecting(xs, nXs/2 + 1)
          else
-            ret = real(select(xs, nXs/2), kind=kind(ret))/2 + real(select(xs, nXs/2 + 1), kind=kind(ret))/2
+            ret = (real(selecting(xs, nXs/2), kind=kind(ret))/2) + (real(selecting(xs, nXs/2 + 1), kind=kind(ret))/2)
          end if
-      end function medianRealDim0KindREAL128
+      end function medianingRealDim0KindREAL128
+      recursive function median_of_medianingRealDim0KindREAL128(xs) result(ret)
+         Real(kind=REAL128), intent(inout):: xs(:)
+         Real(kind=REAL128):: ret
+         Integer(kind=INT64):: nXs
+         Integer(kind=kind(nXs)):: i
+         nXS = size(xs, dim=1, kind=kind(nXs))
+         ret = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+      end function median_of_medianingRealDim0KindREAL128
          recursive function selectRealDim0KindREAL128IntegerDim0KindINT8(xs, k) result(ret)
             Real(kind=REAL128), intent(in):: xs(:)
             Integer(kind=INT8), intent(in):: k
@@ -2445,12 +2520,9 @@ contains
             Integer(kind=INT8), intent(in):: k
             Real(kind=REAL128):: ret
             Real(kind=REAL128):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -2474,12 +2546,9 @@ contains
             Integer(kind=INT16), intent(in):: k
             Real(kind=REAL128):: ret
             Real(kind=REAL128):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -2503,12 +2572,9 @@ contains
             Integer(kind=INT32), intent(in):: k
             Real(kind=REAL128):: ret
             Real(kind=REAL128):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -2532,12 +2598,9 @@ contains
             Integer(kind=INT64), intent(in):: k
             Real(kind=REAL128):: ret
             Real(kind=REAL128):: pivot
-            Integer(kind=INT64):: nXs
-            Integer(kind=kind(nXs)):: i
             Integer(kind=INT64):: iPivot
-            nXs = size(xs, dim=1, kind=kind(nXs))
-            if(nXs > 14)then
-               pivot = select([(selecting(xs((5*(i - 1) + 1):(5*i)), 3), i = 1, nXs/5)], nXs/10 + 1)
+            if(size(xs, dim=1, kind=INT64) > 14)then
+               pivot = median_of_medianing(xs)
                call partitioning_impl(xs, pivot, iPivot)
                if(k <= iPivot)then
                   ret = selecting(xs(:iPivot), k)
@@ -2552,7 +2615,7 @@ contains
          Real(kind=REAL128), intent(inout):: xs(:)
          Real(kind=REAL128), intent(in):: pivot
          Integer(kind=INT64), intent(out):: iPivot
-         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3006, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
+         if(.not.(minval(xs) <= pivot .and. pivot <= maxval(xs)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3111, (".not.(minval(xs) <= pivot .and. pivot <= maxval(xs))"); error stop; end if
          call partitioning_impl(xs, pivot, iPivot)
       end subroutine partitioningRealDim0KindREAL128
       ! Assume `min(xs) <= pivot <= max(xs)`
@@ -2587,7 +2650,7 @@ contains
       end function insertion_sortRealDim0KindREAL128
       subroutine insertion_sortingRealDim0KindREAL128(xs)
          Real(kind=REAL128), intent(inout):: xs(:)
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3047, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3152, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call insertion_sorting_impl(xs)
       end subroutine insertion_sortingRealDim0KindREAL128
       subroutine insertion_sorting_implRealDim0KindREAL128(xs)
@@ -2619,11 +2682,11 @@ contains
          type(IntegerDim0KindINT64Stack):: iLs, iRs
          Integer(kind = INT64):: iL, iR, iPivot
          Logical:: isUniform
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3085, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3190, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call push(iLs, 1_INT64)
          call push(iRs, size(xs, dim = 1, kind = kind(iR)))
          do while(pop(iRs, iR)) ! Loop for all segments on the stacks.
-            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3091, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
+            if(.not.(pop(iLs, iL)))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3196, (".not.(pop(iLs, iL))"); error stop; end if ! Left most index of the current segment.
             do while(iL < iR) ! While current segment remains
                if(iR - iL > 7)then
                   pivot = get_pivot(xs(iL:iR), isUniform)
@@ -2671,7 +2734,7 @@ contains
          Real(kind=REAL128), intent(inout):: xs(:)
          Real(kind=REAL128):: buf(size(xs, dim=1, kind=INT64))
          Logical(kind=INT8):: isRetInBuf
-         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3151, (".not.(.not.any(is_nan(xs)))"); error stop; end if
+         if(.not.(.not.any(is_nan(xs))))then; write(ERROR_UNIT, *) "RAISE: ", "sort_lib.f90", " ", 3256, (".not.(.not.any(is_nan(xs)))"); error stop; end if
          call merge_sorting_implRealDim0KindREAL128(xs, buf, isRetInBuf)
          if(isRetInBuf)then
             xs = buf

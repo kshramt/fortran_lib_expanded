@@ -12,7 +12,16 @@ module character_lib
       module procedure add
    end interface operator(+)
       interface str
-         module procedure strLogicalDim0
+         module procedure strLogicalDim0KindINT8
+      end interface str
+      interface str
+         module procedure strLogicalDim0KindINT16
+      end interface str
+      interface str
+         module procedure strLogicalDim0KindINT32
+      end interface str
+      interface str
+         module procedure strLogicalDim0KindINT64
       end interface str
       interface str
          module procedure strRealDim0KindREAL32
@@ -125,8 +134,8 @@ contains
       character(len=len(str1) + len(str2)):: answer
       answer = str1 // str2
    end function add
-      pure function strLogicalDim0(x) result(ret)
-         Logical, intent(in):: x
+      pure function strLogicalDim0KindINT8(x) result(ret)
+         Logical(kind=INT8), intent(in):: x
          character(len=:), allocatable:: buf
          character(len=:), allocatable:: ret
          Integer(kind=INT64):: lenBuf
@@ -143,7 +152,64 @@ contains
             end if
          end do
          ret = s(buf)
-      end function strLogicalDim0
+      end function strLogicalDim0KindINT8
+      pure function strLogicalDim0KindINT16(x) result(ret)
+         Logical(kind=INT16), intent(in):: x
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            if(allocated(buf)) deallocate(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if((ios == 0))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
+      end function strLogicalDim0KindINT16
+      pure function strLogicalDim0KindINT32(x) result(ret)
+         Logical(kind=INT32), intent(in):: x
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            if(allocated(buf)) deallocate(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if((ios == 0))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
+      end function strLogicalDim0KindINT32
+      pure function strLogicalDim0KindINT64(x) result(ret)
+         Logical(kind=INT64), intent(in):: x
+         character(len=:), allocatable:: buf
+         character(len=:), allocatable:: ret
+         Integer(kind=INT64):: lenBuf
+         Integer:: ios
+         lenBuf = 32 ! enough length to dump `REAL64` value
+         do
+            if(allocated(buf)) deallocate(buf)
+            allocate(Character(lenBuf):: buf)
+            write(buf, *, iostat=ios) x
+            if((ios == 0))then
+               exit
+            else
+               lenBuf = 2*lenBuf
+            end if
+         end do
+         ret = s(buf)
+      end function strLogicalDim0KindINT64
       pure function strRealDim0KindREAL32(x) result(ret)
          Real(kind=REAL32), intent(in):: x
          character(len=:), allocatable:: buf

@@ -6,7 +6,10 @@ module config_lib
    private
    public:: get_config_value
    interface get_config_value
-          module procedure get_config_valueLogicalDim0
+          module procedure get_config_valueLogicalDim0KindINT8
+          module procedure get_config_valueLogicalDim0KindINT16
+          module procedure get_config_valueLogicalDim0KindINT32
+          module procedure get_config_valueLogicalDim0KindINT64
           module procedure get_config_valueIntegerDim0KindINT8
           module procedure get_config_valueIntegerDim0KindINT16
           module procedure get_config_valueIntegerDim0KindINT32
@@ -20,10 +23,10 @@ module config_lib
           module procedure get_config_valueCharacterDim0LenAsterisk
    end interface get_config_value
 contains
-      function get_config_valueLogicalDim0(io, key, value) result(isKeyExist)
+      function get_config_valueLogicalDim0KindINT8(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Logical, intent(out):: value
+         Logical(kind=INT8), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -39,7 +42,67 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueLogicalDim0
+      end function get_config_valueLogicalDim0KindINT8
+      function get_config_valueLogicalDim0KindINT16(io, key, value) result(isKeyExist)
+         Integer:: io
+         Character(len=*), intent(in):: key
+         Logical(kind=INT16), intent(out):: value
+         Logical:: isKeyExist
+         Integer:: ios
+         Character(len = len_trim(key) + 1):: keyBuf
+         rewind(io)
+         isKeyExist = .false.
+         do
+            read(io, *, iostat = ios) keyBuf
+            if(keyBuf == key)then
+               backspace(io)
+               read(io, *) keyBuf, value
+               isKeyExist = .true.
+               return
+            end if
+            if(ios /= 0) exit
+         end do
+      end function get_config_valueLogicalDim0KindINT16
+      function get_config_valueLogicalDim0KindINT32(io, key, value) result(isKeyExist)
+         Integer:: io
+         Character(len=*), intent(in):: key
+         Logical(kind=INT32), intent(out):: value
+         Logical:: isKeyExist
+         Integer:: ios
+         Character(len = len_trim(key) + 1):: keyBuf
+         rewind(io)
+         isKeyExist = .false.
+         do
+            read(io, *, iostat = ios) keyBuf
+            if(keyBuf == key)then
+               backspace(io)
+               read(io, *) keyBuf, value
+               isKeyExist = .true.
+               return
+            end if
+            if(ios /= 0) exit
+         end do
+      end function get_config_valueLogicalDim0KindINT32
+      function get_config_valueLogicalDim0KindINT64(io, key, value) result(isKeyExist)
+         Integer:: io
+         Character(len=*), intent(in):: key
+         Logical(kind=INT64), intent(out):: value
+         Logical:: isKeyExist
+         Integer:: ios
+         Character(len = len_trim(key) + 1):: keyBuf
+         rewind(io)
+         isKeyExist = .false.
+         do
+            read(io, *, iostat = ios) keyBuf
+            if(keyBuf == key)then
+               backspace(io)
+               read(io, *) keyBuf, value
+               isKeyExist = .true.
+               return
+            end if
+            if(ios /= 0) exit
+         end do
+      end function get_config_valueLogicalDim0KindINT64
       function get_config_valueIntegerDim0KindINT8(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key

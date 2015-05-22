@@ -163,7 +163,7 @@ contains
                lonLatH(3) = z/sin(lat) - (1 - E_2)*get_l(lat)
             else
                call get_lat(get_z, z, xy, PI/8, PI/8, lat)
-               lonLatH(3) = x/cos(lat) - get_l(lat)
+               lonLatH(3) = xy/cos(lat) - get_l(lat)
             end if
             lonLatH(1) = lon
             lonLatH(2) = lat
@@ -324,7 +324,7 @@ contains
                lonLatH(3) = z/sin(lat) - (1 - E_2)*get_l(lat)
             else
                call get_lat(get_z, z, xy, PI/8, PI/8, lat)
-               lonLatH(3) = x/cos(lat) - get_l(lat)
+               lonLatH(3) = xy/cos(lat) - get_l(lat)
             end if
             lonLatH(1) = lon
             lonLatH(2) = lat
@@ -485,7 +485,7 @@ contains
                lonLatH(3) = z/sin(lat) - (1 - E_2)*get_l(lat)
             else
                call get_lat(get_z, z, xy, PI/8, PI/8, lat)
-               lonLatH(3) = x/cos(lat) - get_l(lat)
+               lonLatH(3) = xy/cos(lat) - get_l(lat)
             end if
             lonLatH(1) = lon
             lonLatH(2) = lat

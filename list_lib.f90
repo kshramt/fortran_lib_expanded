@@ -27,15 +27,42 @@ module list_lib
    end type ListNode
    type, public:: List
    end type List
-      type, extends(ListNode):: LogicalDim0ListNode
-         Logical:: val
-         type(LogicalDim0ListNode), pointer:: prev => null()
-         type(LogicalDim0ListNode), pointer:: next => null()
-      end type LogicalDim0ListNode
-      type, extends(List), public:: LogicalDim0List
-         type(LogicalDim0ListNode), pointer:: entry => null()
+      type, extends(ListNode):: LogicalDim0KindINT8ListNode
+         Logical(kind=INT8):: val
+         type(LogicalDim0KindINT8ListNode), pointer:: prev => null()
+         type(LogicalDim0KindINT8ListNode), pointer:: next => null()
+      end type LogicalDim0KindINT8ListNode
+      type, extends(List), public:: LogicalDim0KindINT8List
+         type(LogicalDim0KindINT8ListNode), pointer:: entry => null()
          Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
-      end type LogicalDim0List
+      end type LogicalDim0KindINT8List
+      type, extends(ListNode):: LogicalDim0KindINT16ListNode
+         Logical(kind=INT16):: val
+         type(LogicalDim0KindINT16ListNode), pointer:: prev => null()
+         type(LogicalDim0KindINT16ListNode), pointer:: next => null()
+      end type LogicalDim0KindINT16ListNode
+      type, extends(List), public:: LogicalDim0KindINT16List
+         type(LogicalDim0KindINT16ListNode), pointer:: entry => null()
+         Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      end type LogicalDim0KindINT16List
+      type, extends(ListNode):: LogicalDim0KindINT32ListNode
+         Logical(kind=INT32):: val
+         type(LogicalDim0KindINT32ListNode), pointer:: prev => null()
+         type(LogicalDim0KindINT32ListNode), pointer:: next => null()
+      end type LogicalDim0KindINT32ListNode
+      type, extends(List), public:: LogicalDim0KindINT32List
+         type(LogicalDim0KindINT32ListNode), pointer:: entry => null()
+         Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      end type LogicalDim0KindINT32List
+      type, extends(ListNode):: LogicalDim0KindINT64ListNode
+         Logical(kind=INT64):: val
+         type(LogicalDim0KindINT64ListNode), pointer:: prev => null()
+         type(LogicalDim0KindINT64ListNode), pointer:: next => null()
+      end type LogicalDim0KindINT64ListNode
+      type, extends(List), public:: LogicalDim0KindINT64List
+         type(LogicalDim0KindINT64ListNode), pointer:: entry => null()
+         Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
+      end type LogicalDim0KindINT64List
       type, extends(ListNode):: CharacterDim0Len1ListNode
          Character(len=1):: val
          type(CharacterDim0Len1ListNode), pointer:: prev => null()
@@ -253,64 +280,244 @@ module list_lib
          Integer:: size ! Currently, integer is enough since max size of a dimension of an array is huge(0).
       end type ComplexDim0KindREAL128List
       interface size
-         module procedure sizeLogicalDim0
+         module procedure sizeLogicalDim0KindINT8
       end interface size
       interface delete_at
-         module procedure delete_atLogicalDim0
+         module procedure delete_atLogicalDim0KindINT8
       end interface delete_at
       interface insert_at
-         module procedure insert_atLogicalDim0
+         module procedure insert_atLogicalDim0KindINT8
       end interface insert_at
       interface val_at
-         module procedure val_atLogicalDim0
+         module procedure val_atLogicalDim0KindINT8
       end interface val_at
       interface operator(.val.)
-         module procedure val_atLogicalDim0
+         module procedure val_atLogicalDim0KindINT8
       end interface operator(.val.)
       interface shift
-         module procedure shiftLogicalDim0
+         module procedure shiftLogicalDim0KindINT8
       end interface shift
       interface unshift
-         module procedure unshiftLogicalDim0
+         module procedure unshiftLogicalDim0KindINT8
       end interface unshift
       interface push
-         module procedure pushLogicalDim0
+         module procedure pushLogicalDim0KindINT8
       end interface push
       interface pop
-         module procedure popLogicalDim0
+         module procedure popLogicalDim0KindINT8
       end interface pop
       interface clear
-         module procedure clearLogicalDim0
+         module procedure clearLogicalDim0KindINT8
       end interface clear
       interface swap
-         module procedure swapLogicalDim0
+         module procedure swapLogicalDim0KindINT8
       end interface swap
       interface assignment(=)
-         module procedure copyLogicalDim0
-         module procedure list_from_array_coercionLogicalDim0
-         module procedure array_from_list_coercionLogicalDim0
+         module procedure copyLogicalDim0KindINT8
+         module procedure list_from_array_coercionLogicalDim0KindINT8
+         module procedure array_from_list_coercionLogicalDim0KindINT8
       end interface assignment(=)
       interface is_size_one
-         module procedure is_size_oneLogicalDim0
+         module procedure is_size_oneLogicalDim0KindINT8
       end interface is_size_one
       interface is_empty
-         module procedure is_emptyLogicalDim0
+         module procedure is_emptyLogicalDim0KindINT8
       end interface is_empty
       interface array_from_list
-         module procedure array_from_listLogicalDim0
+         module procedure array_from_listLogicalDim0KindINT8
       end interface array_from_list
       interface almost_equal
-         module procedure almost_equalLogicalDim0
+         module procedure almost_equalLogicalDim0KindINT8
       end interface almost_equal
       ! Internal
       interface new
-         module procedure newLogicalDim0
+         module procedure newLogicalDim0KindINT8
       end interface new
       interface node_at
-         module procedure node_atLogicalDim0
+         module procedure node_atLogicalDim0KindINT8
       end interface node_at
       interface copy
-         module procedure copyLogicalDim0
+         module procedure copyLogicalDim0KindINT8
+      end interface copy
+      interface size
+         module procedure sizeLogicalDim0KindINT16
+      end interface size
+      interface delete_at
+         module procedure delete_atLogicalDim0KindINT16
+      end interface delete_at
+      interface insert_at
+         module procedure insert_atLogicalDim0KindINT16
+      end interface insert_at
+      interface val_at
+         module procedure val_atLogicalDim0KindINT16
+      end interface val_at
+      interface operator(.val.)
+         module procedure val_atLogicalDim0KindINT16
+      end interface operator(.val.)
+      interface shift
+         module procedure shiftLogicalDim0KindINT16
+      end interface shift
+      interface unshift
+         module procedure unshiftLogicalDim0KindINT16
+      end interface unshift
+      interface push
+         module procedure pushLogicalDim0KindINT16
+      end interface push
+      interface pop
+         module procedure popLogicalDim0KindINT16
+      end interface pop
+      interface clear
+         module procedure clearLogicalDim0KindINT16
+      end interface clear
+      interface swap
+         module procedure swapLogicalDim0KindINT16
+      end interface swap
+      interface assignment(=)
+         module procedure copyLogicalDim0KindINT16
+         module procedure list_from_array_coercionLogicalDim0KindINT16
+         module procedure array_from_list_coercionLogicalDim0KindINT16
+      end interface assignment(=)
+      interface is_size_one
+         module procedure is_size_oneLogicalDim0KindINT16
+      end interface is_size_one
+      interface is_empty
+         module procedure is_emptyLogicalDim0KindINT16
+      end interface is_empty
+      interface array_from_list
+         module procedure array_from_listLogicalDim0KindINT16
+      end interface array_from_list
+      interface almost_equal
+         module procedure almost_equalLogicalDim0KindINT16
+      end interface almost_equal
+      ! Internal
+      interface new
+         module procedure newLogicalDim0KindINT16
+      end interface new
+      interface node_at
+         module procedure node_atLogicalDim0KindINT16
+      end interface node_at
+      interface copy
+         module procedure copyLogicalDim0KindINT16
+      end interface copy
+      interface size
+         module procedure sizeLogicalDim0KindINT32
+      end interface size
+      interface delete_at
+         module procedure delete_atLogicalDim0KindINT32
+      end interface delete_at
+      interface insert_at
+         module procedure insert_atLogicalDim0KindINT32
+      end interface insert_at
+      interface val_at
+         module procedure val_atLogicalDim0KindINT32
+      end interface val_at
+      interface operator(.val.)
+         module procedure val_atLogicalDim0KindINT32
+      end interface operator(.val.)
+      interface shift
+         module procedure shiftLogicalDim0KindINT32
+      end interface shift
+      interface unshift
+         module procedure unshiftLogicalDim0KindINT32
+      end interface unshift
+      interface push
+         module procedure pushLogicalDim0KindINT32
+      end interface push
+      interface pop
+         module procedure popLogicalDim0KindINT32
+      end interface pop
+      interface clear
+         module procedure clearLogicalDim0KindINT32
+      end interface clear
+      interface swap
+         module procedure swapLogicalDim0KindINT32
+      end interface swap
+      interface assignment(=)
+         module procedure copyLogicalDim0KindINT32
+         module procedure list_from_array_coercionLogicalDim0KindINT32
+         module procedure array_from_list_coercionLogicalDim0KindINT32
+      end interface assignment(=)
+      interface is_size_one
+         module procedure is_size_oneLogicalDim0KindINT32
+      end interface is_size_one
+      interface is_empty
+         module procedure is_emptyLogicalDim0KindINT32
+      end interface is_empty
+      interface array_from_list
+         module procedure array_from_listLogicalDim0KindINT32
+      end interface array_from_list
+      interface almost_equal
+         module procedure almost_equalLogicalDim0KindINT32
+      end interface almost_equal
+      ! Internal
+      interface new
+         module procedure newLogicalDim0KindINT32
+      end interface new
+      interface node_at
+         module procedure node_atLogicalDim0KindINT32
+      end interface node_at
+      interface copy
+         module procedure copyLogicalDim0KindINT32
+      end interface copy
+      interface size
+         module procedure sizeLogicalDim0KindINT64
+      end interface size
+      interface delete_at
+         module procedure delete_atLogicalDim0KindINT64
+      end interface delete_at
+      interface insert_at
+         module procedure insert_atLogicalDim0KindINT64
+      end interface insert_at
+      interface val_at
+         module procedure val_atLogicalDim0KindINT64
+      end interface val_at
+      interface operator(.val.)
+         module procedure val_atLogicalDim0KindINT64
+      end interface operator(.val.)
+      interface shift
+         module procedure shiftLogicalDim0KindINT64
+      end interface shift
+      interface unshift
+         module procedure unshiftLogicalDim0KindINT64
+      end interface unshift
+      interface push
+         module procedure pushLogicalDim0KindINT64
+      end interface push
+      interface pop
+         module procedure popLogicalDim0KindINT64
+      end interface pop
+      interface clear
+         module procedure clearLogicalDim0KindINT64
+      end interface clear
+      interface swap
+         module procedure swapLogicalDim0KindINT64
+      end interface swap
+      interface assignment(=)
+         module procedure copyLogicalDim0KindINT64
+         module procedure list_from_array_coercionLogicalDim0KindINT64
+         module procedure array_from_list_coercionLogicalDim0KindINT64
+      end interface assignment(=)
+      interface is_size_one
+         module procedure is_size_oneLogicalDim0KindINT64
+      end interface is_size_one
+      interface is_empty
+         module procedure is_emptyLogicalDim0KindINT64
+      end interface is_empty
+      interface array_from_list
+         module procedure array_from_listLogicalDim0KindINT64
+      end interface array_from_list
+      interface almost_equal
+         module procedure almost_equalLogicalDim0KindINT64
+      end interface almost_equal
+      ! Internal
+      interface new
+         module procedure newLogicalDim0KindINT64
+      end interface new
+      interface node_at
+         module procedure node_atLogicalDim0KindINT64
+      end interface node_at
+      interface copy
+         module procedure copyLogicalDim0KindINT64
       end interface copy
       interface size
          module procedure sizeCharacterDim0Len1
@@ -1753,16 +1960,16 @@ module list_lib
          module procedure copyComplexDim0KindREAL128
       end interface copy
 contains
-      subroutine swapLogicalDim0(self, pos1, pos2)
-         type(LogicalDim0List), intent(inout):: self
+      subroutine swapLogicalDim0KindINT8(self, pos1, pos2)
+         type(LogicalDim0KindINT8List), intent(inout):: self
          integer, intent(in):: pos1, pos2
-         type(LogicalDim0ListNode), pointer:: posLNodePrev, posLNode, posLNodeNext
-         type(LogicalDim0ListNode), pointer:: posRNodePrev, posRNode, posRNodeNext
+         type(LogicalDim0KindINT8ListNode), pointer:: posLNodePrev, posLNode, posLNodeNext
+         type(LogicalDim0KindINT8ListNode), pointer:: posRNodePrev, posRNode, posRNodeNext
          integer:: posL, posR, nSelf
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 2280, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 2547, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -1788,21 +1995,21 @@ contains
             posLNode%prev => posRNodePrev
          end if
          if(posR == nSelf) self%entry => posLNode
-      end subroutine swapLogicalDim0
-      subroutine list_from_array_coercionLogicalDim0(self, array)
-         type(LogicalDim0List), intent(inout):: self
-         Logical, intent(in):: array(:)
+      end subroutine swapLogicalDim0KindINT8
+      subroutine list_from_array_coercionLogicalDim0KindINT8(self, array)
+         type(LogicalDim0KindINT8List), intent(inout):: self
+         Logical(kind=INT8), intent(in):: array(:)
          Integer(kind = INT64):: i
          if(.not.is_empty(self)) call clear(self)
          do i = lbound(array, dim=1, kind=kind(i)), ubound(array, dim=1, kind=kind(i))
             call push(self, array(i))
          end do
-      end subroutine list_from_array_coercionLogicalDim0
-      subroutine array_from_list_coercionLogicalDim0(array, list)
-         Logical, allocatable, intent(out):: array(:)
-         type(LogicalDim0List), intent(in):: list
+      end subroutine list_from_array_coercionLogicalDim0KindINT8
+      subroutine array_from_list_coercionLogicalDim0KindINT8(array, list)
+         Logical(kind=INT8), allocatable, intent(out):: array(:)
+         type(LogicalDim0KindINT8List), intent(in):: list
          integer:: i, nList
-         type(LogicalDim0ListNode), pointer:: walker
+         type(LogicalDim0KindINT8ListNode), pointer:: walker
          nList = size(list)
          allocate(array(1:nList))
          if(is_empty(list)) return
@@ -1814,30 +2021,30 @@ contains
             i = i - 1
             array(i) = walker%val
          end do
-      end subroutine array_from_list_coercionLogicalDim0
-      function val_atLogicalDim0(self, pos) result(answer)
-         Logical:: answer
-         type(LogicalDim0List), intent(in):: self
+      end subroutine array_from_list_coercionLogicalDim0KindINT8
+      function val_atLogicalDim0KindINT8(self, pos) result(answer)
+         Logical(kind=INT8):: answer
+         type(LogicalDim0KindINT8List), intent(in):: self
          integer, intent(in):: pos
-         type(LogicalDim0ListNode), pointer:: targetNode
+         type(LogicalDim0KindINT8ListNode), pointer:: targetNode
          targetNode => node_at(self, pos)
          answer = targetNode%val
-      end function val_atLogicalDim0
-      function shiftLogicalDim0(self) result(answer)
-         Logical:: answer
-         type(LogicalDim0List), intent(inout):: self
+      end function val_atLogicalDim0KindINT8
+      function shiftLogicalDim0KindINT8(self) result(answer)
+         Logical(kind=INT8):: answer
+         type(LogicalDim0KindINT8List), intent(inout):: self
          answer = delete_at(self, 1)
-      end function shiftLogicalDim0
-      subroutine unshiftLogicalDim0(self, val)
-         type(LogicalDim0List), intent(inout):: self
-         Logical, intent(in):: val
+      end function shiftLogicalDim0KindINT8
+      subroutine unshiftLogicalDim0KindINT8(self, val)
+         type(LogicalDim0KindINT8List), intent(inout):: self
+         Logical(kind=INT8), intent(in):: val
          call insert_at(self, val, 1)
-      end subroutine unshiftLogicalDim0
-      function delete_atLogicalDim0(self, pos) result(answer)
-         Logical:: answer
-         type(LogicalDim0List), intent(inout):: self
+      end subroutine unshiftLogicalDim0KindINT8
+      function delete_atLogicalDim0KindINT8(self, pos) result(answer)
+         Logical(kind=INT8):: answer
+         type(LogicalDim0KindINT8List), intent(inout):: self
          integer:: pos
-         type(LogicalDim0ListNode), pointer:: targetNode
+         type(LogicalDim0KindINT8ListNode), pointer:: targetNode
          if(pos == size(self))then
             answer = pop(self)
             return
@@ -1847,11 +2054,11 @@ contains
          if(associated(targetNode%prev)) targetNode%prev%next => targetNode%next
          targetNode%next%prev => targetNode%prev
          deallocate(targetNode)
-      end function delete_atLogicalDim0
-      function popLogicalDim0(self) result(answer)
-         Logical:: answer
-         type(LogicalDim0List), intent(inout):: self
-         type(LogicalDim0ListNode), pointer:: targetNode
+      end function delete_atLogicalDim0KindINT8
+      function popLogicalDim0KindINT8(self) result(answer)
+         Logical(kind=INT8):: answer
+         type(LogicalDim0KindINT8List), intent(inout):: self
+         type(LogicalDim0KindINT8ListNode), pointer:: targetNode
          targetNode => self%entry
          answer = targetNode%val
          if(is_size_one(self))then
@@ -1861,19 +2068,19 @@ contains
          self%entry => targetNode%prev
          self%entry%next => targetNode%next
          deallocate(targetNode)
-      end function popLogicalDim0
-      recursive subroutine clearLogicalDim0(self)
-         type(LogicalDim0List), intent(inout):: self
-         Logical:: trash
+      end function popLogicalDim0KindINT8
+      recursive subroutine clearLogicalDim0KindINT8(self)
+         type(LogicalDim0KindINT8List), intent(inout):: self
+         Logical(kind=INT8):: trash
          do while(associated(self%entry))
             trash = pop(self)
          end do
-      end subroutine clearLogicalDim0
-      subroutine insert_atLogicalDim0(self, val, pos)
-         type(LogicalDim0List), intent(inout):: self
-         Logical, intent(in):: val
+      end subroutine clearLogicalDim0KindINT8
+      subroutine insert_atLogicalDim0KindINT8(self, val, pos)
+         type(LogicalDim0KindINT8List), intent(inout):: self
+         Logical(kind=INT8), intent(in):: val
          integer, intent(in):: pos
-         type(LogicalDim0ListNode), pointer:: nextNode, newNode
+         type(LogicalDim0KindINT8ListNode), pointer:: nextNode, newNode
          if(pos == size(self) + 1)then
             call push(self, val)
             return
@@ -1885,11 +2092,11 @@ contains
          newNode%next => nextNode
          nextNode%prev => newNode
          if(associated(newNode%prev)) newNode%prev%next => newNode
-      end subroutine insert_atLogicalDim0
-      subroutine pushLogicalDim0(self, val)
-         type(LogicalDim0List), intent(inout):: self
-         Logical, intent(in):: val
-         type(LogicalDim0ListNode), pointer:: newNode
+      end subroutine insert_atLogicalDim0KindINT8
+      subroutine pushLogicalDim0KindINT8(self, val)
+         type(LogicalDim0KindINT8List), intent(inout):: self
+         Logical(kind=INT8), intent(in):: val
+         type(LogicalDim0KindINT8ListNode), pointer:: newNode
          if(is_empty(self))then
             call new(self, val)
             return
@@ -1900,15 +2107,15 @@ contains
          newNode%next => self%entry%next
          self%entry%next => newNode
          self%entry => newNode
-      end subroutine pushLogicalDim0
-      function is_emptyLogicalDim0(self) result(answer)
+      end subroutine pushLogicalDim0KindINT8
+      function is_emptyLogicalDim0KindINT8(self) result(answer)
          logical:: answer
-         type(LogicalDim0List), intent(in):: self
+         type(LogicalDim0KindINT8List), intent(in):: self
          answer = .not.associated(self%entry)
-      end function is_emptyLogicalDim0
-      function is_size_oneLogicalDim0(self) result(answer)
+      end function is_emptyLogicalDim0KindINT8
+      function is_size_oneLogicalDim0KindINT8(self) result(answer)
          logical:: answer
-         type(LogicalDim0List), intent(in):: self
+         type(LogicalDim0KindINT8List), intent(in):: self
          answer = .true.
          if(is_empty(self))then
              answer = .false.
@@ -1918,12 +2125,12 @@ contains
              answer = .false.
              return
          end if
-      end function is_size_oneLogicalDim0
-      function sizeLogicalDim0(self) result(answer)
+      end function is_size_oneLogicalDim0KindINT8
+      function sizeLogicalDim0KindINT8(self) result(answer)
          ! answer is integer since maximum size(array, 1) is huge(0).
          integer:: answer
-         type(LogicalDim0List), intent(in):: self
-         type(LogicalDim0ListNode), pointer:: walker
+         type(LogicalDim0KindINT8List), intent(in):: self
+         type(LogicalDim0KindINT8ListNode), pointer:: walker
          if(is_empty(self))then
             answer = 0
             return
@@ -1934,51 +2141,729 @@ contains
             walker => walker%prev
             answer = answer + 1
          end do
-      end function sizeLogicalDim0
-      function array_from_listLogicalDim0(self) result(answer)
-         Logical, allocatable:: answer(:)
-         type(LogicalDim0List), intent(in):: self
+      end function sizeLogicalDim0KindINT8
+      function array_from_listLogicalDim0KindINT8(self) result(answer)
+         Logical(kind=INT8), allocatable:: answer(:)
+         type(LogicalDim0KindINT8List), intent(in):: self
          answer = self
-      end function array_from_listLogicalDim0
-      function almost_equalLogicalDim0(self, other) result(answer)
-         type(LogicalDim0List), intent(in):: self, other
+      end function array_from_listLogicalDim0KindINT8
+      function almost_equalLogicalDim0KindINT8(self, other) result(answer)
+         type(LogicalDim0KindINT8List), intent(in):: self, other
          Logical:: answer
          answer = all(almost_equal(array_from_list(self), array_from_list(other)))
-      end function almost_equalLogicalDim0
+      end function almost_equalLogicalDim0KindINT8
       ! Internal
       ! Create a size 1 list.
-      subroutine newLogicalDim0(self, val)
-         type(LogicalDim0List), intent(inout):: self
-         Logical, intent(in):: val
+      subroutine newLogicalDim0KindINT8(self, val)
+         type(LogicalDim0KindINT8List), intent(inout):: self
+         Logical(kind=INT8), intent(in):: val
          if(.not.is_empty(self))then
             call clear(self)
          end if
          allocate(self%entry)
          self%entry%val = val
-      end subroutine newLogicalDim0
+      end subroutine newLogicalDim0KindINT8
       ! N-th node.
       ! WARNING: Returns pointer!
       ! BAD: targetNode = node_at(self, pos)
       ! OK: targetNode => node_at(self, pos)
-      function node_atLogicalDim0(self, pos) result(answer)
-         type(LogicalDim0ListNode), pointer:: answer
-         type(LogicalDim0List), intent(in):: self
+      function node_atLogicalDim0KindINT8(self, pos) result(answer)
+         type(LogicalDim0KindINT8ListNode), pointer:: answer
+         type(LogicalDim0KindINT8List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 2542, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 2809, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
             answer => answer%prev
             posNow = posNow - 1
          end do
-      end function node_atLogicalDim0
+      end function node_atLogicalDim0KindINT8
       ! Cleate a deep copy of a list.
-      subroutine copyLogicalDim0(new, original)
-         type(LogicalDim0List), intent(inout):: new
-         type(LogicalDim0List), intent(in):: original
+      subroutine copyLogicalDim0KindINT8(new, original)
+         type(LogicalDim0KindINT8List), intent(inout):: new
+         type(LogicalDim0KindINT8List), intent(in):: original
          new = array_from_list(original)
-      end subroutine copyLogicalDim0
+      end subroutine copyLogicalDim0KindINT8
+      subroutine swapLogicalDim0KindINT16(self, pos1, pos2)
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         integer, intent(in):: pos1, pos2
+         type(LogicalDim0KindINT16ListNode), pointer:: posLNodePrev, posLNode, posLNodeNext
+         type(LogicalDim0KindINT16ListNode), pointer:: posRNodePrev, posRNode, posRNodeNext
+         integer:: posL, posR, nSelf
+         posL = min(pos1, pos2)
+         posR = max(pos1, pos2)
+         nSelf = size(self)
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 2838, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(posL == posR) return
+         posLNode => node_at(self, posL)
+         posLNodePrev => posLNode%prev
+         posRNode => node_at(self, posR)
+         posRNodeNext => posRNode%next
+         if(posR - posL == 1)then
+            if(associated(posLNodePrev)) posLNodePrev%next => posRNode
+            posLNode%next => posRNodeNext
+            posRNode%next => posLNode
+            if(associated(posRNodeNext)) posRNodeNext%prev => posLNode
+            posRNode%prev => posLNodePrev
+            posLNode%prev => posRNode
+         else
+            posLNodeNext => posLNode%next
+            posRNodePrev => posRNode%prev
+            if(associated(posLNodePrev)) posLNodePrev%next => posRNode
+            posLNode%next => posRNodeNext
+            posRNodePrev%next => posLNode
+            posRNode%next => posLNodeNext
+            if(associated(posRNodeNext)) posRNodeNext%prev => posLNode
+            posRNode%prev => posLNodePrev
+            posLNodeNext%prev => posRNode
+            posLNode%prev => posRNodePrev
+         end if
+         if(posR == nSelf) self%entry => posLNode
+      end subroutine swapLogicalDim0KindINT16
+      subroutine list_from_array_coercionLogicalDim0KindINT16(self, array)
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         Logical(kind=INT16), intent(in):: array(:)
+         Integer(kind = INT64):: i
+         if(.not.is_empty(self)) call clear(self)
+         do i = lbound(array, dim=1, kind=kind(i)), ubound(array, dim=1, kind=kind(i))
+            call push(self, array(i))
+         end do
+      end subroutine list_from_array_coercionLogicalDim0KindINT16
+      subroutine array_from_list_coercionLogicalDim0KindINT16(array, list)
+         Logical(kind=INT16), allocatable, intent(out):: array(:)
+         type(LogicalDim0KindINT16List), intent(in):: list
+         integer:: i, nList
+         type(LogicalDim0KindINT16ListNode), pointer:: walker
+         nList = size(list)
+         allocate(array(1:nList))
+         if(is_empty(list)) return
+         i = nList
+         walker => list%entry
+         array(i) = walker%val
+         do while(i > 1)
+            walker => walker%prev
+            i = i - 1
+            array(i) = walker%val
+         end do
+      end subroutine array_from_list_coercionLogicalDim0KindINT16
+      function val_atLogicalDim0KindINT16(self, pos) result(answer)
+         Logical(kind=INT16):: answer
+         type(LogicalDim0KindINT16List), intent(in):: self
+         integer, intent(in):: pos
+         type(LogicalDim0KindINT16ListNode), pointer:: targetNode
+         targetNode => node_at(self, pos)
+         answer = targetNode%val
+      end function val_atLogicalDim0KindINT16
+      function shiftLogicalDim0KindINT16(self) result(answer)
+         Logical(kind=INT16):: answer
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         answer = delete_at(self, 1)
+      end function shiftLogicalDim0KindINT16
+      subroutine unshiftLogicalDim0KindINT16(self, val)
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         Logical(kind=INT16), intent(in):: val
+         call insert_at(self, val, 1)
+      end subroutine unshiftLogicalDim0KindINT16
+      function delete_atLogicalDim0KindINT16(self, pos) result(answer)
+         Logical(kind=INT16):: answer
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         integer:: pos
+         type(LogicalDim0KindINT16ListNode), pointer:: targetNode
+         if(pos == size(self))then
+            answer = pop(self)
+            return
+         end if
+         targetNode => node_at(self, pos)
+         answer = targetNode%val
+         if(associated(targetNode%prev)) targetNode%prev%next => targetNode%next
+         targetNode%next%prev => targetNode%prev
+         deallocate(targetNode)
+      end function delete_atLogicalDim0KindINT16
+      function popLogicalDim0KindINT16(self) result(answer)
+         Logical(kind=INT16):: answer
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         type(LogicalDim0KindINT16ListNode), pointer:: targetNode
+         targetNode => self%entry
+         answer = targetNode%val
+         if(is_size_one(self))then
+            deallocate(self%entry)
+            return
+         end if
+         self%entry => targetNode%prev
+         self%entry%next => targetNode%next
+         deallocate(targetNode)
+      end function popLogicalDim0KindINT16
+      recursive subroutine clearLogicalDim0KindINT16(self)
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         Logical(kind=INT16):: trash
+         do while(associated(self%entry))
+            trash = pop(self)
+         end do
+      end subroutine clearLogicalDim0KindINT16
+      subroutine insert_atLogicalDim0KindINT16(self, val, pos)
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         Logical(kind=INT16), intent(in):: val
+         integer, intent(in):: pos
+         type(LogicalDim0KindINT16ListNode), pointer:: nextNode, newNode
+         if(pos == size(self) + 1)then
+            call push(self, val)
+            return
+         end if
+         nextNode => node_at(self, pos)
+         allocate(newNode)
+         newNode%val = val
+         newNode%prev => nextNode%prev
+         newNode%next => nextNode
+         nextNode%prev => newNode
+         if(associated(newNode%prev)) newNode%prev%next => newNode
+      end subroutine insert_atLogicalDim0KindINT16
+      subroutine pushLogicalDim0KindINT16(self, val)
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         Logical(kind=INT16), intent(in):: val
+         type(LogicalDim0KindINT16ListNode), pointer:: newNode
+         if(is_empty(self))then
+            call new(self, val)
+            return
+         end if
+         allocate(newNode)
+         newNode%val = val
+         newNode%prev => self%entry
+         newNode%next => self%entry%next
+         self%entry%next => newNode
+         self%entry => newNode
+      end subroutine pushLogicalDim0KindINT16
+      function is_emptyLogicalDim0KindINT16(self) result(answer)
+         logical:: answer
+         type(LogicalDim0KindINT16List), intent(in):: self
+         answer = .not.associated(self%entry)
+      end function is_emptyLogicalDim0KindINT16
+      function is_size_oneLogicalDim0KindINT16(self) result(answer)
+         logical:: answer
+         type(LogicalDim0KindINT16List), intent(in):: self
+         answer = .true.
+         if(is_empty(self))then
+             answer = .false.
+             return
+         end if
+         if(associated(self%entry%prev))then
+             answer = .false.
+             return
+         end if
+      end function is_size_oneLogicalDim0KindINT16
+      function sizeLogicalDim0KindINT16(self) result(answer)
+         ! answer is integer since maximum size(array, 1) is huge(0).
+         integer:: answer
+         type(LogicalDim0KindINT16List), intent(in):: self
+         type(LogicalDim0KindINT16ListNode), pointer:: walker
+         if(is_empty(self))then
+            answer = 0
+            return
+         end if
+         walker => self%entry
+         answer = 1
+         do while(associated(walker%prev))
+            walker => walker%prev
+            answer = answer + 1
+         end do
+      end function sizeLogicalDim0KindINT16
+      function array_from_listLogicalDim0KindINT16(self) result(answer)
+         Logical(kind=INT16), allocatable:: answer(:)
+         type(LogicalDim0KindINT16List), intent(in):: self
+         answer = self
+      end function array_from_listLogicalDim0KindINT16
+      function almost_equalLogicalDim0KindINT16(self, other) result(answer)
+         type(LogicalDim0KindINT16List), intent(in):: self, other
+         Logical:: answer
+         answer = all(almost_equal(array_from_list(self), array_from_list(other)))
+      end function almost_equalLogicalDim0KindINT16
+      ! Internal
+      ! Create a size 1 list.
+      subroutine newLogicalDim0KindINT16(self, val)
+         type(LogicalDim0KindINT16List), intent(inout):: self
+         Logical(kind=INT16), intent(in):: val
+         if(.not.is_empty(self))then
+            call clear(self)
+         end if
+         allocate(self%entry)
+         self%entry%val = val
+      end subroutine newLogicalDim0KindINT16
+      ! N-th node.
+      ! WARNING: Returns pointer!
+      ! BAD: targetNode = node_at(self, pos)
+      ! OK: targetNode => node_at(self, pos)
+      function node_atLogicalDim0KindINT16(self, pos) result(answer)
+         type(LogicalDim0KindINT16ListNode), pointer:: answer
+         type(LogicalDim0KindINT16List), intent(in):: self
+         integer, intent(in):: pos
+         integer:: posNow
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3100, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         answer => self%entry
+         posNow = size(self)
+         do while(posNow > pos)
+            answer => answer%prev
+            posNow = posNow - 1
+         end do
+      end function node_atLogicalDim0KindINT16
+      ! Cleate a deep copy of a list.
+      subroutine copyLogicalDim0KindINT16(new, original)
+         type(LogicalDim0KindINT16List), intent(inout):: new
+         type(LogicalDim0KindINT16List), intent(in):: original
+         new = array_from_list(original)
+      end subroutine copyLogicalDim0KindINT16
+      subroutine swapLogicalDim0KindINT32(self, pos1, pos2)
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         integer, intent(in):: pos1, pos2
+         type(LogicalDim0KindINT32ListNode), pointer:: posLNodePrev, posLNode, posLNodeNext
+         type(LogicalDim0KindINT32ListNode), pointer:: posRNodePrev, posRNode, posRNodeNext
+         integer:: posL, posR, nSelf
+         posL = min(pos1, pos2)
+         posR = max(pos1, pos2)
+         nSelf = size(self)
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3129, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(posL == posR) return
+         posLNode => node_at(self, posL)
+         posLNodePrev => posLNode%prev
+         posRNode => node_at(self, posR)
+         posRNodeNext => posRNode%next
+         if(posR - posL == 1)then
+            if(associated(posLNodePrev)) posLNodePrev%next => posRNode
+            posLNode%next => posRNodeNext
+            posRNode%next => posLNode
+            if(associated(posRNodeNext)) posRNodeNext%prev => posLNode
+            posRNode%prev => posLNodePrev
+            posLNode%prev => posRNode
+         else
+            posLNodeNext => posLNode%next
+            posRNodePrev => posRNode%prev
+            if(associated(posLNodePrev)) posLNodePrev%next => posRNode
+            posLNode%next => posRNodeNext
+            posRNodePrev%next => posLNode
+            posRNode%next => posLNodeNext
+            if(associated(posRNodeNext)) posRNodeNext%prev => posLNode
+            posRNode%prev => posLNodePrev
+            posLNodeNext%prev => posRNode
+            posLNode%prev => posRNodePrev
+         end if
+         if(posR == nSelf) self%entry => posLNode
+      end subroutine swapLogicalDim0KindINT32
+      subroutine list_from_array_coercionLogicalDim0KindINT32(self, array)
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         Logical(kind=INT32), intent(in):: array(:)
+         Integer(kind = INT64):: i
+         if(.not.is_empty(self)) call clear(self)
+         do i = lbound(array, dim=1, kind=kind(i)), ubound(array, dim=1, kind=kind(i))
+            call push(self, array(i))
+         end do
+      end subroutine list_from_array_coercionLogicalDim0KindINT32
+      subroutine array_from_list_coercionLogicalDim0KindINT32(array, list)
+         Logical(kind=INT32), allocatable, intent(out):: array(:)
+         type(LogicalDim0KindINT32List), intent(in):: list
+         integer:: i, nList
+         type(LogicalDim0KindINT32ListNode), pointer:: walker
+         nList = size(list)
+         allocate(array(1:nList))
+         if(is_empty(list)) return
+         i = nList
+         walker => list%entry
+         array(i) = walker%val
+         do while(i > 1)
+            walker => walker%prev
+            i = i - 1
+            array(i) = walker%val
+         end do
+      end subroutine array_from_list_coercionLogicalDim0KindINT32
+      function val_atLogicalDim0KindINT32(self, pos) result(answer)
+         Logical(kind=INT32):: answer
+         type(LogicalDim0KindINT32List), intent(in):: self
+         integer, intent(in):: pos
+         type(LogicalDim0KindINT32ListNode), pointer:: targetNode
+         targetNode => node_at(self, pos)
+         answer = targetNode%val
+      end function val_atLogicalDim0KindINT32
+      function shiftLogicalDim0KindINT32(self) result(answer)
+         Logical(kind=INT32):: answer
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         answer = delete_at(self, 1)
+      end function shiftLogicalDim0KindINT32
+      subroutine unshiftLogicalDim0KindINT32(self, val)
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         Logical(kind=INT32), intent(in):: val
+         call insert_at(self, val, 1)
+      end subroutine unshiftLogicalDim0KindINT32
+      function delete_atLogicalDim0KindINT32(self, pos) result(answer)
+         Logical(kind=INT32):: answer
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         integer:: pos
+         type(LogicalDim0KindINT32ListNode), pointer:: targetNode
+         if(pos == size(self))then
+            answer = pop(self)
+            return
+         end if
+         targetNode => node_at(self, pos)
+         answer = targetNode%val
+         if(associated(targetNode%prev)) targetNode%prev%next => targetNode%next
+         targetNode%next%prev => targetNode%prev
+         deallocate(targetNode)
+      end function delete_atLogicalDim0KindINT32
+      function popLogicalDim0KindINT32(self) result(answer)
+         Logical(kind=INT32):: answer
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         type(LogicalDim0KindINT32ListNode), pointer:: targetNode
+         targetNode => self%entry
+         answer = targetNode%val
+         if(is_size_one(self))then
+            deallocate(self%entry)
+            return
+         end if
+         self%entry => targetNode%prev
+         self%entry%next => targetNode%next
+         deallocate(targetNode)
+      end function popLogicalDim0KindINT32
+      recursive subroutine clearLogicalDim0KindINT32(self)
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         Logical(kind=INT32):: trash
+         do while(associated(self%entry))
+            trash = pop(self)
+         end do
+      end subroutine clearLogicalDim0KindINT32
+      subroutine insert_atLogicalDim0KindINT32(self, val, pos)
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         Logical(kind=INT32), intent(in):: val
+         integer, intent(in):: pos
+         type(LogicalDim0KindINT32ListNode), pointer:: nextNode, newNode
+         if(pos == size(self) + 1)then
+            call push(self, val)
+            return
+         end if
+         nextNode => node_at(self, pos)
+         allocate(newNode)
+         newNode%val = val
+         newNode%prev => nextNode%prev
+         newNode%next => nextNode
+         nextNode%prev => newNode
+         if(associated(newNode%prev)) newNode%prev%next => newNode
+      end subroutine insert_atLogicalDim0KindINT32
+      subroutine pushLogicalDim0KindINT32(self, val)
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         Logical(kind=INT32), intent(in):: val
+         type(LogicalDim0KindINT32ListNode), pointer:: newNode
+         if(is_empty(self))then
+            call new(self, val)
+            return
+         end if
+         allocate(newNode)
+         newNode%val = val
+         newNode%prev => self%entry
+         newNode%next => self%entry%next
+         self%entry%next => newNode
+         self%entry => newNode
+      end subroutine pushLogicalDim0KindINT32
+      function is_emptyLogicalDim0KindINT32(self) result(answer)
+         logical:: answer
+         type(LogicalDim0KindINT32List), intent(in):: self
+         answer = .not.associated(self%entry)
+      end function is_emptyLogicalDim0KindINT32
+      function is_size_oneLogicalDim0KindINT32(self) result(answer)
+         logical:: answer
+         type(LogicalDim0KindINT32List), intent(in):: self
+         answer = .true.
+         if(is_empty(self))then
+             answer = .false.
+             return
+         end if
+         if(associated(self%entry%prev))then
+             answer = .false.
+             return
+         end if
+      end function is_size_oneLogicalDim0KindINT32
+      function sizeLogicalDim0KindINT32(self) result(answer)
+         ! answer is integer since maximum size(array, 1) is huge(0).
+         integer:: answer
+         type(LogicalDim0KindINT32List), intent(in):: self
+         type(LogicalDim0KindINT32ListNode), pointer:: walker
+         if(is_empty(self))then
+            answer = 0
+            return
+         end if
+         walker => self%entry
+         answer = 1
+         do while(associated(walker%prev))
+            walker => walker%prev
+            answer = answer + 1
+         end do
+      end function sizeLogicalDim0KindINT32
+      function array_from_listLogicalDim0KindINT32(self) result(answer)
+         Logical(kind=INT32), allocatable:: answer(:)
+         type(LogicalDim0KindINT32List), intent(in):: self
+         answer = self
+      end function array_from_listLogicalDim0KindINT32
+      function almost_equalLogicalDim0KindINT32(self, other) result(answer)
+         type(LogicalDim0KindINT32List), intent(in):: self, other
+         Logical:: answer
+         answer = all(almost_equal(array_from_list(self), array_from_list(other)))
+      end function almost_equalLogicalDim0KindINT32
+      ! Internal
+      ! Create a size 1 list.
+      subroutine newLogicalDim0KindINT32(self, val)
+         type(LogicalDim0KindINT32List), intent(inout):: self
+         Logical(kind=INT32), intent(in):: val
+         if(.not.is_empty(self))then
+            call clear(self)
+         end if
+         allocate(self%entry)
+         self%entry%val = val
+      end subroutine newLogicalDim0KindINT32
+      ! N-th node.
+      ! WARNING: Returns pointer!
+      ! BAD: targetNode = node_at(self, pos)
+      ! OK: targetNode => node_at(self, pos)
+      function node_atLogicalDim0KindINT32(self, pos) result(answer)
+         type(LogicalDim0KindINT32ListNode), pointer:: answer
+         type(LogicalDim0KindINT32List), intent(in):: self
+         integer, intent(in):: pos
+         integer:: posNow
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3391, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         answer => self%entry
+         posNow = size(self)
+         do while(posNow > pos)
+            answer => answer%prev
+            posNow = posNow - 1
+         end do
+      end function node_atLogicalDim0KindINT32
+      ! Cleate a deep copy of a list.
+      subroutine copyLogicalDim0KindINT32(new, original)
+         type(LogicalDim0KindINT32List), intent(inout):: new
+         type(LogicalDim0KindINT32List), intent(in):: original
+         new = array_from_list(original)
+      end subroutine copyLogicalDim0KindINT32
+      subroutine swapLogicalDim0KindINT64(self, pos1, pos2)
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         integer, intent(in):: pos1, pos2
+         type(LogicalDim0KindINT64ListNode), pointer:: posLNodePrev, posLNode, posLNodeNext
+         type(LogicalDim0KindINT64ListNode), pointer:: posRNodePrev, posRNode, posRNodeNext
+         integer:: posL, posR, nSelf
+         posL = min(pos1, pos2)
+         posR = max(pos1, pos2)
+         nSelf = size(self)
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3420, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(posL == posR) return
+         posLNode => node_at(self, posL)
+         posLNodePrev => posLNode%prev
+         posRNode => node_at(self, posR)
+         posRNodeNext => posRNode%next
+         if(posR - posL == 1)then
+            if(associated(posLNodePrev)) posLNodePrev%next => posRNode
+            posLNode%next => posRNodeNext
+            posRNode%next => posLNode
+            if(associated(posRNodeNext)) posRNodeNext%prev => posLNode
+            posRNode%prev => posLNodePrev
+            posLNode%prev => posRNode
+         else
+            posLNodeNext => posLNode%next
+            posRNodePrev => posRNode%prev
+            if(associated(posLNodePrev)) posLNodePrev%next => posRNode
+            posLNode%next => posRNodeNext
+            posRNodePrev%next => posLNode
+            posRNode%next => posLNodeNext
+            if(associated(posRNodeNext)) posRNodeNext%prev => posLNode
+            posRNode%prev => posLNodePrev
+            posLNodeNext%prev => posRNode
+            posLNode%prev => posRNodePrev
+         end if
+         if(posR == nSelf) self%entry => posLNode
+      end subroutine swapLogicalDim0KindINT64
+      subroutine list_from_array_coercionLogicalDim0KindINT64(self, array)
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         Logical(kind=INT64), intent(in):: array(:)
+         Integer(kind = INT64):: i
+         if(.not.is_empty(self)) call clear(self)
+         do i = lbound(array, dim=1, kind=kind(i)), ubound(array, dim=1, kind=kind(i))
+            call push(self, array(i))
+         end do
+      end subroutine list_from_array_coercionLogicalDim0KindINT64
+      subroutine array_from_list_coercionLogicalDim0KindINT64(array, list)
+         Logical(kind=INT64), allocatable, intent(out):: array(:)
+         type(LogicalDim0KindINT64List), intent(in):: list
+         integer:: i, nList
+         type(LogicalDim0KindINT64ListNode), pointer:: walker
+         nList = size(list)
+         allocate(array(1:nList))
+         if(is_empty(list)) return
+         i = nList
+         walker => list%entry
+         array(i) = walker%val
+         do while(i > 1)
+            walker => walker%prev
+            i = i - 1
+            array(i) = walker%val
+         end do
+      end subroutine array_from_list_coercionLogicalDim0KindINT64
+      function val_atLogicalDim0KindINT64(self, pos) result(answer)
+         Logical(kind=INT64):: answer
+         type(LogicalDim0KindINT64List), intent(in):: self
+         integer, intent(in):: pos
+         type(LogicalDim0KindINT64ListNode), pointer:: targetNode
+         targetNode => node_at(self, pos)
+         answer = targetNode%val
+      end function val_atLogicalDim0KindINT64
+      function shiftLogicalDim0KindINT64(self) result(answer)
+         Logical(kind=INT64):: answer
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         answer = delete_at(self, 1)
+      end function shiftLogicalDim0KindINT64
+      subroutine unshiftLogicalDim0KindINT64(self, val)
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         Logical(kind=INT64), intent(in):: val
+         call insert_at(self, val, 1)
+      end subroutine unshiftLogicalDim0KindINT64
+      function delete_atLogicalDim0KindINT64(self, pos) result(answer)
+         Logical(kind=INT64):: answer
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         integer:: pos
+         type(LogicalDim0KindINT64ListNode), pointer:: targetNode
+         if(pos == size(self))then
+            answer = pop(self)
+            return
+         end if
+         targetNode => node_at(self, pos)
+         answer = targetNode%val
+         if(associated(targetNode%prev)) targetNode%prev%next => targetNode%next
+         targetNode%next%prev => targetNode%prev
+         deallocate(targetNode)
+      end function delete_atLogicalDim0KindINT64
+      function popLogicalDim0KindINT64(self) result(answer)
+         Logical(kind=INT64):: answer
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         type(LogicalDim0KindINT64ListNode), pointer:: targetNode
+         targetNode => self%entry
+         answer = targetNode%val
+         if(is_size_one(self))then
+            deallocate(self%entry)
+            return
+         end if
+         self%entry => targetNode%prev
+         self%entry%next => targetNode%next
+         deallocate(targetNode)
+      end function popLogicalDim0KindINT64
+      recursive subroutine clearLogicalDim0KindINT64(self)
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         Logical(kind=INT64):: trash
+         do while(associated(self%entry))
+            trash = pop(self)
+         end do
+      end subroutine clearLogicalDim0KindINT64
+      subroutine insert_atLogicalDim0KindINT64(self, val, pos)
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         Logical(kind=INT64), intent(in):: val
+         integer, intent(in):: pos
+         type(LogicalDim0KindINT64ListNode), pointer:: nextNode, newNode
+         if(pos == size(self) + 1)then
+            call push(self, val)
+            return
+         end if
+         nextNode => node_at(self, pos)
+         allocate(newNode)
+         newNode%val = val
+         newNode%prev => nextNode%prev
+         newNode%next => nextNode
+         nextNode%prev => newNode
+         if(associated(newNode%prev)) newNode%prev%next => newNode
+      end subroutine insert_atLogicalDim0KindINT64
+      subroutine pushLogicalDim0KindINT64(self, val)
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         Logical(kind=INT64), intent(in):: val
+         type(LogicalDim0KindINT64ListNode), pointer:: newNode
+         if(is_empty(self))then
+            call new(self, val)
+            return
+         end if
+         allocate(newNode)
+         newNode%val = val
+         newNode%prev => self%entry
+         newNode%next => self%entry%next
+         self%entry%next => newNode
+         self%entry => newNode
+      end subroutine pushLogicalDim0KindINT64
+      function is_emptyLogicalDim0KindINT64(self) result(answer)
+         logical:: answer
+         type(LogicalDim0KindINT64List), intent(in):: self
+         answer = .not.associated(self%entry)
+      end function is_emptyLogicalDim0KindINT64
+      function is_size_oneLogicalDim0KindINT64(self) result(answer)
+         logical:: answer
+         type(LogicalDim0KindINT64List), intent(in):: self
+         answer = .true.
+         if(is_empty(self))then
+             answer = .false.
+             return
+         end if
+         if(associated(self%entry%prev))then
+             answer = .false.
+             return
+         end if
+      end function is_size_oneLogicalDim0KindINT64
+      function sizeLogicalDim0KindINT64(self) result(answer)
+         ! answer is integer since maximum size(array, 1) is huge(0).
+         integer:: answer
+         type(LogicalDim0KindINT64List), intent(in):: self
+         type(LogicalDim0KindINT64ListNode), pointer:: walker
+         if(is_empty(self))then
+            answer = 0
+            return
+         end if
+         walker => self%entry
+         answer = 1
+         do while(associated(walker%prev))
+            walker => walker%prev
+            answer = answer + 1
+         end do
+      end function sizeLogicalDim0KindINT64
+      function array_from_listLogicalDim0KindINT64(self) result(answer)
+         Logical(kind=INT64), allocatable:: answer(:)
+         type(LogicalDim0KindINT64List), intent(in):: self
+         answer = self
+      end function array_from_listLogicalDim0KindINT64
+      function almost_equalLogicalDim0KindINT64(self, other) result(answer)
+         type(LogicalDim0KindINT64List), intent(in):: self, other
+         Logical:: answer
+         answer = all(almost_equal(array_from_list(self), array_from_list(other)))
+      end function almost_equalLogicalDim0KindINT64
+      ! Internal
+      ! Create a size 1 list.
+      subroutine newLogicalDim0KindINT64(self, val)
+         type(LogicalDim0KindINT64List), intent(inout):: self
+         Logical(kind=INT64), intent(in):: val
+         if(.not.is_empty(self))then
+            call clear(self)
+         end if
+         allocate(self%entry)
+         self%entry%val = val
+      end subroutine newLogicalDim0KindINT64
+      ! N-th node.
+      ! WARNING: Returns pointer!
+      ! BAD: targetNode = node_at(self, pos)
+      ! OK: targetNode => node_at(self, pos)
+      function node_atLogicalDim0KindINT64(self, pos) result(answer)
+         type(LogicalDim0KindINT64ListNode), pointer:: answer
+         type(LogicalDim0KindINT64List), intent(in):: self
+         integer, intent(in):: pos
+         integer:: posNow
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3682, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         answer => self%entry
+         posNow = size(self)
+         do while(posNow > pos)
+            answer => answer%prev
+            posNow = posNow - 1
+         end do
+      end function node_atLogicalDim0KindINT64
+      ! Cleate a deep copy of a list.
+      subroutine copyLogicalDim0KindINT64(new, original)
+         type(LogicalDim0KindINT64List), intent(inout):: new
+         type(LogicalDim0KindINT64List), intent(in):: original
+         new = array_from_list(original)
+      end subroutine copyLogicalDim0KindINT64
       subroutine swapCharacterDim0Len1(self, pos1, pos2)
          type(CharacterDim0Len1List), intent(inout):: self
          integer, intent(in):: pos1, pos2
@@ -1988,7 +2873,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 2571, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3711, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -2191,7 +3076,7 @@ contains
          type(CharacterDim0Len1List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 2833, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3973, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -2214,7 +3099,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 2862, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4002, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -2417,7 +3302,7 @@ contains
          type(CharacterDim0Len2List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3124, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4264, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -2440,7 +3325,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3153, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4293, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -2643,7 +3528,7 @@ contains
          type(CharacterDim0Len4List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3415, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4555, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -2666,7 +3551,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3444, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4584, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -2869,7 +3754,7 @@ contains
          type(CharacterDim0Len8List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3706, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4846, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -2892,7 +3777,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3735, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4875, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -3095,7 +3980,7 @@ contains
          type(CharacterDim0Len16List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 3997, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5137, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -3118,7 +4003,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4026, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5166, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -3321,7 +4206,7 @@ contains
          type(CharacterDim0Len32List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4288, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5428, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -3344,7 +4229,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4317, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5457, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -3547,7 +4432,7 @@ contains
          type(CharacterDim0Len64List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4579, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5719, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -3570,7 +4455,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4608, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5748, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -3773,7 +4658,7 @@ contains
          type(CharacterDim0Len128List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4870, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6010, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -3796,7 +4681,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 4899, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6039, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -3999,7 +4884,7 @@ contains
          type(CharacterDim0Len256List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5161, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6301, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -4022,7 +4907,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5190, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6330, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -4225,7 +5110,7 @@ contains
          type(CharacterDim0Len512List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5452, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6592, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -4248,7 +5133,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5481, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6621, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -4451,7 +5336,7 @@ contains
          type(CharacterDim0Len1024List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5743, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6883, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -4474,7 +5359,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 5772, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6912, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -4677,7 +5562,7 @@ contains
          type(CharacterDim0Len2048List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6034, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7174, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -4700,7 +5585,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6063, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7203, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -4903,7 +5788,7 @@ contains
          type(CharacterDim0Len4096List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6325, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7465, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -4926,7 +5811,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6354, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7494, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -5129,7 +6014,7 @@ contains
          type(CharacterDim0Len8192List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6616, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7756, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -5152,7 +6037,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6645, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7785, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -5355,7 +6240,7 @@ contains
          type(IntegerDim0KindINT8List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6907, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8047, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -5378,7 +6263,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 6936, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8076, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -5581,7 +6466,7 @@ contains
          type(IntegerDim0KindINT16List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7198, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8338, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -5604,7 +6489,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7227, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8367, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -5807,7 +6692,7 @@ contains
          type(IntegerDim0KindINT32List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7489, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8629, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -5830,7 +6715,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7518, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8658, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -6033,7 +6918,7 @@ contains
          type(IntegerDim0KindINT64List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7780, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8920, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -6056,7 +6941,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 7809, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8949, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -6259,7 +7144,7 @@ contains
          type(RealDim0KindREAL32List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8071, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9211, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -6282,7 +7167,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8100, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9240, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -6485,7 +7370,7 @@ contains
          type(RealDim0KindREAL64List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8362, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9502, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -6508,7 +7393,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8391, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9531, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -6711,7 +7596,7 @@ contains
          type(RealDim0KindREAL128List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8653, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9793, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -6734,7 +7619,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8682, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9822, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -6937,7 +7822,7 @@ contains
          type(ComplexDim0KindREAL32List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8944, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 10084, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -6960,7 +7845,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 8973, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 10113, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -7163,7 +8048,7 @@ contains
          type(ComplexDim0KindREAL64List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9235, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 10375, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
@@ -7186,7 +8071,7 @@ contains
          posL = min(pos1, pos2)
          posR = max(pos1, pos2)
          nSelf = size(self)
-         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9264, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
+         if(.not.(1 <= posL .and. posR <= nSelf))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 10404, (".not.(1 <= posL .and. posR <= nSelf)"); error stop; end if
          if(posL == posR) return
          posLNode => node_at(self, posL)
          posLNodePrev => posLNode%prev
@@ -7389,7 +8274,7 @@ contains
          type(ComplexDim0KindREAL128List), intent(in):: self
          integer, intent(in):: pos
          integer:: posNow
-         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 9526, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
+         if(.not.(1 <= pos .and. pos <= size(self)))then; write(ERROR_UNIT, *) "RAISE: ", "list_lib.f90", " ", 10666, (".not.(1 <= pos .and. pos <= size(self))"); error stop; end if
          answer => self%entry
          posNow = size(self)
          do while(posNow > pos)
