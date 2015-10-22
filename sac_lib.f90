@@ -10,7 +10,7 @@
 ! This module provides few consistency check for header variables.
 ! You should be careful if you change number of data points, time interval, data type, origin time and so on.
 module sac_lib
-   use, intrinsic:: iso_fortran_env, only: ERROR_UNIT, OUTPUT_UNIT
+   use, intrinsic:: iso_fortran_env, only: error_unit, output_unit
    use, intrinsic:: iso_fortran_env, only: &
       INPUT_UNIT, OUTPUT_UNIT, ERROR_UNIT, &
       REAL32, INT32, INT64
@@ -1153,14 +1153,14 @@ contains
          read(io) self%meta%knetwk
          read(io) self%meta%kdatrd
          read(io) self%meta%kinst
-      if(.not.(is_iftype_defined(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1186, (".not.(is_iftype_defined(self))"); error stop; end if
+      if(.not.(is_iftype_defined(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 1732, (".not.(is_iftype_defined(self))"); error stop; end if
       select case(get_iftype(self))
       case('itime')
-         if(.not.(get_npts(self, npts)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1189, (".not.(get_npts(self, npts))"); error stop; end if
+         if(.not.(get_npts(self, npts)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 1735, (".not.(get_npts(self, npts))"); error stop; end if
          allocate(self%data%itime(1:npts))
          read(io) self%data%itime
       case('ixy')
-         if(.not.(get_npts(self, npts)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1195, (".not.(get_npts(self, npts))"); error stop; end if
+         if(.not.(get_npts(self, npts)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 1741, (".not.(get_npts(self, npts))"); error stop; end if
          allocate(self%data%ixy(1:npts, 2))
          allocate(xs(1:npts))
          allocate(ys(1:npts))
@@ -1168,7 +1168,7 @@ contains
          self%data%ixy(:, 1) = xs
          self%data%ixy(:, 2) = ys
       case('iamph')
-         if(.not.(get_npts(self, npts)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1206, (".not.(get_npts(self, npts))"); error stop; end if
+         if(.not.(get_npts(self, npts)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 1752, (".not.(get_npts(self, npts))"); error stop; end if
          allocate(self%data%iamph(1:npts, 2))
          allocate(amplitudes(1:npts))
          allocate(thetas(1:npts))
@@ -1176,19 +1176,19 @@ contains
          self%data%iamph(:, 1) = amplitudes
          self%data%iamph(:, 2) = thetas
       case('irlim')
-         if(.not.(get_npts(self, npts)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1217, (".not.(get_npts(self, npts))"); error stop; end if
+         if(.not.(get_npts(self, npts)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 1763, (".not.(get_npts(self, npts))"); error stop; end if
          allocate(self%data%irlim(1:npts))
          allocate(reals(1:npts))
          allocate(imaginaries(1:npts))
          read(io) reals, imaginaries
          self%data%irlim = cmplx(reals, imaginaries)
       case('ixyz')
-         if(.not.(get_nxsize(self, nxsize)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1227, (".not.(get_nxsize(self, nxsize))"); error stop; end if
-         if(.not.(get_nysize(self, nysize)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1228, (".not.(get_nysize(self, nysize))"); error stop; end if
+         if(.not.(get_nxsize(self, nxsize)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 1773, (".not.(get_nxsize(self, nxsize))"); error stop; end if
+         if(.not.(get_nysize(self, nysize)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 1774, (".not.(get_nysize(self, nysize))"); error stop; end if
          allocate(self%data%ixyz(1:nxsize, 1:nysize))
          read(io) self%data%ixyz
       case default
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1234, ('Unknown iftype: ' + s(get_iftype(self))); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 1780, ('Unknown iftype: ' + s(get_iftype(self))); error stop
       end select
       close(io)
    end subroutine load
@@ -1332,7 +1332,7 @@ contains
          write(io) self%meta%knetwk
          write(io) self%meta%kdatrd
          write(io) self%meta%kinst
-      if(.not.(is_iftype_defined(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1384, (".not.(is_iftype_defined(self))"); error stop; end if
+      if(.not.(is_iftype_defined(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 2064, (".not.(is_iftype_defined(self))"); error stop; end if
       select case(get_iftype(self))
       case('itime')
          write(io) get_data_itime(self)
@@ -1347,7 +1347,7 @@ contains
       case('ixyz')
          write(io) get_data_ixyz(self)
       case default
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 1401, ('Unknown iftype: ' + s(get_iftype(self))); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 2081, ('Unknown iftype: ' + s(get_iftype(self))); error stop
       end select
       close(io)
    end subroutine dump
@@ -2045,7 +2045,7 @@ contains
       end if
       write(io, '(a)') '         },'
       write(io, '(a)') '"data": ['
-      if(.not.(is_iftype_defined(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2104, (".not.(is_iftype_defined(self))"); error stop; end if
+      if(.not.(is_iftype_defined(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 2921, (".not.(is_iftype_defined(self))"); error stop; end if
       select case(get_iftype(self))
       case('itime')
          itime = get_data_itime(self)
@@ -2095,7 +2095,7 @@ contains
          write(io, *, delim='none') ixyz(uX, uY)
          write(io, *, delim='none') ']'
       case default
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2154, ('Unknown iftype: ' + s(get_iftype(self))); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 2971, ('Unknown iftype: ' + s(get_iftype(self))); error stop
       end select
       write(io, '(a)') '         ]'
       write(io, '(a)') '}'
@@ -2106,8 +2106,8 @@ contains
       Real(kind=SAC_REAL_KIND):: b, delta
       Integer(kind=SAC_INTEGER_KIND):: npts
       npts = size(value, 1)
-      if(.not.(get_b(self, b)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2169, (".not.(get_b(self, b))"); error stop; end if
-      if(.not.(get_delta(self, delta)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2170, (".not.(get_delta(self, delta))"); error stop; end if
+      if(.not.(get_b(self, b)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 2986, (".not.(get_b(self, b))"); error stop; end if
+      if(.not.(get_delta(self, delta)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 2987, (".not.(get_delta(self, delta))"); error stop; end if
       call set_iftype(self, 'itime')
       call set_leven(self, .true.)
       call set_npts(self, npts)
@@ -2124,11 +2124,11 @@ contains
    function get_data_itime(self) result(value)
       type(Sac), intent(in):: self
       Real(kind=SAC_REAL_KIND), allocatable:: value(:)
-      if(.not.(is_iftype_defined(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2192, (".not.(is_iftype_defined(self))"); error stop; end if
-      if(.not.(get_iftype(self) == 'itime'))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2193, (".not.(get_iftype(self) == 'itime')"); error stop; end if
-      if(.not.(allocated(self%data%itime)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2194, (".not.(allocated(self%data%itime))"); error stop; end if
+      if(.not.(is_iftype_defined(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3009, (".not.(is_iftype_defined(self))"); error stop; end if
+      if(.not.(get_iftype(self) == 'itime'))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3010, (".not.(get_iftype(self) == 'itime')"); error stop; end if
+      if(.not.(allocated(self%data%itime)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3011, (".not.(allocated(self%data%itime))"); error stop; end if
       value = self%data%itime
-      if(.not.(size(value, 1) == get_npts(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2196, (".not.(size(value, 1) == get_npts(self))"); error stop; end if
+      if(.not.(size(value, 1) == get_npts(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3013, (".not.(size(value, 1) == get_npts(self))"); error stop; end if
    end function get_data_itime
    subroutine get_data_itime_(self, value)
       type(Sac), intent(in):: self
@@ -2139,7 +2139,7 @@ contains
          type(Sac), intent(inout):: self
          Real(kind=SAC_REAL_KIND):: value(:, :)
          Integer(kind=SAC_INTEGER_KIND):: npts
-         if(.not.(size(value, 2) == 2))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2212, (".not.(size(value, 2) == 2)"); error stop; end if ! [[x1, y1], [x2, y2], ...]
+         if(.not.(size(value, 2) == 2))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3030, (".not.(size(value, 2) == 2)"); error stop; end if ! [[x1, y1], [x2, y2], ...]
          npts = size(value, 1)
          call set_iftype(self, 'ixy')
          call set_leven(self, .false.)
@@ -2158,16 +2158,16 @@ contains
       function get_data_ixy(self) result(value)
          type(Sac), intent(in):: self
          Real(kind=SAC_REAL_KIND), allocatable:: value(:, :)
-         if(.not.(get_iftype(self) == 'ixy'))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2236, (".not.(get_iftype(self) == 'ixy')"); error stop; end if
-         if(.not.(allocated(self%data%ixy)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2237, (".not.(allocated(self%data%ixy))"); error stop; end if
+         if(.not.(get_iftype(self) == 'ixy'))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3055, (".not.(get_iftype(self) == 'ixy')"); error stop; end if
+         if(.not.(allocated(self%data%ixy)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3056, (".not.(allocated(self%data%ixy))"); error stop; end if
          value = self%data%ixy
-         if(.not.(size(value, 1) == get_npts(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2239, (".not.(size(value, 1) == get_npts(self))"); error stop; end if
+         if(.not.(size(value, 1) == get_npts(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3058, (".not.(size(value, 1) == get_npts(self))"); error stop; end if
       end function get_data_ixy
       subroutine set_data_iamph(self, value)
          type(Sac), intent(inout):: self
          Real(kind=SAC_REAL_KIND):: value(:, :)
          Integer(kind=SAC_INTEGER_KIND):: npts
-         if(.not.(size(value, 2) == 2))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2247, (".not.(size(value, 2) == 2)"); error stop; end if ! [[x1, y1], [x2, y2], ...]
+         if(.not.(size(value, 2) == 2))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3067, (".not.(size(value, 2) == 2)"); error stop; end if ! [[x1, y1], [x2, y2], ...]
          npts = size(value, 1)
          call set_iftype(self, 'iamph')
          call set_leven(self, .false.)
@@ -2186,10 +2186,10 @@ contains
       function get_data_iamph(self) result(value)
          type(Sac), intent(in):: self
          Real(kind=SAC_REAL_KIND), allocatable:: value(:, :)
-         if(.not.(get_iftype(self) == 'iamph'))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2271, (".not.(get_iftype(self) == 'iamph')"); error stop; end if
-         if(.not.(allocated(self%data%iamph)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2272, (".not.(allocated(self%data%iamph))"); error stop; end if
+         if(.not.(get_iftype(self) == 'iamph'))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3092, (".not.(get_iftype(self) == 'iamph')"); error stop; end if
+         if(.not.(allocated(self%data%iamph)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3093, (".not.(allocated(self%data%iamph))"); error stop; end if
          value = self%data%iamph
-         if(.not.(size(value, 1) == get_npts(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2274, (".not.(size(value, 1) == get_npts(self))"); error stop; end if
+         if(.not.(size(value, 1) == get_npts(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3095, (".not.(size(value, 1) == get_npts(self))"); error stop; end if
       end function get_data_iamph
    subroutine set_data_irlim(self, value)
       type(Sac), intent(inout):: self
@@ -2206,10 +2206,10 @@ contains
    function get_data_irlim(self) result(value)
       type(Sac), intent(in):: self
       Complex(kind=SAC_REAL_KIND), allocatable:: value(:)
-      if(.not.(get_iftype(self) == 'irlim'))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2297, (".not.(get_iftype(self) == 'irlim')"); error stop; end if
-      if(.not.(allocated(self%data%irlim)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2298, (".not.(allocated(self%data%irlim))"); error stop; end if
+      if(.not.(get_iftype(self) == 'irlim'))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3119, (".not.(get_iftype(self) == 'irlim')"); error stop; end if
+      if(.not.(allocated(self%data%irlim)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3120, (".not.(allocated(self%data%irlim))"); error stop; end if
       value = self%data%irlim
-      if(.not.(size(value, 1) == get_npts(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2300, (".not.(size(value, 1) == get_npts(self))"); error stop; end if
+      if(.not.(size(value, 1) == get_npts(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3122, (".not.(size(value, 1) == get_npts(self))"); error stop; end if
    end function get_data_irlim
    subroutine get_data_irlim_(self, value)
       type(Sac), intent(in):: self
@@ -2232,16 +2232,16 @@ contains
    function get_data_ixyz(self) result(value)
       type(Sac), intent(in):: self
       Real(kind=SAC_REAL_KIND), allocatable:: value(:, :)
-      if(.not.(get_iftype(self) == 'ixyz'))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2331, (".not.(get_iftype(self) == 'ixyz')"); error stop; end if
-      if(.not.(allocated(self%data%ixyz)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2332, (".not.(allocated(self%data%ixyz))"); error stop; end if
+      if(.not.(get_iftype(self) == 'ixyz'))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3153, (".not.(get_iftype(self) == 'ixyz')"); error stop; end if
+      if(.not.(allocated(self%data%ixyz)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3154, (".not.(allocated(self%data%ixyz))"); error stop; end if
       value = self%data%ixyz
-      if(.not.(size(value, 1) == get_nxsize(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2334, (".not.(size(value, 1) == get_nxsize(self))"); error stop; end if
-      if(.not.(size(value, 2) == get_nysize(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2335, (".not.(size(value, 2) == get_nysize(self))"); error stop; end if
+      if(.not.(size(value, 1) == get_nxsize(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3156, (".not.(size(value, 1) == get_nxsize(self))"); error stop; end if
+      if(.not.(size(value, 2) == get_nysize(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3157, (".not.(size(value, 2) == get_nysize(self))"); error stop; end if
    end function get_data_ixyz
    subroutine set_data_ixy_or_iamph_or_ixyz(self, value)
       type(Sac), intent(inout):: self
       Real(kind=SAC_REAL_KIND):: value(:, :)
-      if(.not.(is_iftype_defined(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2342, (".not.(is_iftype_defined(self))"); error stop; end if
+      if(.not.(is_iftype_defined(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3164, (".not.(is_iftype_defined(self))"); error stop; end if
       select case(get_iftype(self))
          case('ixy')
             call set_data_ixy(self, value)
@@ -2250,13 +2250,13 @@ contains
          case('ixyz')
             call set_data_ixyz(self, value)
       case default
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2351, ('Unknown iftype: ' + s(get_iftype(self))); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3177, ('Unknown iftype: ' + s(get_iftype(self))); error stop
       end select
    end subroutine set_data_ixy_or_iamph_or_ixyz
    subroutine get_data_ixy_or_iamph_or_ixyz_(self, value)
       type(Sac), intent(in):: self
       Real(kind=SAC_REAL_KIND), allocatable, intent(out):: value(:, :)
-      if(.not.(is_iftype_defined(self)))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2359, (".not.(is_iftype_defined(self))"); error stop; end if
+      if(.not.(is_iftype_defined(self)))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3185, (".not.(is_iftype_defined(self))"); error stop; end if
       select case(get_iftype(self))
          case('ixy')
             value = get_data_ixy(self)
@@ -2265,7 +2265,7 @@ contains
          case('ixyz')
             value = get_data_ixyz(self)
       case default
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 2368, ('Unknown iftype: ' + s(get_iftype(self))); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 3198, ('Unknown iftype: ' + s(get_iftype(self))); error stop
       end select
    end subroutine get_data_ixy_or_iamph_or_ixyz_
       function get_delta_i_v(self, value) result(isDefined)
@@ -4752,7 +4752,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%iftype
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5629, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6547, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_iftype_v
       function is_iftype_defined(self) result(ret)
@@ -4773,7 +4773,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5656, ('Unknown iftype: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6574, ('Unknown iftype: ' + s(value)); error stop
       end subroutine set_iftype
       function get_idep_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -4794,7 +4794,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%idep
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5683, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6602, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_idep_v
       function is_idep_defined(self) result(ret)
@@ -4815,7 +4815,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5710, ('Unknown idep: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6629, ('Unknown idep: ' + s(value)); error stop
       end subroutine set_idep
       function get_iztype_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -4836,7 +4836,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%iztype
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5737, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6657, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_iztype_v
       function is_iztype_defined(self) result(ret)
@@ -4857,7 +4857,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5764, ('Unknown iztype: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6684, ('Unknown iztype: ' + s(value)); error stop
       end subroutine set_iztype
       function get_ihdr4_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -4878,7 +4878,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr4
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5791, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6712, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr4_v
       function is_ihdr4_defined(self) result(ret)
@@ -4899,7 +4899,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5818, ('Unknown ihdr4: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6739, ('Unknown ihdr4: ' + s(value)); error stop
       end subroutine set_ihdr4
       function get_iinst_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -4920,7 +4920,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%iinst
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5845, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6767, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_iinst_v
       function is_iinst_defined(self) result(ret)
@@ -4941,7 +4941,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5872, ('Unknown iinst: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6794, ('Unknown iinst: ' + s(value)); error stop
       end subroutine set_iinst
       function get_istreg_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -4962,7 +4962,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%istreg
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5899, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6822, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_istreg_v
       function is_istreg_defined(self) result(ret)
@@ -4983,7 +4983,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5926, ('Unknown istreg: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6849, ('Unknown istreg: ' + s(value)); error stop
       end subroutine set_istreg
       function get_ievreg_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5004,7 +5004,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ievreg
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5953, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6877, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ievreg_v
       function is_ievreg_defined(self) result(ret)
@@ -5025,7 +5025,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 5980, ('Unknown ievreg: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6904, ('Unknown ievreg: ' + s(value)); error stop
       end subroutine set_ievreg
       function get_ievtyp_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5046,7 +5046,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ievtyp
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6007, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6932, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ievtyp_v
       function is_ievtyp_defined(self) result(ret)
@@ -5067,7 +5067,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6034, ('Unknown ievtyp: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6959, ('Unknown ievtyp: ' + s(value)); error stop
       end subroutine set_ievtyp
       function get_iqual_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5088,7 +5088,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%iqual
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6061, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 6987, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_iqual_v
       function is_iqual_defined(self) result(ret)
@@ -5109,7 +5109,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6088, ('Unknown iqual: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7014, ('Unknown iqual: ' + s(value)); error stop
       end subroutine set_iqual
       function get_isynth_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5130,7 +5130,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%isynth
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6115, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7042, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_isynth_v
       function is_isynth_defined(self) result(ret)
@@ -5151,7 +5151,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6142, ('Unknown isynth: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7069, ('Unknown isynth: ' + s(value)); error stop
       end subroutine set_isynth
       function get_imagtyp_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5172,7 +5172,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%imagtyp
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6169, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7097, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_imagtyp_v
       function is_imagtyp_defined(self) result(ret)
@@ -5193,7 +5193,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6196, ('Unknown imagtyp: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7124, ('Unknown imagtyp: ' + s(value)); error stop
       end subroutine set_imagtyp
       function get_imagsrc_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5214,7 +5214,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%imagsrc
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6223, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7152, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_imagsrc_v
       function is_imagsrc_defined(self) result(ret)
@@ -5235,7 +5235,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6250, ('Unknown imagsrc: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7179, ('Unknown imagsrc: ' + s(value)); error stop
       end subroutine set_imagsrc
       function get_ihdr13_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5256,7 +5256,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr13
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6277, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7207, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr13_v
       function is_ihdr13_defined(self) result(ret)
@@ -5277,7 +5277,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6304, ('Unknown ihdr13: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7234, ('Unknown ihdr13: ' + s(value)); error stop
       end subroutine set_ihdr13
       function get_ihdr14_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5298,7 +5298,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr14
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6331, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7262, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr14_v
       function is_ihdr14_defined(self) result(ret)
@@ -5319,7 +5319,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6358, ('Unknown ihdr14: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7289, ('Unknown ihdr14: ' + s(value)); error stop
       end subroutine set_ihdr14
       function get_ihdr15_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5340,7 +5340,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr15
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6385, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7317, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr15_v
       function is_ihdr15_defined(self) result(ret)
@@ -5361,7 +5361,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6412, ('Unknown ihdr15: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7344, ('Unknown ihdr15: ' + s(value)); error stop
       end subroutine set_ihdr15
       function get_ihdr16_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5382,7 +5382,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr16
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6439, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7372, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr16_v
       function is_ihdr16_defined(self) result(ret)
@@ -5403,7 +5403,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6466, ('Unknown ihdr16: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7399, ('Unknown ihdr16: ' + s(value)); error stop
       end subroutine set_ihdr16
       function get_ihdr17_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5424,7 +5424,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr17
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6493, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7427, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr17_v
       function is_ihdr17_defined(self) result(ret)
@@ -5445,7 +5445,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6520, ('Unknown ihdr17: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7454, ('Unknown ihdr17: ' + s(value)); error stop
       end subroutine set_ihdr17
       function get_ihdr18_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5466,7 +5466,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr18
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6547, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7482, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr18_v
       function is_ihdr18_defined(self) result(ret)
@@ -5487,7 +5487,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6574, ('Unknown ihdr18: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7509, ('Unknown ihdr18: ' + s(value)); error stop
       end subroutine set_ihdr18
       function get_ihdr19_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5508,7 +5508,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr19
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6601, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7537, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr19_v
       function is_ihdr19_defined(self) result(ret)
@@ -5529,7 +5529,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6628, ('Unknown ihdr19: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7564, ('Unknown ihdr19: ' + s(value)); error stop
       end subroutine set_ihdr19
       function get_ihdr20_v_i(self, isDefined) result(value)
          type(Sac), intent(in):: self
@@ -5550,7 +5550,7 @@ contains
          Character(len=LEN_ENUMERATED_VALUE_MAX):: value
          Integer:: internalValue
          internalValue = self%meta%ihdr20
-         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6655, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
+         if(.not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1))))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7592, (".not.((lbound(ENUMERATED_VALUES, 1) <= internalValue .and. internalValue <= ubound(ENUMERATED_VALUES, 1)))"); error stop; end if
          value = ENUMERATED_VALUES(internalValue)
       end function get_ihdr20_v
       function is_ihdr20_defined(self) result(ret)
@@ -5571,7 +5571,7 @@ contains
                return
             end if
          end do
-         write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6682, ('Unknown ihdr20: ' + s(value)); error stop
+         write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7619, ('Unknown ihdr20: ' + s(value)); error stop
       end subroutine set_ihdr20
       function get_leven_i_v(self, value) result(isDefined)
          type(Sac), intent(in):: self
@@ -5740,7 +5740,7 @@ contains
       subroutine set_kstnm(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6902, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7847, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kstnm = value
       end subroutine set_kstnm
       function get_kevnm_i_v(self, value) result(isDefined)
@@ -5770,7 +5770,7 @@ contains
       subroutine set_kevnm(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_LONG_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6941, (".not.(len_trim(value) <= LEN_LONG_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_LONG_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7887, (".not.(len_trim(value) <= LEN_LONG_STRING)"); error stop; end if
          self%meta%kevnm = value
       end subroutine set_kevnm
       function get_khole_i_v(self, value) result(isDefined)
@@ -5800,7 +5800,7 @@ contains
       subroutine set_khole(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 6980, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7927, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%khole = value
       end subroutine set_khole
       function get_ko_i_v(self, value) result(isDefined)
@@ -5830,7 +5830,7 @@ contains
       subroutine set_ko(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7019, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 7967, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%ko = value
       end subroutine set_ko
       function get_ka_i_v(self, value) result(isDefined)
@@ -5860,7 +5860,7 @@ contains
       subroutine set_ka(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7058, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8007, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%ka = value
       end subroutine set_ka
       function get_kt0_i_v(self, value) result(isDefined)
@@ -5890,7 +5890,7 @@ contains
       subroutine set_kt0(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7097, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8047, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt0 = value
       end subroutine set_kt0
       function get_kt1_i_v(self, value) result(isDefined)
@@ -5920,7 +5920,7 @@ contains
       subroutine set_kt1(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7136, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8087, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt1 = value
       end subroutine set_kt1
       function get_kt2_i_v(self, value) result(isDefined)
@@ -5950,7 +5950,7 @@ contains
       subroutine set_kt2(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7175, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8127, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt2 = value
       end subroutine set_kt2
       function get_kt3_i_v(self, value) result(isDefined)
@@ -5980,7 +5980,7 @@ contains
       subroutine set_kt3(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7214, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8167, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt3 = value
       end subroutine set_kt3
       function get_kt4_i_v(self, value) result(isDefined)
@@ -6010,7 +6010,7 @@ contains
       subroutine set_kt4(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7253, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8207, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt4 = value
       end subroutine set_kt4
       function get_kt5_i_v(self, value) result(isDefined)
@@ -6040,7 +6040,7 @@ contains
       subroutine set_kt5(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7292, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8247, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt5 = value
       end subroutine set_kt5
       function get_kt6_i_v(self, value) result(isDefined)
@@ -6070,7 +6070,7 @@ contains
       subroutine set_kt6(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7331, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8287, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt6 = value
       end subroutine set_kt6
       function get_kt7_i_v(self, value) result(isDefined)
@@ -6100,7 +6100,7 @@ contains
       subroutine set_kt7(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7370, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8327, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt7 = value
       end subroutine set_kt7
       function get_kt8_i_v(self, value) result(isDefined)
@@ -6130,7 +6130,7 @@ contains
       subroutine set_kt8(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7409, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8367, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt8 = value
       end subroutine set_kt8
       function get_kt9_i_v(self, value) result(isDefined)
@@ -6160,7 +6160,7 @@ contains
       subroutine set_kt9(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7448, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8407, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kt9 = value
       end subroutine set_kt9
       function get_kf_i_v(self, value) result(isDefined)
@@ -6190,7 +6190,7 @@ contains
       subroutine set_kf(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7487, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8447, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kf = value
       end subroutine set_kf
       function get_kuser0_i_v(self, value) result(isDefined)
@@ -6220,7 +6220,7 @@ contains
       subroutine set_kuser0(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7526, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8487, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kuser0 = value
       end subroutine set_kuser0
       function get_kuser1_i_v(self, value) result(isDefined)
@@ -6250,7 +6250,7 @@ contains
       subroutine set_kuser1(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7565, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8527, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kuser1 = value
       end subroutine set_kuser1
       function get_kuser2_i_v(self, value) result(isDefined)
@@ -6280,7 +6280,7 @@ contains
       subroutine set_kuser2(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7604, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8567, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kuser2 = value
       end subroutine set_kuser2
       function get_kcmpnm_i_v(self, value) result(isDefined)
@@ -6310,7 +6310,7 @@ contains
       subroutine set_kcmpnm(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7643, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8607, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kcmpnm = value
       end subroutine set_kcmpnm
       function get_knetwk_i_v(self, value) result(isDefined)
@@ -6340,7 +6340,7 @@ contains
       subroutine set_knetwk(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7682, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8647, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%knetwk = value
       end subroutine set_knetwk
       function get_kdatrd_i_v(self, value) result(isDefined)
@@ -6370,7 +6370,7 @@ contains
       subroutine set_kdatrd(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7721, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8687, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kdatrd = value
       end subroutine set_kdatrd
       function get_kinst_i_v(self, value) result(isDefined)
@@ -6400,7 +6400,7 @@ contains
       subroutine set_kinst(self, value)
          type(Sac), intent(inout):: self
          Character(len=*), intent(in):: value
-         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(ERROR_UNIT, *) "RAISE: ", "sac_lib.f90", " ", 7760, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
+         if(.not.(len_trim(value) <= LEN_SHORT_STRING))then; write(error_unit, *) "ERROR: ", "sac_lib.f90", " ", 8727, (".not.(len_trim(value) <= LEN_SHORT_STRING)"); error stop; end if
          self%meta%kinst = value
       end subroutine set_kinst
 end module sac_lib

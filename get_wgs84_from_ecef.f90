@@ -1,5 +1,5 @@
 program runner
-   use, intrinsic:: iso_fortran_env, only: ERROR_UNIT, OUTPUT_UNIT
+   use, intrinsic:: iso_fortran_env, only: error_unit, output_unit
    use, intrinsic:: iso_fortran_env, only: INPUT_UNIT, OUTPUT_UNIT, ERROR_UNIT, REAL128
    use, non_intrinsic:: character_lib, only: str, s
    use, non_intrinsic:: geodetic_lib, only: wgs84_from_ecef
@@ -28,13 +28,13 @@ program runner
       read(INPUT_UNIT, *, iostat = ios) x, y, z
       select case(ios)
       case(:-2)
-         write(ERROR_UNIT, *) "RAISE: ", "get_wgs84_from_ecef.f90", " ", 37, ('Must not happen'); error stop
+         write(error_unit, *) "ERROR: ", "get_wgs84_from_ecef.f90", " ", 37, ('Must not happen'); error stop
       case(-1) ! EOF
          exit
       case(0)
          write(OUTPUT_UNIT, s(format)) wgs84_from_ecef(x, y, z)
       case(1:)
-         write(ERROR_UNIT, *) "RAISE: ", "get_wgs84_from_ecef.f90", " ", 43, ('Bad input'); error stop
+         write(error_unit, *) "ERROR: ", "get_wgs84_from_ecef.f90", " ", 43, ('Bad input'); error stop
       end select
    end do
    stop

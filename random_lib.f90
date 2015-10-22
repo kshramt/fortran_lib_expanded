@@ -1,5 +1,5 @@
 module random_lib
-   use, intrinsic:: iso_fortran_env, only: ERROR_UNIT, OUTPUT_UNIT
+   use, intrinsic:: iso_fortran_env, only: error_unit, output_unit
    use, intrinsic:: iso_fortran_env, only: INPUT_UNIT, OUTPUT_UNIT, ERROR_UNIT
    implicit none
    private

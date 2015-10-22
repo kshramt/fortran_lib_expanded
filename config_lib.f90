@@ -1,32 +1,32 @@
 module config_lib
    use, intrinsic:: iso_fortran_env, only: INPUT_UNIT, OUTPUT_UNIT, ERROR_UNIT
-   use, intrinsic:: iso_fortran_env, only: ERROR_UNIT, OUTPUT_UNIT
-   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
+   use, intrinsic:: iso_fortran_env, only: error_unit, output_unit
+   use, intrinsic:: iso_fortran_env, only: int8, int16, int32, int64, real32, real64, real128
    implicit none
    private
    public:: get_config_value
    interface get_config_value
-          module procedure get_config_valueLogicalDim0KindINT8
-          module procedure get_config_valueLogicalDim0KindINT16
-          module procedure get_config_valueLogicalDim0KindINT32
-          module procedure get_config_valueLogicalDim0KindINT64
-          module procedure get_config_valueIntegerDim0KindINT8
-          module procedure get_config_valueIntegerDim0KindINT16
-          module procedure get_config_valueIntegerDim0KindINT32
-          module procedure get_config_valueIntegerDim0KindINT64
-          module procedure get_config_valueRealDim0KindREAL32
-          module procedure get_config_valueRealDim0KindREAL64
-          module procedure get_config_valueRealDim0KindREAL128
-          module procedure get_config_valueComplexDim0KindREAL32
-          module procedure get_config_valueComplexDim0KindREAL64
-          module procedure get_config_valueComplexDim0KindREAL128
+          module procedure get_config_valueLogicalDim0Kindint8
+          module procedure get_config_valueLogicalDim0Kindint16
+          module procedure get_config_valueLogicalDim0Kindint32
+          module procedure get_config_valueLogicalDim0Kindint64
+          module procedure get_config_valueIntegerDim0Kindint8
+          module procedure get_config_valueIntegerDim0Kindint16
+          module procedure get_config_valueIntegerDim0Kindint32
+          module procedure get_config_valueIntegerDim0Kindint64
+          module procedure get_config_valueRealDim0Kindreal32
+          module procedure get_config_valueRealDim0Kindreal64
+          module procedure get_config_valueRealDim0Kindreal128
+          module procedure get_config_valueComplexDim0Kindreal32
+          module procedure get_config_valueComplexDim0Kindreal64
+          module procedure get_config_valueComplexDim0Kindreal128
           module procedure get_config_valueCharacterDim0LenAsterisk
    end interface get_config_value
 contains
-      function get_config_valueLogicalDim0KindINT8(io, key, value) result(isKeyExist)
+      function get_config_valueLogicalDim0Kindint8(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Logical(kind=INT8), intent(out):: value
+         Logical(kind=int8), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -42,11 +42,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueLogicalDim0KindINT8
-      function get_config_valueLogicalDim0KindINT16(io, key, value) result(isKeyExist)
+      end function get_config_valueLogicalDim0Kindint8
+      function get_config_valueLogicalDim0Kindint16(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Logical(kind=INT16), intent(out):: value
+         Logical(kind=int16), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -62,11 +62,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueLogicalDim0KindINT16
-      function get_config_valueLogicalDim0KindINT32(io, key, value) result(isKeyExist)
+      end function get_config_valueLogicalDim0Kindint16
+      function get_config_valueLogicalDim0Kindint32(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Logical(kind=INT32), intent(out):: value
+         Logical(kind=int32), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -82,11 +82,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueLogicalDim0KindINT32
-      function get_config_valueLogicalDim0KindINT64(io, key, value) result(isKeyExist)
+      end function get_config_valueLogicalDim0Kindint32
+      function get_config_valueLogicalDim0Kindint64(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Logical(kind=INT64), intent(out):: value
+         Logical(kind=int64), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -102,11 +102,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueLogicalDim0KindINT64
-      function get_config_valueIntegerDim0KindINT8(io, key, value) result(isKeyExist)
+      end function get_config_valueLogicalDim0Kindint64
+      function get_config_valueIntegerDim0Kindint8(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Integer(kind=INT8), intent(out):: value
+         Integer(kind=int8), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -122,11 +122,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueIntegerDim0KindINT8
-      function get_config_valueIntegerDim0KindINT16(io, key, value) result(isKeyExist)
+      end function get_config_valueIntegerDim0Kindint8
+      function get_config_valueIntegerDim0Kindint16(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Integer(kind=INT16), intent(out):: value
+         Integer(kind=int16), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -142,11 +142,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueIntegerDim0KindINT16
-      function get_config_valueIntegerDim0KindINT32(io, key, value) result(isKeyExist)
+      end function get_config_valueIntegerDim0Kindint16
+      function get_config_valueIntegerDim0Kindint32(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Integer(kind=INT32), intent(out):: value
+         Integer(kind=int32), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -162,11 +162,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueIntegerDim0KindINT32
-      function get_config_valueIntegerDim0KindINT64(io, key, value) result(isKeyExist)
+      end function get_config_valueIntegerDim0Kindint32
+      function get_config_valueIntegerDim0Kindint64(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Integer(kind=INT64), intent(out):: value
+         Integer(kind=int64), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -182,11 +182,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueIntegerDim0KindINT64
-      function get_config_valueRealDim0KindREAL32(io, key, value) result(isKeyExist)
+      end function get_config_valueIntegerDim0Kindint64
+      function get_config_valueRealDim0Kindreal32(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Real(kind=REAL32), intent(out):: value
+         Real(kind=real32), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -202,11 +202,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueRealDim0KindREAL32
-      function get_config_valueRealDim0KindREAL64(io, key, value) result(isKeyExist)
+      end function get_config_valueRealDim0Kindreal32
+      function get_config_valueRealDim0Kindreal64(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Real(kind=REAL64), intent(out):: value
+         Real(kind=real64), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -222,11 +222,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueRealDim0KindREAL64
-      function get_config_valueRealDim0KindREAL128(io, key, value) result(isKeyExist)
+      end function get_config_valueRealDim0Kindreal64
+      function get_config_valueRealDim0Kindreal128(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Real(kind=REAL128), intent(out):: value
+         Real(kind=real128), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -242,11 +242,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueRealDim0KindREAL128
-      function get_config_valueComplexDim0KindREAL32(io, key, value) result(isKeyExist)
+      end function get_config_valueRealDim0Kindreal128
+      function get_config_valueComplexDim0Kindreal32(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Complex(kind=REAL32), intent(out):: value
+         Complex(kind=real32), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -262,11 +262,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueComplexDim0KindREAL32
-      function get_config_valueComplexDim0KindREAL64(io, key, value) result(isKeyExist)
+      end function get_config_valueComplexDim0Kindreal32
+      function get_config_valueComplexDim0Kindreal64(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Complex(kind=REAL64), intent(out):: value
+         Complex(kind=real64), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -282,11 +282,11 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueComplexDim0KindREAL64
-      function get_config_valueComplexDim0KindREAL128(io, key, value) result(isKeyExist)
+      end function get_config_valueComplexDim0Kindreal64
+      function get_config_valueComplexDim0Kindreal128(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key
-         Complex(kind=REAL128), intent(out):: value
+         Complex(kind=real128), intent(out):: value
          Logical:: isKeyExist
          Integer:: ios
          Character(len = len_trim(key) + 1):: keyBuf
@@ -302,7 +302,7 @@ contains
             end if
             if(ios /= 0) exit
          end do
-      end function get_config_valueComplexDim0KindREAL128
+      end function get_config_valueComplexDim0Kindreal128
       function get_config_valueCharacterDim0LenAsterisk(io, key, value) result(isKeyExist)
          Integer:: io
          Character(len=*), intent(in):: key

@@ -1,221 +1,214 @@
 ! Text dump arbitrary 1-D or 2-D array (except for Character array) stored by io_lib/dump
 program main
-   use, intrinsic:: iso_fortran_env, only: ERROR_UNIT, OUTPUT_UNIT
-   use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128
-   use, intrinsic:: iso_fortran_env, only: INPUT_UNIT, OUTPUT_UNIT, ERROR_UNIT, int64
-   use, non_intrinsic:: character_lib, only: operator(+)
-   use, non_intrinsic:: io_lib, only: ArrayMeta
-   use, non_intrinsic:: io_lib, only: load, load_meta, get_column_format_string
+   use, intrinsic:: iso_fortran_env, only: error_unit, output_unit
+   use, intrinsic:: iso_fortran_env, only: int8, int16, int32, int64, real32, real64, real128
+   use, intrinsic:: iso_fortran_env, only: input_unit, output_unit, error_unit, int64
+   use, non_intrinsic:: character_lib, only: operator(+), str
+   use, non_intrinsic:: io_lib, only: ArrayMetaV3
+   use, non_intrinsic:: io_lib, only: load, load_version, load_meta_v_3, get_column_format_string
    implicit none
-     Logical(kind=INT8), dimension(:), allocatable:: arrayLogicalDim1KindINT8
-     Logical(kind=INT16), dimension(:), allocatable:: arrayLogicalDim1KindINT16
-     Logical(kind=INT32), dimension(:), allocatable:: arrayLogicalDim1KindINT32
-     Logical(kind=INT64), dimension(:), allocatable:: arrayLogicalDim1KindINT64
-     Integer(kind=INT8), dimension(:), allocatable:: arrayIntegerDim1KindINT8
-     Integer(kind=INT16), dimension(:), allocatable:: arrayIntegerDim1KindINT16
-     Integer(kind=INT32), dimension(:), allocatable:: arrayIntegerDim1KindINT32
-     Integer(kind=INT64), dimension(:), allocatable:: arrayIntegerDim1KindINT64
-     Real(kind=REAL32), dimension(:), allocatable:: arrayRealDim1KindREAL32
-     Real(kind=REAL64), dimension(:), allocatable:: arrayRealDim1KindREAL64
-     Real(kind=REAL128), dimension(:), allocatable:: arrayRealDim1KindREAL128
-     Complex(kind=REAL32), dimension(:), allocatable:: arrayComplexDim1KindREAL32
-     Complex(kind=REAL64), dimension(:), allocatable:: arrayComplexDim1KindREAL64
-     Complex(kind=REAL128), dimension(:), allocatable:: arrayComplexDim1KindREAL128
-     Logical(kind=INT8), dimension(:, :), allocatable:: arrayLogicalDim2KindINT8
-     Logical(kind=INT16), dimension(:, :), allocatable:: arrayLogicalDim2KindINT16
-     Logical(kind=INT32), dimension(:, :), allocatable:: arrayLogicalDim2KindINT32
-     Logical(kind=INT64), dimension(:, :), allocatable:: arrayLogicalDim2KindINT64
-     Integer(kind=INT8), dimension(:, :), allocatable:: arrayIntegerDim2KindINT8
-     Integer(kind=INT16), dimension(:, :), allocatable:: arrayIntegerDim2KindINT16
-     Integer(kind=INT32), dimension(:, :), allocatable:: arrayIntegerDim2KindINT32
-     Integer(kind=INT64), dimension(:, :), allocatable:: arrayIntegerDim2KindINT64
-     Real(kind=REAL32), dimension(:, :), allocatable:: arrayRealDim2KindREAL32
-     Real(kind=REAL64), dimension(:, :), allocatable:: arrayRealDim2KindREAL64
-     Real(kind=REAL128), dimension(:, :), allocatable:: arrayRealDim2KindREAL128
-     Complex(kind=REAL32), dimension(:, :), allocatable:: arrayComplexDim2KindREAL32
-     Complex(kind=REAL64), dimension(:, :), allocatable:: arrayComplexDim2KindREAL64
-     Complex(kind=REAL128), dimension(:, :), allocatable:: arrayComplexDim2KindREAL128
-   Character(len=2**10):: arrayDir
-   type(ArrayMeta):: meta
+     Logical(kind=int8), dimension(:), allocatable:: arrayLogicalDim1Kindint8
+     Logical(kind=int16), dimension(:), allocatable:: arrayLogicalDim1Kindint16
+     Logical(kind=int32), dimension(:), allocatable:: arrayLogicalDim1Kindint32
+     Logical(kind=int64), dimension(:), allocatable:: arrayLogicalDim1Kindint64
+     Integer(kind=int8), dimension(:), allocatable:: arrayIntegerDim1Kindint8
+     Integer(kind=int16), dimension(:), allocatable:: arrayIntegerDim1Kindint16
+     Integer(kind=int32), dimension(:), allocatable:: arrayIntegerDim1Kindint32
+     Integer(kind=int64), dimension(:), allocatable:: arrayIntegerDim1Kindint64
+     Real(kind=real32), dimension(:), allocatable:: arrayRealDim1Kindreal32
+     Real(kind=real64), dimension(:), allocatable:: arrayRealDim1Kindreal64
+     Real(kind=real128), dimension(:), allocatable:: arrayRealDim1Kindreal128
+     Complex(kind=real32), dimension(:), allocatable:: arrayComplexDim1Kindreal32
+     Complex(kind=real64), dimension(:), allocatable:: arrayComplexDim1Kindreal64
+     Complex(kind=real128), dimension(:), allocatable:: arrayComplexDim1Kindreal128
+     Logical(kind=int8), dimension(:, :), allocatable:: arrayLogicalDim2Kindint8
+     Logical(kind=int16), dimension(:, :), allocatable:: arrayLogicalDim2Kindint16
+     Logical(kind=int32), dimension(:, :), allocatable:: arrayLogicalDim2Kindint32
+     Logical(kind=int64), dimension(:, :), allocatable:: arrayLogicalDim2Kindint64
+     Integer(kind=int8), dimension(:, :), allocatable:: arrayIntegerDim2Kindint8
+     Integer(kind=int16), dimension(:, :), allocatable:: arrayIntegerDim2Kindint16
+     Integer(kind=int32), dimension(:, :), allocatable:: arrayIntegerDim2Kindint32
+     Integer(kind=int64), dimension(:, :), allocatable:: arrayIntegerDim2Kindint64
+     Real(kind=real32), dimension(:, :), allocatable:: arrayRealDim2Kindreal32
+     Real(kind=real64), dimension(:, :), allocatable:: arrayRealDim2Kindreal64
+     Real(kind=real128), dimension(:, :), allocatable:: arrayRealDim2Kindreal128
+     Complex(kind=real32), dimension(:, :), allocatable:: arrayComplexDim2Kindreal32
+     Complex(kind=real64), dimension(:, :), allocatable:: arrayComplexDim2Kindreal64
+     Complex(kind=real128), dimension(:, :), allocatable:: arrayComplexDim2Kindreal128
+   Character(len=2**10):: dir
+   type(ArrayMetaV3):: meta_v_3
+   Integer(kind=int64):: version
    Integer:: i
    Integer:: status
    Character(len=:), allocatable:: form
    if(command_argument_count() /= 1) call usage_and_exit()
-   call get_command_argument(1, value=arrayDir, status=status)
-   if(.not.(status == 0))then; write(ERROR_UNIT, *) "RAISE: ", "text_dump_array.f90", " ", 51, (".not.(status == 0)"); error stop; end if
-   if(arrayDir == '-h' .or. arrayDir == '--help') call usage_and_exit()
-   call load_meta(meta, trim(arrayDir))
-   select case(meta%dataType)
-     case('LogicalDim1KindINT8')
-        call load(arrayLogicalDim1KindINT8, trim(arrayDir))
-        form = get_column_format_string(arrayLogicalDim1KindINT8(1), 1)
-        do i = lbound(arrayLogicalDim1KindINT8, dim=1, kind=kind(i)), ubound(arrayLogicalDim1KindINT8, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayLogicalDim1KindINT8(i)
-        end do
-     case('LogicalDim1KindINT16')
-        call load(arrayLogicalDim1KindINT16, trim(arrayDir))
-        form = get_column_format_string(arrayLogicalDim1KindINT16(1), 1)
-        do i = lbound(arrayLogicalDim1KindINT16, dim=1, kind=kind(i)), ubound(arrayLogicalDim1KindINT16, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayLogicalDim1KindINT16(i)
-        end do
-     case('LogicalDim1KindINT32')
-        call load(arrayLogicalDim1KindINT32, trim(arrayDir))
-        form = get_column_format_string(arrayLogicalDim1KindINT32(1), 1)
-        do i = lbound(arrayLogicalDim1KindINT32, dim=1, kind=kind(i)), ubound(arrayLogicalDim1KindINT32, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayLogicalDim1KindINT32(i)
-        end do
-     case('LogicalDim1KindINT64')
-        call load(arrayLogicalDim1KindINT64, trim(arrayDir))
-        form = get_column_format_string(arrayLogicalDim1KindINT64(1), 1)
-        do i = lbound(arrayLogicalDim1KindINT64, dim=1, kind=kind(i)), ubound(arrayLogicalDim1KindINT64, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayLogicalDim1KindINT64(i)
-        end do
-     case('IntegerDim1KindINT8')
-        call load(arrayIntegerDim1KindINT8, trim(arrayDir))
-        form = get_column_format_string(arrayIntegerDim1KindINT8(1), 1)
-        do i = lbound(arrayIntegerDim1KindINT8, dim=1, kind=kind(i)), ubound(arrayIntegerDim1KindINT8, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayIntegerDim1KindINT8(i)
-        end do
-     case('IntegerDim1KindINT16')
-        call load(arrayIntegerDim1KindINT16, trim(arrayDir))
-        form = get_column_format_string(arrayIntegerDim1KindINT16(1), 1)
-        do i = lbound(arrayIntegerDim1KindINT16, dim=1, kind=kind(i)), ubound(arrayIntegerDim1KindINT16, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayIntegerDim1KindINT16(i)
-        end do
-     case('IntegerDim1KindINT32')
-        call load(arrayIntegerDim1KindINT32, trim(arrayDir))
-        form = get_column_format_string(arrayIntegerDim1KindINT32(1), 1)
-        do i = lbound(arrayIntegerDim1KindINT32, dim=1, kind=kind(i)), ubound(arrayIntegerDim1KindINT32, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayIntegerDim1KindINT32(i)
-        end do
-     case('IntegerDim1KindINT64')
-        call load(arrayIntegerDim1KindINT64, trim(arrayDir))
-        form = get_column_format_string(arrayIntegerDim1KindINT64(1), 1)
-        do i = lbound(arrayIntegerDim1KindINT64, dim=1, kind=kind(i)), ubound(arrayIntegerDim1KindINT64, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayIntegerDim1KindINT64(i)
-        end do
-     case('RealDim1KindREAL32')
-        call load(arrayRealDim1KindREAL32, trim(arrayDir))
-        form = get_column_format_string(arrayRealDim1KindREAL32(1), 1)
-        do i = lbound(arrayRealDim1KindREAL32, dim=1, kind=kind(i)), ubound(arrayRealDim1KindREAL32, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayRealDim1KindREAL32(i)
-        end do
-     case('RealDim1KindREAL64')
-        call load(arrayRealDim1KindREAL64, trim(arrayDir))
-        form = get_column_format_string(arrayRealDim1KindREAL64(1), 1)
-        do i = lbound(arrayRealDim1KindREAL64, dim=1, kind=kind(i)), ubound(arrayRealDim1KindREAL64, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayRealDim1KindREAL64(i)
-        end do
-     case('RealDim1KindREAL128')
-        call load(arrayRealDim1KindREAL128, trim(arrayDir))
-        form = get_column_format_string(arrayRealDim1KindREAL128(1), 1)
-        do i = lbound(arrayRealDim1KindREAL128, dim=1, kind=kind(i)), ubound(arrayRealDim1KindREAL128, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayRealDim1KindREAL128(i)
-        end do
-     case('ComplexDim1KindREAL32')
-        call load(arrayComplexDim1KindREAL32, trim(arrayDir))
-        form = get_column_format_string(arrayComplexDim1KindREAL32(1), 1)
-        do i = lbound(arrayComplexDim1KindREAL32, dim=1, kind=kind(i)), ubound(arrayComplexDim1KindREAL32, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayComplexDim1KindREAL32(i)
-        end do
-     case('ComplexDim1KindREAL64')
-        call load(arrayComplexDim1KindREAL64, trim(arrayDir))
-        form = get_column_format_string(arrayComplexDim1KindREAL64(1), 1)
-        do i = lbound(arrayComplexDim1KindREAL64, dim=1, kind=kind(i)), ubound(arrayComplexDim1KindREAL64, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayComplexDim1KindREAL64(i)
-        end do
-     case('ComplexDim1KindREAL128')
-        call load(arrayComplexDim1KindREAL128, trim(arrayDir))
-        form = get_column_format_string(arrayComplexDim1KindREAL128(1), 1)
-        do i = lbound(arrayComplexDim1KindREAL128, dim=1, kind=kind(i)), ubound(arrayComplexDim1KindREAL128, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayComplexDim1KindREAL128(i)
-        end do
-     case('LogicalDim2KindINT8')
-        call load(arrayLogicalDim2KindINT8, trim(arrayDir))
-        form = get_column_format_string(arrayLogicalDim2KindINT8(1, 1), size(arrayLogicalDim2KindINT8, 2, kind=int64))
-        do i = lbound(arrayLogicalDim2KindINT8, dim=1, kind=kind(i)), ubound(arrayLogicalDim2KindINT8, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayLogicalDim2KindINT8(i, :)
-        end do
-     case('LogicalDim2KindINT16')
-        call load(arrayLogicalDim2KindINT16, trim(arrayDir))
-        form = get_column_format_string(arrayLogicalDim2KindINT16(1, 1), size(arrayLogicalDim2KindINT16, 2, kind=int64))
-        do i = lbound(arrayLogicalDim2KindINT16, dim=1, kind=kind(i)), ubound(arrayLogicalDim2KindINT16, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayLogicalDim2KindINT16(i, :)
-        end do
-     case('LogicalDim2KindINT32')
-        call load(arrayLogicalDim2KindINT32, trim(arrayDir))
-        form = get_column_format_string(arrayLogicalDim2KindINT32(1, 1), size(arrayLogicalDim2KindINT32, 2, kind=int64))
-        do i = lbound(arrayLogicalDim2KindINT32, dim=1, kind=kind(i)), ubound(arrayLogicalDim2KindINT32, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayLogicalDim2KindINT32(i, :)
-        end do
-     case('LogicalDim2KindINT64')
-        call load(arrayLogicalDim2KindINT64, trim(arrayDir))
-        form = get_column_format_string(arrayLogicalDim2KindINT64(1, 1), size(arrayLogicalDim2KindINT64, 2, kind=int64))
-        do i = lbound(arrayLogicalDim2KindINT64, dim=1, kind=kind(i)), ubound(arrayLogicalDim2KindINT64, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayLogicalDim2KindINT64(i, :)
-        end do
-     case('IntegerDim2KindINT8')
-        call load(arrayIntegerDim2KindINT8, trim(arrayDir))
-        form = get_column_format_string(arrayIntegerDim2KindINT8(1, 1), size(arrayIntegerDim2KindINT8, 2, kind=int64))
-        do i = lbound(arrayIntegerDim2KindINT8, dim=1, kind=kind(i)), ubound(arrayIntegerDim2KindINT8, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayIntegerDim2KindINT8(i, :)
-        end do
-     case('IntegerDim2KindINT16')
-        call load(arrayIntegerDim2KindINT16, trim(arrayDir))
-        form = get_column_format_string(arrayIntegerDim2KindINT16(1, 1), size(arrayIntegerDim2KindINT16, 2, kind=int64))
-        do i = lbound(arrayIntegerDim2KindINT16, dim=1, kind=kind(i)), ubound(arrayIntegerDim2KindINT16, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayIntegerDim2KindINT16(i, :)
-        end do
-     case('IntegerDim2KindINT32')
-        call load(arrayIntegerDim2KindINT32, trim(arrayDir))
-        form = get_column_format_string(arrayIntegerDim2KindINT32(1, 1), size(arrayIntegerDim2KindINT32, 2, kind=int64))
-        do i = lbound(arrayIntegerDim2KindINT32, dim=1, kind=kind(i)), ubound(arrayIntegerDim2KindINT32, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayIntegerDim2KindINT32(i, :)
-        end do
-     case('IntegerDim2KindINT64')
-        call load(arrayIntegerDim2KindINT64, trim(arrayDir))
-        form = get_column_format_string(arrayIntegerDim2KindINT64(1, 1), size(arrayIntegerDim2KindINT64, 2, kind=int64))
-        do i = lbound(arrayIntegerDim2KindINT64, dim=1, kind=kind(i)), ubound(arrayIntegerDim2KindINT64, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayIntegerDim2KindINT64(i, :)
-        end do
-     case('RealDim2KindREAL32')
-        call load(arrayRealDim2KindREAL32, trim(arrayDir))
-        form = get_column_format_string(arrayRealDim2KindREAL32(1, 1), size(arrayRealDim2KindREAL32, 2, kind=int64))
-        do i = lbound(arrayRealDim2KindREAL32, dim=1, kind=kind(i)), ubound(arrayRealDim2KindREAL32, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayRealDim2KindREAL32(i, :)
-        end do
-     case('RealDim2KindREAL64')
-        call load(arrayRealDim2KindREAL64, trim(arrayDir))
-        form = get_column_format_string(arrayRealDim2KindREAL64(1, 1), size(arrayRealDim2KindREAL64, 2, kind=int64))
-        do i = lbound(arrayRealDim2KindREAL64, dim=1, kind=kind(i)), ubound(arrayRealDim2KindREAL64, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayRealDim2KindREAL64(i, :)
-        end do
-     case('RealDim2KindREAL128')
-        call load(arrayRealDim2KindREAL128, trim(arrayDir))
-        form = get_column_format_string(arrayRealDim2KindREAL128(1, 1), size(arrayRealDim2KindREAL128, 2, kind=int64))
-        do i = lbound(arrayRealDim2KindREAL128, dim=1, kind=kind(i)), ubound(arrayRealDim2KindREAL128, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayRealDim2KindREAL128(i, :)
-        end do
-     case('ComplexDim2KindREAL32')
-        call load(arrayComplexDim2KindREAL32, trim(arrayDir))
-        form = get_column_format_string(arrayComplexDim2KindREAL32(1, 1), size(arrayComplexDim2KindREAL32, 2, kind=int64))
-        do i = lbound(arrayComplexDim2KindREAL32, dim=1, kind=kind(i)), ubound(arrayComplexDim2KindREAL32, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayComplexDim2KindREAL32(i, :)
-        end do
-     case('ComplexDim2KindREAL64')
-        call load(arrayComplexDim2KindREAL64, trim(arrayDir))
-        form = get_column_format_string(arrayComplexDim2KindREAL64(1, 1), size(arrayComplexDim2KindREAL64, 2, kind=int64))
-        do i = lbound(arrayComplexDim2KindREAL64, dim=1, kind=kind(i)), ubound(arrayComplexDim2KindREAL64, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayComplexDim2KindREAL64(i, :)
-        end do
-     case('ComplexDim2KindREAL128')
-        call load(arrayComplexDim2KindREAL128, trim(arrayDir))
-        form = get_column_format_string(arrayComplexDim2KindREAL128(1, 1), size(arrayComplexDim2KindREAL128, 2, kind=int64))
-        do i = lbound(arrayComplexDim2KindREAL128, dim=1, kind=kind(i)), ubound(arrayComplexDim2KindREAL128, dim=1, kind=kind(i))
-           write(OUTPUT_UNIT, form) arrayComplexDim2KindREAL128(i, :)
-        end do
+   call get_command_argument(1, value=dir, status=status)
+   if(.not.(status == 0))then; write(error_unit, *) "ERROR: ", "text_dump_array.f90", " ", 81, (".not.(status == 0)"); error stop; end if
+   if(dir == '-h' .or. dir == '--help') call usage_and_exit()
+   version = load_version(trim(dir))
+   select case(version)
+   case(3)
+      call load_meta_v_3(meta_v_3, trim(dir))
+      if(.false.)then
+         else if(meta_v_3%type_ == 'Logical' .and. meta_v_3%kind_ == int8 .and. meta_v_3%dim == 1)then
+            call load(arrayLogicalDim1Kindint8, trim(dir))
+               do i = lbound(arrayLogicalDim1Kindint8, dim=1, kind=kind(i)), ubound(arrayLogicalDim1Kindint8, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayLogicalDim1Kindint8(i)
+               end do
+         else if(meta_v_3%type_ == 'Logical' .and. meta_v_3%kind_ == int16 .and. meta_v_3%dim == 1)then
+            call load(arrayLogicalDim1Kindint16, trim(dir))
+               do i = lbound(arrayLogicalDim1Kindint16, dim=1, kind=kind(i)), ubound(arrayLogicalDim1Kindint16, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayLogicalDim1Kindint16(i)
+               end do
+         else if(meta_v_3%type_ == 'Logical' .and. meta_v_3%kind_ == int32 .and. meta_v_3%dim == 1)then
+            call load(arrayLogicalDim1Kindint32, trim(dir))
+               do i = lbound(arrayLogicalDim1Kindint32, dim=1, kind=kind(i)), ubound(arrayLogicalDim1Kindint32, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayLogicalDim1Kindint32(i)
+               end do
+         else if(meta_v_3%type_ == 'Logical' .and. meta_v_3%kind_ == int64 .and. meta_v_3%dim == 1)then
+            call load(arrayLogicalDim1Kindint64, trim(dir))
+               do i = lbound(arrayLogicalDim1Kindint64, dim=1, kind=kind(i)), ubound(arrayLogicalDim1Kindint64, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayLogicalDim1Kindint64(i)
+               end do
+         else if(meta_v_3%type_ == 'Integer' .and. meta_v_3%kind_ == int8 .and. meta_v_3%dim == 1)then
+            call load(arrayIntegerDim1Kindint8, trim(dir))
+               do i = lbound(arrayIntegerDim1Kindint8, dim=1, kind=kind(i)), ubound(arrayIntegerDim1Kindint8, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayIntegerDim1Kindint8(i)
+               end do
+         else if(meta_v_3%type_ == 'Integer' .and. meta_v_3%kind_ == int16 .and. meta_v_3%dim == 1)then
+            call load(arrayIntegerDim1Kindint16, trim(dir))
+               do i = lbound(arrayIntegerDim1Kindint16, dim=1, kind=kind(i)), ubound(arrayIntegerDim1Kindint16, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayIntegerDim1Kindint16(i)
+               end do
+         else if(meta_v_3%type_ == 'Integer' .and. meta_v_3%kind_ == int32 .and. meta_v_3%dim == 1)then
+            call load(arrayIntegerDim1Kindint32, trim(dir))
+               do i = lbound(arrayIntegerDim1Kindint32, dim=1, kind=kind(i)), ubound(arrayIntegerDim1Kindint32, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayIntegerDim1Kindint32(i)
+               end do
+         else if(meta_v_3%type_ == 'Integer' .and. meta_v_3%kind_ == int64 .and. meta_v_3%dim == 1)then
+            call load(arrayIntegerDim1Kindint64, trim(dir))
+               do i = lbound(arrayIntegerDim1Kindint64, dim=1, kind=kind(i)), ubound(arrayIntegerDim1Kindint64, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayIntegerDim1Kindint64(i)
+               end do
+         else if(meta_v_3%type_ == 'Real' .and. meta_v_3%kind_ == real32 .and. meta_v_3%dim == 1)then
+            call load(arrayRealDim1Kindreal32, trim(dir))
+               do i = lbound(arrayRealDim1Kindreal32, dim=1, kind=kind(i)), ubound(arrayRealDim1Kindreal32, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayRealDim1Kindreal32(i)
+               end do
+         else if(meta_v_3%type_ == 'Real' .and. meta_v_3%kind_ == real64 .and. meta_v_3%dim == 1)then
+            call load(arrayRealDim1Kindreal64, trim(dir))
+               do i = lbound(arrayRealDim1Kindreal64, dim=1, kind=kind(i)), ubound(arrayRealDim1Kindreal64, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayRealDim1Kindreal64(i)
+               end do
+         else if(meta_v_3%type_ == 'Real' .and. meta_v_3%kind_ == real128 .and. meta_v_3%dim == 1)then
+            call load(arrayRealDim1Kindreal128, trim(dir))
+               do i = lbound(arrayRealDim1Kindreal128, dim=1, kind=kind(i)), ubound(arrayRealDim1Kindreal128, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayRealDim1Kindreal128(i)
+               end do
+         else if(meta_v_3%type_ == 'Complex' .and. meta_v_3%kind_ == real32 .and. meta_v_3%dim == 1)then
+            call load(arrayComplexDim1Kindreal32, trim(dir))
+               do i = lbound(arrayComplexDim1Kindreal32, dim=1, kind=kind(i)), ubound(arrayComplexDim1Kindreal32, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayComplexDim1Kindreal32(i)
+               end do
+         else if(meta_v_3%type_ == 'Complex' .and. meta_v_3%kind_ == real64 .and. meta_v_3%dim == 1)then
+            call load(arrayComplexDim1Kindreal64, trim(dir))
+               do i = lbound(arrayComplexDim1Kindreal64, dim=1, kind=kind(i)), ubound(arrayComplexDim1Kindreal64, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayComplexDim1Kindreal64(i)
+               end do
+         else if(meta_v_3%type_ == 'Complex' .and. meta_v_3%kind_ == real128 .and. meta_v_3%dim == 1)then
+            call load(arrayComplexDim1Kindreal128, trim(dir))
+               do i = lbound(arrayComplexDim1Kindreal128, dim=1, kind=kind(i)), ubound(arrayComplexDim1Kindreal128, dim=1, kind=kind(i))
+                  write(output_unit, '(g0)') arrayComplexDim1Kindreal128(i)
+               end do
+         else if(meta_v_3%type_ == 'Logical' .and. meta_v_3%kind_ == int8 .and. meta_v_3%dim == 2)then
+            call load(arrayLogicalDim2Kindint8, trim(dir))
+               form = get_column_format_string(arrayLogicalDim2Kindint8(1, 1), size(arrayLogicalDim2Kindint8, 2, kind=int64))
+               do i = lbound(arrayLogicalDim2Kindint8, dim=1, kind=kind(i)), ubound(arrayLogicalDim2Kindint8, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayLogicalDim2Kindint8(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Logical' .and. meta_v_3%kind_ == int16 .and. meta_v_3%dim == 2)then
+            call load(arrayLogicalDim2Kindint16, trim(dir))
+               form = get_column_format_string(arrayLogicalDim2Kindint16(1, 1), size(arrayLogicalDim2Kindint16, 2, kind=int64))
+               do i = lbound(arrayLogicalDim2Kindint16, dim=1, kind=kind(i)), ubound(arrayLogicalDim2Kindint16, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayLogicalDim2Kindint16(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Logical' .and. meta_v_3%kind_ == int32 .and. meta_v_3%dim == 2)then
+            call load(arrayLogicalDim2Kindint32, trim(dir))
+               form = get_column_format_string(arrayLogicalDim2Kindint32(1, 1), size(arrayLogicalDim2Kindint32, 2, kind=int64))
+               do i = lbound(arrayLogicalDim2Kindint32, dim=1, kind=kind(i)), ubound(arrayLogicalDim2Kindint32, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayLogicalDim2Kindint32(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Logical' .and. meta_v_3%kind_ == int64 .and. meta_v_3%dim == 2)then
+            call load(arrayLogicalDim2Kindint64, trim(dir))
+               form = get_column_format_string(arrayLogicalDim2Kindint64(1, 1), size(arrayLogicalDim2Kindint64, 2, kind=int64))
+               do i = lbound(arrayLogicalDim2Kindint64, dim=1, kind=kind(i)), ubound(arrayLogicalDim2Kindint64, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayLogicalDim2Kindint64(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Integer' .and. meta_v_3%kind_ == int8 .and. meta_v_3%dim == 2)then
+            call load(arrayIntegerDim2Kindint8, trim(dir))
+               form = get_column_format_string(arrayIntegerDim2Kindint8(1, 1), size(arrayIntegerDim2Kindint8, 2, kind=int64))
+               do i = lbound(arrayIntegerDim2Kindint8, dim=1, kind=kind(i)), ubound(arrayIntegerDim2Kindint8, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayIntegerDim2Kindint8(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Integer' .and. meta_v_3%kind_ == int16 .and. meta_v_3%dim == 2)then
+            call load(arrayIntegerDim2Kindint16, trim(dir))
+               form = get_column_format_string(arrayIntegerDim2Kindint16(1, 1), size(arrayIntegerDim2Kindint16, 2, kind=int64))
+               do i = lbound(arrayIntegerDim2Kindint16, dim=1, kind=kind(i)), ubound(arrayIntegerDim2Kindint16, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayIntegerDim2Kindint16(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Integer' .and. meta_v_3%kind_ == int32 .and. meta_v_3%dim == 2)then
+            call load(arrayIntegerDim2Kindint32, trim(dir))
+               form = get_column_format_string(arrayIntegerDim2Kindint32(1, 1), size(arrayIntegerDim2Kindint32, 2, kind=int64))
+               do i = lbound(arrayIntegerDim2Kindint32, dim=1, kind=kind(i)), ubound(arrayIntegerDim2Kindint32, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayIntegerDim2Kindint32(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Integer' .and. meta_v_3%kind_ == int64 .and. meta_v_3%dim == 2)then
+            call load(arrayIntegerDim2Kindint64, trim(dir))
+               form = get_column_format_string(arrayIntegerDim2Kindint64(1, 1), size(arrayIntegerDim2Kindint64, 2, kind=int64))
+               do i = lbound(arrayIntegerDim2Kindint64, dim=1, kind=kind(i)), ubound(arrayIntegerDim2Kindint64, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayIntegerDim2Kindint64(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Real' .and. meta_v_3%kind_ == real32 .and. meta_v_3%dim == 2)then
+            call load(arrayRealDim2Kindreal32, trim(dir))
+               form = get_column_format_string(arrayRealDim2Kindreal32(1, 1), size(arrayRealDim2Kindreal32, 2, kind=int64))
+               do i = lbound(arrayRealDim2Kindreal32, dim=1, kind=kind(i)), ubound(arrayRealDim2Kindreal32, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayRealDim2Kindreal32(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Real' .and. meta_v_3%kind_ == real64 .and. meta_v_3%dim == 2)then
+            call load(arrayRealDim2Kindreal64, trim(dir))
+               form = get_column_format_string(arrayRealDim2Kindreal64(1, 1), size(arrayRealDim2Kindreal64, 2, kind=int64))
+               do i = lbound(arrayRealDim2Kindreal64, dim=1, kind=kind(i)), ubound(arrayRealDim2Kindreal64, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayRealDim2Kindreal64(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Real' .and. meta_v_3%kind_ == real128 .and. meta_v_3%dim == 2)then
+            call load(arrayRealDim2Kindreal128, trim(dir))
+               form = get_column_format_string(arrayRealDim2Kindreal128(1, 1), size(arrayRealDim2Kindreal128, 2, kind=int64))
+               do i = lbound(arrayRealDim2Kindreal128, dim=1, kind=kind(i)), ubound(arrayRealDim2Kindreal128, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayRealDim2Kindreal128(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Complex' .and. meta_v_3%kind_ == real32 .and. meta_v_3%dim == 2)then
+            call load(arrayComplexDim2Kindreal32, trim(dir))
+               form = get_column_format_string(arrayComplexDim2Kindreal32(1, 1), size(arrayComplexDim2Kindreal32, 2, kind=int64))
+               do i = lbound(arrayComplexDim2Kindreal32, dim=1, kind=kind(i)), ubound(arrayComplexDim2Kindreal32, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayComplexDim2Kindreal32(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Complex' .and. meta_v_3%kind_ == real64 .and. meta_v_3%dim == 2)then
+            call load(arrayComplexDim2Kindreal64, trim(dir))
+               form = get_column_format_string(arrayComplexDim2Kindreal64(1, 1), size(arrayComplexDim2Kindreal64, 2, kind=int64))
+               do i = lbound(arrayComplexDim2Kindreal64, dim=1, kind=kind(i)), ubound(arrayComplexDim2Kindreal64, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayComplexDim2Kindreal64(i, :)
+               end do
+         else if(meta_v_3%type_ == 'Complex' .and. meta_v_3%kind_ == real128 .and. meta_v_3%dim == 2)then
+            call load(arrayComplexDim2Kindreal128, trim(dir))
+               form = get_column_format_string(arrayComplexDim2Kindreal128(1, 1), size(arrayComplexDim2Kindreal128, 2, kind=int64))
+               do i = lbound(arrayComplexDim2Kindreal128, dim=1, kind=kind(i)), ubound(arrayComplexDim2Kindreal128, dim=1, kind=kind(i))
+                  write(output_unit, form) arrayComplexDim2Kindreal128(i, :)
+               end do
+      else
+         write(error_unit, *) "ERROR: ", "text_dump_array.f90", " ", 330, ('Unsupported data type: ' + str(meta_v_3%type_) + ' ' + str(meta_v_3%kind_) + ' ' + str(meta_v_3%dim)); error stop
+      end if
    case default
-      write(ERROR_UNIT, *) "RAISE: ", "text_dump_array.f90", " ", 226, ('Unsupported data type: ' + trim(meta%dataType)); error stop
+      write(error_unit, *) "ERROR: ", "text_dump_array.f90", " ", 333, ('Unsupported version: ' + str(version)); error stop
    end select
    stop
 contains
